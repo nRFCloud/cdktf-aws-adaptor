@@ -1,0 +1,35 @@
+name: Snapshot Release
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref_name }}
+  cancel-in-progress: false
+env:
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+jobs:
+  snapshot:
+    name: Publish snapshot release for this pr
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.2.0
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Prepare
+        run: pnpm i
+      - name: Publish
+        uses: ./.github/actions/snapshot-release
+        with:
+          tag: ${{ env.GITHUB_REF_SLUG }}

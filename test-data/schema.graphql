@@ -1,0 +1,557 @@
+type AccountQueryResult {
+  cognitoIdentityId: String
+  email: String
+  tenants: [TenantOfUser!]
+  userId: String
+  uiConfig: String
+}
+
+type EntityMeta {
+  createdAt: String!
+  updatedAt: String
+  uuid: ID!
+  version: Int!
+}
+
+type Error {
+  errorInfo: ErrorInfo!
+  errorType: ErrorType!
+  message: String!
+}
+
+type ErrorInfo {
+  AWSrequestID: String!
+  detail: String
+}
+
+# ApplicationError is used when an unexpected error happens.
+# They should be reported as bugs.
+enum ErrorType {
+  AccessDenied
+  ApplicationError
+  BadRequest
+  Conflict
+  EntityNotFound
+  ValidationFailed
+}
+
+
+type InviteFactory {
+  accepted: Boolean!
+  cancelled: Boolean!
+  deviceGroups: [String]
+  from: Inviter!
+  inviteeRole: InviteeRole!
+  meta: EntityMeta!
+  to: Invitee!
+}
+
+enum InviteeRole {
+  admin
+  editor
+  owner
+  viewer
+}
+
+enum InviteDirection {
+  incoming
+  outgoing
+}
+
+type Invitee {
+  email: String!
+}
+
+type Inviter {
+  avatar: String
+  email: String!
+  tenantName: String!
+  userName: String!
+}
+
+input InvitesFilterInput {
+  direction: InviteDirection!
+}
+
+type InvitesQueryResult {
+  items: [InviteFactory!]
+  nextStartKey: ID
+}
+
+input characteristicData {
+  byteEnd: Int!
+  byteStart: Int!
+  format: String!
+  name: String!
+}
+
+input characteristic {
+  data: [characteristicData!]
+  name: String!
+  uuid: ID!
+}
+
+input CustomCardConfiguration {
+  characteristics: [characteristic!]
+  description: String!
+  name: String!
+  uuid: String!
+}
+
+type characteristicDataQueryResult {
+  byteEnd: Int
+  byteStart: Int
+  format: String
+  name: String
+}
+
+type characteristicQueryResult {
+  data: [characteristicDataQueryResult]
+  name: String
+  sample: [Int]
+  uuid: ID
+}
+
+type CustomCardConfigurationQueryResult {
+  characteristics: [characteristicQueryResult]
+  description: String
+  name: String
+  uuid: String!
+}
+
+type CustomCardFactory {
+  configuration: CustomCardConfigurationQueryResult!
+  createdAt: String!
+  description: String
+  icon: String
+  id: ID!
+  isPublic: Boolean!
+  service: String!
+  tenant: ID!
+}
+
+type UsageRecord {
+  endpoint: String!
+  sum: Int!
+}
+
+type CustomCardsQueryResult {
+  items: [CustomCardFactory]
+  nextOffset: Int
+  nextStartKey: ID
+  prevOffset: Int
+  total: Int
+}
+
+# Some mutations return the UUID of the newly created entity.
+# Getting this response does not guarantee that the entity
+# is immediately available for reading.
+type Mutation {
+  acceptInvite(inviteId: ID!): Boolean
+  acceptSIMVendorTerms(
+    vendor: ID!,
+    tenantId: ID!,
+    iccid: ID!,
+    profile: UserProfileInput,
+  ): Boolean
+  activateSIM(iccid: ID!, tenantId: ID!): Boolean
+  addPaymentMethod(tenantId: ID!, paymentMethodNonce: ID!, setAsDefault: Boolean): CustomerQueryResult
+  associateSIM(iccid: ID, eid: ID, puk: String!, tenantId: ID!, replace: Boolean): ID!
+  cancelInvite(inviteId: ID!): Boolean
+  changePlanType(tenantId: ID!, planType: PlanType!, reason: String): Boolean
+  createCustomCard(
+    tenantId: ID!,
+    service: String!,
+    configuration: CustomCardConfiguration!,
+    isPublic: Boolean,
+    icon: String
+  ): ID!
+  createCustomer(tenantId: ID!): Boolean
+  createTenant(tenantName: String): ID!
+  deleteCustomCard(id: ID!, tenantId: ID!): ID!
+  deletePaymentMethod(tenantId: ID!, token: ID!): CustomerQueryResult
+  deleteTenant(tenantId: ID!): Boolean
+  deleteTenantUser(userId: ID!, tenantId: ID!): Boolean
+  # If optional parameter deleteUserPoolEntry is not set, the user pool entry will be deleted
+  deleteUser(deleteUserPoolEntry: Boolean): ID!
+  disassociateSIM(iccid: ID!, tenantId: ID!): Boolean
+  invite(email: String!, inviteeRole: String!, tenantId: ID!, deviceGroups: [String]): ID!
+  onLogin(idToken: ID!): Boolean # must be called after every login
+  publishTenantAggregateEvent(
+    tenantId: ID!,
+    name: String!,
+    aggregateName: String!,
+    aggregateUUID: ID!,
+    createdAt: String!,
+    payload: String
+  ): TenantAggregateEvent
+  publishUserAggregateEvent(
+    userId: ID!,
+    name: String!,
+    aggregateName: String!,
+    aggregateUUID: ID!,
+    createdAt: String!,
+    payload: String
+  ): UserAggregateEvent
+  regenerateApiKey(tenantId: ID!): ID!
+  requestSIMQuotaUpdate(iccid: ID!, tenantId: ID!): Boolean
+  requestSIMTopUpURL(iccid: ID!, tenantId: ID!): Boolean
+  setDefaultPaymentMethod(tenantId: ID!, token: String!): CustomerQueryResult
+  updateDeviceGroups(
+    userId: ID!
+    tenantId: ID!
+    deviceGroups: [String!]
+  ): Boolean
+
+  updatePlanSettings(tenantId: ID!, planSettings: PlanSettingsInput!): Boolean
+
+  updateTenantProfile(
+    tenantId: ID!,
+    name: String!,
+    vatId: String,
+    url: String,
+    email: String,
+    avatar: String,
+    phoneNumbers: [PhoneNumberInput!],
+    addresses: [PostalAddressInput!]
+  ): Boolean
+
+  updateTenantUser(
+    userId: ID!
+    tenantId: ID!
+    role: String!
+  ): Boolean
+
+  updateUiConfig(uiConfig: String!): Boolean
+
+  updateUserProfile(
+    name: String!,
+    avatar: String,
+    phoneNumbers: [PhoneNumberInput!],
+    addresses: [PostalAddressInput!],
+    companyId: String
+    companyName: String
+    companyUrl: String
+    companyVatId: String
+    companyEmail: String
+    billingEmail: String
+    billingAuxiliaryEmail: String
+    billingReference: String
+    billingContactFirstName: String
+    billingContactLastName: String
+  ): Boolean
+}
+
+enum Permission {
+  tenant_users_read
+  tenant_users_write
+  tenant_users_write_devices
+}
+
+type PhoneNumberFactory {
+  type: [String!]!
+  value: String!
+}
+
+input PhoneNumberInput {
+  type: [PhoneNumberType!]!
+  value: String!
+}
+
+enum PhoneNumberType {
+  cell
+  home
+  text
+  voice
+  work
+  billing
+  company
+  personal
+}
+
+type PostalAddress {
+  attention: String
+  country: ID!
+  locality: String!
+  postcode: String
+  region: String
+  street: String
+  type: PostalAddressType!
+}
+
+input PostalAddressInput {
+  attention: String
+  country: ID!
+  locality: String!
+  postcode: String
+  region: String
+  street: String
+  type: String!
+}
+
+enum PostalAddressType {
+  billing
+  shipping
+  company
+}
+
+type ProblemFactory {
+  detail: String
+  occuredAt: String!
+  title: String!
+  type: String!
+}
+
+type Query {
+  account: AccountQueryResult!
+  billingUIClientToken(tenantId: ID!): BillingUIClientToken!
+  customCards(tenantId: ID!, services: [String!], offset: ID, isPublic: Boolean): CustomCardsQueryResult
+  customer(tenantId: ID!): CustomerQueryResult
+  # Listing the incoming invites depends on us knowing the email
+  # of the user which is supplied through the onLogin mutation.
+  # It may take a while until this information is available, so
+  # instead of waiting for that the user can supply their ID token
+  # directly (which contains the email and is signed by Cognito)
+  invites(filter: InvitesFilterInput!, tenantId: ID, startKey: ID, idToken: ID): InvitesQueryResult!
+  sims(tenantId: ID!, filter: simsQueryFilterInput, startKey: ID): SIMsQueryResult!
+  simVendors: SIMVendorsQueryResult!
+  tenantProfile(tenantId: ID!): TenantProfileQueryResult!
+  tenantUsers(tenantId: ID!, startKey: ID): TenantUsersQueryResult!
+  userProfile: UserProfileQueryResult!
+}
+
+type BillingUIClientToken {
+  clientToken: String!
+}
+
+enum RegistrationKey {
+  iccid,
+  eid
+}
+
+type SIMFactory {
+  activationChangeProblem: ProblemFactory
+  activationChangeRequested: Boolean!
+  active: Boolean!
+  eid: ID
+  iccid: ID!
+  links: SIMLinks!
+  meta: EntityMeta!
+  quota: SIMQuotaFactory
+  quotaUpdateProblem: ProblemFactory
+  registeredWith: RegistrationKey!
+  subscriberApproved: Boolean!
+  subscriberApprovalProblem: ProblemFactory
+  topUpURLRequestProblem: ProblemFactory
+  vendor: SIMVendorFactory!
+  verificationWithVendorProblem: ProblemFactory
+  verifiedWithVendor: Boolean!
+}
+
+type SIMLinks {
+  topUp: SIMTopUpLink
+}
+
+type SIMQuotaFactory {
+  totalBytes: Int!
+  updatedAt: String!
+  usedBytes: Int!
+}
+
+type SIMTopUpLink {
+  updatedAt: String!
+  url: String!
+}
+
+type SIMVendorFactory {
+  iccidRegExp: String!
+  links: SIMVendorLinks!
+  meta: EntityMeta!
+  name: String!
+  slug: String!
+}
+
+type SIMVendorLinks {
+  homepage: String!
+}
+
+type SIMVendorsQueryResult {
+  items: [SIMVendorFactory!]
+}
+
+type SIMsQueryResult {
+  items: [SIMFactory!]
+  nextStartKey: ID
+}
+
+type Schema {
+  mutation: Mutation
+  query: Query
+  subscription: Subscription
+}
+
+type Subscription {
+  # Check out appsync/publishCoreEvents.ts to see the list of published events
+  tenantAggregateEvents(
+    tenantId: ID!,
+    name: String,
+    aggregateName: String,
+    aggregateUUID: ID
+  ): TenantAggregateEvent
+  @aws_subscribe(mutations: ["publishTenantAggregateEvent"])
+  userAggregateEvents(
+    userId: ID!,
+    name: String,
+    aggregateName: String,
+    aggregateUUID: ID
+  ): UserAggregateEvent
+  @aws_subscribe(mutations: ["publishUserAggregateEvent"])
+}
+
+type TenantFactory {
+  tenantId: ID!
+}
+
+type TenantAggregateEvent {
+  aggregateName: String!
+  aggregateUUID: ID!
+  createdAt: String!
+  name: String!
+  payload: String
+  tenantId: ID!
+}
+
+type TenantUserAggregateEvent {
+  aggregateName: String!
+  aggregateUUID: ID!
+  createdAt: String!
+  payload: String
+  role: InviteeRole!
+  tenantUserId: ID!
+}
+
+type TenantOfUser {
+  apiKey: String
+  deviceGroups: [String]!
+  profile: TenantProfileQueryResult
+  role: TenantUserRole
+  tenantId: ID!
+  planType: String!
+}
+
+type TenantProfileQueryResult {
+  addresses: [PostalAddress!]
+  avatar: String
+  email: String
+  name: String!
+  phoneNumbers: [PhoneNumberFactory!]
+  url: String
+  vatId: String
+}
+
+type TenantUser {
+  deviceGroups: [String]
+  email: String!
+  name: String!
+  role: TenantUserRole!
+  tenantId: ID!
+  userId: ID!
+}
+
+enum TenantUserRole {
+  admin
+  editor
+  owner
+  viewer
+}
+
+type UserAggregateEvent {
+  aggregateName: String!
+  aggregateUUID: ID!
+  cognitoIdentityId: ID!
+  createdAt: String!
+  name: String!
+  payload: String
+  userId: ID!
+}
+
+input UserProfileInput {
+  addresses: [PostalAddressInput!],
+  avatar: String,
+  companyId: String,
+  companyName: String,
+  companyUrl: String,
+  companyVatId: String,
+  companyEmail: String,
+  name: String!
+  phoneNumbers: [PhoneNumberInput!]
+  billingEmail: String,
+  billingAuxiliaryEmail: String,
+  billingReference: String,
+  billingContactFirstName: String,
+  billingContactLastName: String
+}
+
+type UserProfileQueryResult {
+  addresses: [PostalAddress!]
+  avatar: String
+  companyId: String
+  companyName: String
+  companyUrl: String
+  companyVatId: String
+  companyEmail: String
+  name: String
+  phoneNumbers: [PhoneNumberFactory!]
+  billingEmail: String
+  billingAuxiliaryEmail: String
+  billingReference: String
+  billingContactFirstName: String
+  billingContactLastName: String
+}
+
+type TenantUsersQueryResult {
+  items: [TenantUser!]
+  nextStartKey: ID
+}
+
+input simsQueryFilterInput {
+  iccid: ID
+  eid: ID
+}
+
+type PrunedCreditCard {
+  cardType: String!
+  default: Boolean!
+  expirationDate: String!
+  expired: Boolean!
+  last4: String!
+  token: String!
+}
+
+type CustomerQueryResult {
+  creditCards: [PrunedCreditCard]
+  planType: String!
+  proxyUsageDeclarations: ProxyUsageDeclarations
+}
+
+enum PlanType {
+  DEVELOPER
+  ENTERPRISE
+  PRO
+}
+
+input PlanSettingsInput {
+  proxyUsageDeclarations: ProxyUsageDeclarationsInput
+}
+
+type ProxyUsageDeclarations {
+  AGPS: Int
+  GROUND_FIX: Int
+  PGPS: Int
+}
+
+input ProxyUsageDeclarationsInput {
+  AGPS: Int
+  GROUND_FIX: Int
+  PGPS: Int
+}
