@@ -1,6 +1,16 @@
-import tsParser from "@typescript-eslint/parser";
-import js from "@eslint/js"
 import ts from "@typescript-eslint/eslint-plugin"
+import {FlatCompat} from "@eslint/eslintrc";
+import path from "path";
+import {fileURLToPath} from "url";
+
+// mimic CommonJS variables -- not needed if using CommonJS
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const compat = new FlatCompat({
+    recommendedConfig: {},
+    baseDirectory: __dirname,
+});
 
 /**
  * @type {import('eslint').Linter.FlatConfig}
@@ -11,10 +21,9 @@ export default [
             ts
         }
     },
-    ts.configs["recommended"],
-    js.configs.recommended,
-    {
-        files: ["src/**/*.ts"],
-        parser: tsParser,
-    },
+    ...compat.config({
+        extends: [
+            "plugin:@typescript-eslint/recommended",
+            ]
+    }),
 ];

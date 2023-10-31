@@ -6,7 +6,6 @@ import createDebug from "debug";
 export const mapperDebug = createDebug("cdktf-lib:mapper:debug");
 export const mapperTrace = createDebug("cdktf-lib:mapper:trace");
 
-// eslint-disable-next-line unicorn/no-null
 const isObject = (x: unknown): x is object => x != null && typeof x === "object" && !Array.isArray(x);
 const isArrayOfObjects = (x: unknown): x is object[] => Array.isArray(x) && x.length > 0 && isObject(x[0]);
 

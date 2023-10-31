@@ -1,0 +1,460 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with schema 1`] = `
+"{
+  \\"data\\": {
+    \\"aws_partition\\": {
+      \\"aws-partition\\": {
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_appsync_api_key\\": {
+      \\"api_DefaultApiKey_6AB8D7C4\\": {
+        \\"api_id\\": \\"\${aws_appsync_graphql_api.api_C8550315.id}\\"
+      }
+    },
+    \\"aws_appsync_graphql_api\\": {
+      \\"api_C8550315\\": {
+        \\"authentication_type\\": \\"API_KEY\\",
+        \\"log_config\\": {
+          \\"cloudwatch_logs_role_arn\\": \\"\${jsondecode(aws_cloudcontrolapi_resource.api_ApiLogsRole_56BEE3F1.properties).Arn}\\",
+          \\"exclude_verbose_content\\": false,
+          \\"field_log_level\\": \\"ALL\\"
+        },
+        \\"name\\": \\"api-name\\",
+        \\"schema\\": \\"\${join(\\\\\\"\\\\\\", [\\\\\\"type AccountQueryResult {\\\\\\\\n  cognitoIdentityId: String\\\\\\\\n  email: String\\\\\\\\n  tenants: [TenantOfUser!]\\\\\\\\n  userId: String\\\\\\\\n  uiConfig: String\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype EntityMeta {\\\\\\\\n  createdAt: String!\\\\\\\\n  updatedAt: String\\\\\\\\n  uuid: ID!\\\\\\\\n  version: Int!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype Error {\\\\\\\\n  errorInfo: ErrorInfo!\\\\\\\\n  errorType: ErrorType!\\\\\\\\n  message: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype ErrorInfo {\\\\\\\\n  AWSrequestID: String!\\\\\\\\n  detail: String\\\\\\\\n}\\\\\\\\n\\\\\\\\n# ApplicationError is used when an unexpected error happens.\\\\\\\\n# They should be reported as bugs.\\\\\\\\nenum ErrorType {\\\\\\\\n  AccessDenied\\\\\\\\n  ApplicationError\\\\\\\\n  BadRequest\\\\\\\\n  Conflict\\\\\\\\n  EntityNotFound\\\\\\\\n  ValidationFailed\\\\\\\\n}\\\\\\\\n\\\\\\\\n\\\\\\\\ntype InviteFactory {\\\\\\\\n  accepted: Boolean!\\\\\\\\n  cancelled: Boolean!\\\\\\\\n  deviceGroups: [String]\\\\\\\\n  from: Inviter!\\\\\\\\n  inviteeRole: InviteeRole!\\\\\\\\n  meta: EntityMeta!\\\\\\\\n  to: Invitee!\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum InviteeRole {\\\\\\\\n  admin\\\\\\\\n  editor\\\\\\\\n  owner\\\\\\\\n  viewer\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum InviteDirection {\\\\\\\\n  incoming\\\\\\\\n  outgoing\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype Invitee {\\\\\\\\n  email: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype Inviter {\\\\\\\\n  avatar: String\\\\\\\\n  email: String!\\\\\\\\n  tenantName: String!\\\\\\\\n  userName: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput InvitesFilterInput {\\\\\\\\n  direction: InviteDirection!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype InvitesQueryResult {\\\\\\\\n  items: [InviteFactory!]\\\\\\\\n  nextStartKey: ID\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput characteristicData {\\\\\\\\n  byteEnd: Int!\\\\\\\\n  byteStart: Int!\\\\\\\\n  format: String!\\\\\\\\n  name: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput characteristic {\\\\\\\\n  data: [characteristicData!]\\\\\\\\n  name: String!\\\\\\\\n  uuid: ID!\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput CustomCardConfiguration {\\\\\\\\n  characteristics: [characteristic!]\\\\\\\\n  description: String!\\\\\\\\n  name: String!\\\\\\\\n  uuid: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype characteristicDataQueryResult {\\\\\\\\n  byteEnd: Int\\\\\\\\n  byteStart: Int\\\\\\\\n  format: String\\\\\\\\n  name: String\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype characteristicQueryResult {\\\\\\\\n  data: [characteristicDataQueryResult]\\\\\\\\n  name: String\\\\\\\\n  sample: [Int]\\\\\\\\n  uuid: ID\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype CustomCardConfigurationQueryResult {\\\\\\\\n  characteristics: [characteristicQueryResult]\\\\\\\\n  description: String\\\\\\\\n  name: String\\\\\\\\n  uuid: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype CustomCardFactory {\\\\\\\\n  configuration: CustomCardConfigurationQueryResult!\\\\\\\\n  createdAt: String!\\\\\\\\n  description: String\\\\\\\\n  icon: String\\\\\\\\n  id: ID!\\\\\\\\n  isPublic: Boolean!\\\\\\\\n  service: String!\\\\\\\\n  tenant: ID!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype UsageRecord {\\\\\\\\n  endpoint: String!\\\\\\\\n  sum: Int!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype CustomCardsQueryResult {\\\\\\\\n  items: [CustomCardFactory]\\\\\\\\n  nextOffset: Int\\\\\\\\n  nextStartKey: ID\\\\\\\\n  prevOffset: Int\\\\\\\\n  total: Int\\\\\\\\n}\\\\\\\\n\\\\\\\\n# Some mutations return the UUID of the newly created entity.\\\\\\\\n# Getting this response does not guarantee that the entity\\\\\\\\n# is immediately available for reading.\\\\\\\\ntype Mutation {\\\\\\\\n  acceptInvite(inviteId: ID!): Boolean\\\\\\\\n  acceptSIMVendorTerms(\\\\\\\\n    vendor: ID!,\\\\\\\\n    tenantId: ID!,\\\\\\\\n    iccid: ID!,\\\\\\\\n    profile: UserProfileInput,\\\\\\\\n  ): Boolean\\\\\\\\n  activateSIM(iccid: ID!, tenantId: ID!): Boolean\\\\\\\\n  addPaymentMethod(tenantId: ID!, paymentMethodNonce: ID!, setAsDefault: Boolean): CustomerQueryResult\\\\\\\\n  associateSIM(iccid: ID, eid: ID, puk: String!, tenantId: ID!, replace: Boolean): ID!\\\\\\\\n  cancelInvite(inviteId: ID!): Boolean\\\\\\\\n  changePlanType(tenantId: ID!, planType: PlanType!, reason: String): Boolean\\\\\\\\n  createCustomCard(\\\\\\\\n    tenantId: ID!,\\\\\\\\n    service: String!,\\\\\\\\n    configuration: CustomCardConfiguration!,\\\\\\\\n    isPublic: Boolean,\\\\\\\\n    icon: String\\\\\\\\n  ): ID!\\\\\\\\n  createCustomer(tenantId: ID!): Boolean\\\\\\\\n  createTenant(tenantName: String): ID!\\\\\\\\n  deleteCustomCard(id: ID!, tenantId: ID!): ID!\\\\\\\\n  deletePaymentMethod(tenantId: ID!, token: ID!): CustomerQueryResult\\\\\\\\n  deleteTenant(tenantId: ID!): Boolean\\\\\\\\n  deleteTenantUser(userId: ID!, tenantId: ID!): Boolean\\\\\\\\n  # If optional parameter deleteUserPoolEntry is not set, the user pool entry will be deleted\\\\\\\\n  deleteUser(deleteUserPoolEntry: Boolean): ID!\\\\\\\\n  disassociateSIM(iccid: ID!, tenantId: ID!): Boolean\\\\\\\\n  invite(email: String!, inviteeRole: String!, tenantId: ID!, deviceGroups: [String]): ID!\\\\\\\\n  onLogin(idToken: ID!): Boolean # must be called after every login\\\\\\\\n  publishTenantAggregateEvent(\\\\\\\\n    tenantId: ID!,\\\\\\\\n    name: String!,\\\\\\\\n    aggregateName: String!,\\\\\\\\n    aggregateUUID: ID!,\\\\\\\\n    createdAt: String!,\\\\\\\\n    payload: String\\\\\\\\n  ): TenantAggregateEvent\\\\\\\\n  publishUserAggregateEvent(\\\\\\\\n    userId: ID!,\\\\\\\\n    name: String!,\\\\\\\\n    aggregateName: String!,\\\\\\\\n    aggregateUUID: ID!,\\\\\\\\n    createdAt: String!,\\\\\\\\n    payload: String\\\\\\\\n  ): UserAggregateEvent\\\\\\\\n  regenerateApiKey(tenantId: ID!): ID!\\\\\\\\n  requestSIMQuotaUpdate(iccid: ID!, tenantId: ID!): Boolean\\\\\\\\n  requestSIMTopUpURL(iccid: ID!, tenantId: ID!): Boolean\\\\\\\\n  setDefaultPaymentMethod(tenantId: ID!, token: String!): CustomerQueryResult\\\\\\\\n  updateDeviceGroups(\\\\\\\\n    userId: ID!\\\\\\\\n    tenantId: ID!\\\\\\\\n    deviceGroups: [String!]\\\\\\\\n  ): Boolean\\\\\\\\n\\\\\\\\n  updatePlanSettings(tenantId: ID!, planSettings: PlanSettingsInput!): Boolean\\\\\\\\n\\\\\\\\n  updateTenantProfile(\\\\\\\\n    tenantId: ID!,\\\\\\\\n    name: String!,\\\\\\\\n    vatId: String,\\\\\\\\n    url: String,\\\\\\\\n    email: String,\\\\\\\\n    avatar: String,\\\\\\\\n    phoneNumbers: [PhoneNumberInput!],\\\\\\\\n    addresses: [PostalAddressInput!]\\\\\\\\n  ): Boolean\\\\\\\\n\\\\\\\\n  updateTenantUser(\\\\\\\\n    userId: ID!\\\\\\\\n    tenantId: ID!\\\\\\\\n    role: String!\\\\\\\\n  ): Boolean\\\\\\\\n\\\\\\\\n  updateUiConfig(uiConfig: String!): Boolean\\\\\\\\n\\\\\\\\n  updateUserProfile(\\\\\\\\n    name: String!,\\\\\\\\n    avatar: String,\\\\\\\\n    phoneNumbers: [PhoneNumberInput!],\\\\\\\\n    addresses: [PostalAddressInput!],\\\\\\\\n    companyId: String\\\\\\\\n    companyName: String\\\\\\\\n    companyUrl: String\\\\\\\\n    companyVatId: String\\\\\\\\n    companyEmail: String\\\\\\\\n    billingEmail: String\\\\\\\\n    billingAuxiliaryEmail: String\\\\\\\\n    billingReference: String\\\\\\\\n    billingContactFirstName: String\\\\\\\\n    billingContactLastName: String\\\\\\\\n  ): Boolean\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum Permission {\\\\\\\\n  tenant_users_read\\\\\\\\n  tenant_users_write\\\\\\\\n  tenant_users_write_devices\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype PhoneNumberFactory {\\\\\\\\n  type: [String!]!\\\\\\\\n  value: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput PhoneNumberInput {\\\\\\\\n  type: [PhoneNumberType!]!\\\\\\\\n  value: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum PhoneNumberType {\\\\\\\\n  cell\\\\\\\\n  home\\\\\\\\n  text\\\\\\\\n  voice\\\\\\\\n  work\\\\\\\\n  billing\\\\\\\\n  company\\\\\\\\n  personal\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype PostalAddress {\\\\\\\\n  attention: String\\\\\\\\n  country: ID!\\\\\\\\n  locality: String!\\\\\\\\n  postcode: String\\\\\\\\n  region: String\\\\\\\\n  street: String\\\\\\\\n  type: PostalAddressType!\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput PostalAddressInput {\\\\\\\\n  attention: String\\\\\\\\n  country: ID!\\\\\\\\n  locality: String!\\\\\\\\n  postcode: String\\\\\\\\n  region: String\\\\\\\\n  street: String\\\\\\\\n  type: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum PostalAddressType {\\\\\\\\n  billing\\\\\\\\n  shipping\\\\\\\\n  company\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype ProblemFactory {\\\\\\\\n  detail: String\\\\\\\\n  occuredAt: String!\\\\\\\\n  title: String!\\\\\\\\n  type: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype Query {\\\\\\\\n  account: AccountQueryResult!\\\\\\\\n  billingUIClientToken(tenantId: ID!): BillingUIClientToken!\\\\\\\\n  customCards(tenantId: ID!, services: [String!], offset: ID, isPublic: Boolean): CustomCardsQueryResult\\\\\\\\n  customer(tenantId: ID!): CustomerQueryResult\\\\\\\\n  # Listing the incoming invites depends on us knowing the email\\\\\\\\n  # of the user which is supplied through the onLogin mutation.\\\\\\\\n  # It may take a while until this information is available, so\\\\\\\\n  # instead of waiting for that the user can supply their ID token\\\\\\\\n  # directly (which contains the email and is signed by Cognito)\\\\\\\\n  invites(filter: InvitesFilterInput!, tenantId: ID, startKey: ID, idToken: ID): InvitesQueryResult!\\\\\\\\n  sims(tenantId: ID!, filter: simsQueryFilterInput, startKey: ID): SIMsQueryResult!\\\\\\\\n  simVendors: SIMVendorsQueryResult!\\\\\\\\n  tenantProfile(tenantId: ID!): TenantProfileQueryResult!\\\\\\\\n  tenantUsers(tenantId: ID!, startKey: ID): TenantUsersQueryResult!\\\\\\\\n  userProfile: UserProfileQueryResult!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype BillingUIClientToken {\\\\\\\\n  clientToken: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum RegistrationKey {\\\\\\\\n  iccid,\\\\\\\\n  eid\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMFactory {\\\\\\\\n  activationChangeProblem: ProblemFactory\\\\\\\\n  activationChangeRequested: Boolean!\\\\\\\\n  active: Boolean!\\\\\\\\n  eid: ID\\\\\\\\n  iccid: ID!\\\\\\\\n  links: SIMLinks!\\\\\\\\n  meta: EntityMeta!\\\\\\\\n  quota: SIMQuotaFactory\\\\\\\\n  quotaUpdateProblem: ProblemFactory\\\\\\\\n  registeredWith: RegistrationKey!\\\\\\\\n  subscriberApproved: Boolean!\\\\\\\\n  subscriberApprovalProblem: ProblemFactory\\\\\\\\n  topUpURLRequestProblem: ProblemFactory\\\\\\\\n  vendor: SIMVendorFactory!\\\\\\\\n  verificationWithVendorProblem: ProblemFactory\\\\\\\\n  verifiedWithVendor: Boolean!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMLinks {\\\\\\\\n  topUp: SIMTopUpLink\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMQuotaFactory {\\\\\\\\n  totalBytes: Int!\\\\\\\\n  updatedAt: String!\\\\\\\\n  usedBytes: Int!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMTopUpLink {\\\\\\\\n  updatedAt: String!\\\\\\\\n  url: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMVendorFactory {\\\\\\\\n  iccidRegExp: String!\\\\\\\\n  links: SIMVendorLinks!\\\\\\\\n  meta: EntityMeta!\\\\\\\\n  name: String!\\\\\\\\n  slug: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMVendorLinks {\\\\\\\\n  homepage: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMVendorsQueryResult {\\\\\\\\n  items: [SIMVendorFactory!]\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype SIMsQueryResult {\\\\\\\\n  items: [SIMFactory!]\\\\\\\\n  nextStartKey: ID\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype Schema {\\\\\\\\n  mutation: Mutation\\\\\\\\n  query: Query\\\\\\\\n  subscription: Subscription\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype Subscription {\\\\\\\\n  # Check out appsync/publishCoreEvents.ts to see the list of published events\\\\\\\\n  tenantAggregateEvents(\\\\\\\\n    tenantId: ID!,\\\\\\\\n    name: String,\\\\\\\\n    aggregateName: String,\\\\\\\\n    aggregateUUID: ID\\\\\\\\n  ): TenantAggregateEvent\\\\\\\\n  @aws_subscribe(mutations: [\\\\\\\\\\\\\\"publishTenantAggregateEvent\\\\\\\\\\\\\\"])\\\\\\\\n  userAggregateEvents(\\\\\\\\n    userId: ID!,\\\\\\\\n    name: String,\\\\\\\\n    aggregateName: String,\\\\\\\\n    aggregateUUID: ID\\\\\\\\n  ): UserAggregateEvent\\\\\\\\n  @aws_subscribe(mutations: [\\\\\\\\\\\\\\"publishUserAggregateEvent\\\\\\\\\\\\\\"])\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype TenantFactory {\\\\\\\\n  tenantId: ID!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype TenantAggregateEvent {\\\\\\\\n  aggregateName: String!\\\\\\\\n  aggregateUUID: ID!\\\\\\\\n  createdAt: String!\\\\\\\\n  name: String!\\\\\\\\n  payload: String\\\\\\\\n  tenantId: ID!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype TenantUserAggregateEvent {\\\\\\\\n  aggregateName: String!\\\\\\\\n  aggregateUUID: ID!\\\\\\\\n  createdAt: String!\\\\\\\\n  payload: String\\\\\\\\n  role: InviteeRole!\\\\\\\\n  tenantUserId: ID!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype TenantOfUser {\\\\\\\\n  apiKey: String\\\\\\\\n  deviceGroups: [String]!\\\\\\\\n  profile: TenantProfileQueryResult\\\\\\\\n  role: TenantUserRole\\\\\\\\n  tenantId: ID!\\\\\\\\n  planType: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype TenantProfileQueryResult {\\\\\\\\n  addresses: [PostalAddress!]\\\\\\\\n  avatar: String\\\\\\\\n  email: String\\\\\\\\n  name: String!\\\\\\\\n  phoneNumbers: [PhoneNumberFactory!]\\\\\\\\n  url: String\\\\\\\\n  vatId: String\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype TenantUser {\\\\\\\\n  deviceGroups: [String]\\\\\\\\n  email: String!\\\\\\\\n  name: String!\\\\\\\\n  role: TenantUserRole!\\\\\\\\n  tenantId: ID!\\\\\\\\n  userId: ID!\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum TenantUserRole {\\\\\\\\n  admin\\\\\\\\n  editor\\\\\\\\n  owner\\\\\\\\n  viewer\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype UserAggregateEvent {\\\\\\\\n  aggregateName: String!\\\\\\\\n  aggregateUUID: ID!\\\\\\\\n  cognitoIdentityId: ID!\\\\\\\\n  createdAt: String!\\\\\\\\n  name: String!\\\\\\\\n  payload: String\\\\\\\\n  userId: ID!\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput UserProfileInput {\\\\\\\\n  addresses: [PostalAddressInput!],\\\\\\\\n  avatar: String,\\\\\\\\n  companyId: String,\\\\\\\\n  companyName: String,\\\\\\\\n  companyUrl: String,\\\\\\\\n  companyVatId: String,\\\\\\\\n  companyEmail: String,\\\\\\\\n  name: String!\\\\\\\\n  phoneNumbers: [PhoneNumberInput!]\\\\\\\\n  billingEmail: String,\\\\\\\\n  billingAuxiliaryEmail: String,\\\\\\\\n  billingReference: String,\\\\\\\\n  billingContactFirstName: String,\\\\\\\\n  billingContactLastName: String\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype UserProfileQueryResult {\\\\\\\\n  addresses: [PostalAddress!]\\\\\\\\n  avatar: String\\\\\\\\n  companyId: String\\\\\\\\n  companyName: String\\\\\\\\n  companyUrl: String\\\\\\\\n  companyVatId: String\\\\\\\\n  companyEmail: String\\\\\\\\n  name: String\\\\\\\\n  phoneNumbers: [PhoneNumberFactory!]\\\\\\\\n  billingEmail: String\\\\\\\\n  billingAuxiliaryEmail: String\\\\\\\\n  billingReference: String\\\\\\\\n  billingContactFirstName: String\\\\\\\\n  billingContactLastName: String\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype TenantUsersQueryResult {\\\\\\\\n  items: [TenantUser!]\\\\\\\\n  nextStartKey: ID\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput simsQueryFilterInput {\\\\\\\\n  iccid: ID\\\\\\\\n  eid: ID\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype PrunedCreditCard {\\\\\\\\n  cardType: String!\\\\\\\\n  default: Boolean!\\\\\\\\n  expirationDate: String!\\\\\\\\n  expired: Boolean!\\\\\\\\n  last4: String!\\\\\\\\n  token: String!\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype CustomerQueryResult {\\\\\\\\n  creditCards: [PrunedCreditCard]\\\\\\\\n  planType: String!\\\\\\\\n  proxyUsageDeclarations: ProxyUsageDeclarations\\\\\\\\n}\\\\\\\\n\\\\\\\\nenum PlanType {\\\\\\\\n  DEVELOPER\\\\\\\\n  ENTERPRISE\\\\\\\\n  PRO\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput PlanSettingsInput {\\\\\\\\n  proxyUsageDeclarations: ProxyUsageDeclarationsInput\\\\\\\\n}\\\\\\\\n\\\\\\\\ntype ProxyUsageDeclarations {\\\\\\\\n  AGPS: Int\\\\\\\\n  GROUND_FIX: Int\\\\\\\\n  PGPS: Int\\\\\\\\n}\\\\\\\\n\\\\\\\\ninput ProxyUsageDeclarationsInput {\\\\\\\\n  AGPS: Int\\\\\\\\n  GROUND_FIX: Int\\\\\\\\n  PGPS: Int\\\\\\\\n}\\\\\\\\n\\\\\\"])}\\",
+        \\"tags\\": {
+        },
+        \\"visibility\\": \\"PRIVATE\\",
+        \\"xray_enabled\\": true
+      }
+    },
+    \\"aws_cloudcontrolapi_resource\\": {
+      \\"api_ApiLogsRole_56BEE3F1\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AssumeRolePolicyDocument\\\\\\" = {\\\\\\"Statement\\\\\\" = [{\\\\\\"Action\\\\\\" = \\\\\\"sts:AssumeRole\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"appsync.amazonaws.com\\\\\\"}}], \\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\"}, \\\\\\"ManagedPolicyArns\\\\\\" = [join(\\\\\\"\\\\\\", [\\\\\\"arn:\\\\\\", data.aws_partition.aws-partition.partition, \\\\\\":iam::aws:policy/service-role/AWSAppSyncPushToCloudWatchLogs\\\\\\"])]})}\\",
+        \\"type_name\\": \\"AWS::IAM::Role\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API without schema 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_appsync_graphql_api\\": {
+      \\"resource_22C949BF\\": {
+        \\"additional_authentication_provider\\": [
+          {
+            \\"authentication_type\\": \\"API_KEY\\",
+            \\"lambda_authorizer_config\\": {
+              \\"authorizer_result_ttl_in_seconds\\": 60,
+              \\"authorizer_uri\\": \\"authorizer-uri\\",
+              \\"identity_validation_expression\\": \\"identity-validation-expression\\"
+            },
+            \\"openid_connect_config\\": {
+              \\"auth_ttl\\": 60,
+              \\"client_id\\": \\"client-id\\",
+              \\"iat_ttl\\": 60,
+              \\"issuer\\": \\"issuer\\"
+            },
+            \\"user_pool_config\\": {
+              \\"app_id_client_regex\\": \\"app-id-client-regex\\",
+              \\"aws_region\\": \\"aws-region\\",
+              \\"user_pool_id\\": \\"user-pool-id\\"
+            }
+          }
+        ],
+        \\"authentication_type\\": \\"API_KEY\\",
+        \\"lambda_authorizer_config\\": {
+          \\"authorizer_result_ttl_in_seconds\\": 60,
+          \\"authorizer_uri\\": \\"authorizer-uri\\",
+          \\"identity_validation_expression\\": \\"identity-validation-expression\\"
+        },
+        \\"log_config\\": {
+          \\"cloudwatch_logs_role_arn\\": \\"cloud-watch-logs-role-arn\\",
+          \\"exclude_verbose_content\\": true,
+          \\"field_log_level\\": \\"field-log-level\\"
+        },
+        \\"name\\": \\"api-name\\",
+        \\"openid_connect_config\\": {
+          \\"auth_ttl\\": 60,
+          \\"client_id\\": \\"client-id\\",
+          \\"iat_ttl\\": 60,
+          \\"issuer\\": \\"issuer\\"
+        },
+        \\"tags\\": {
+          \\"tag-key\\": \\"tag-value\\"
+        },
+        \\"user_pool_config\\": {
+          \\"app_id_client_regex\\": \\"app-id-client-regex\\",
+          \\"aws_region\\": \\"aws-region\\",
+          \\"default_action\\": \\"ALLOW\\",
+          \\"user_pool_id\\": \\"user-pool-id\\"
+        },
+        \\"visibility\\": \\"PUBLIC\\",
+        \\"xray_enabled\\": true
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_graphql_api.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.arn, \\\\\\",\\\\\\", replace(replace(aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"GRAPHQL\\\\\\"], \\\\\\"https://\\\\\\", \\\\\\"\\\\\\"), \\\\\\"/graphql\\\\\\", \\\\\\"\\\\\\"), \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"GRAPHQL\\\\\\"], \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.id, \\\\\\",\\\\\\", replace(replace(aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"REALTIME\\\\\\"], \\\\\\"wss://\\\\\\", \\\\\\"\\\\\\"), \\\\\\"/graphql\\\\\\", \\\\\\"\\\\\\"), \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"REALTIME\\\\\\"]])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Appsync mappings > Should translate AWS::AppSync::ApiKey 1`] = `
+"{
+  \\"data\\": {
+    \\"aws_caller_identity\\": {
+      \\"aws-caller-identity\\": {
+      }
+    },
+    \\"aws_partition\\": {
+      \\"aws-partition\\": {
+      }
+    },
+    \\"aws_region\\": {
+      \\"aws-region\\": {
+      }
+    }
+  },
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_appsync_api_key\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"api-id\\",
+        \\"description\\": \\"description\\",
+        \\"expires\\": \\"2001-09-09T01:46:40.000Z\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_api_key.resource_22C949BF.key, \\\\\\",\\\\\\", aws_appsync_api_key.resource_22C949BF.id, \\\\\\",\\\\\\", \\\\\\"arn:\${data.aws_partition.aws-partition.partition}:appsync:\${data.aws_region.aws-region.name}:\${data.aws_caller_identity.aws-caller-identity.account_id}:apis/\${aws_appsync_api_key.resource_22C949BF.api_id}/apikeys/undefined\\\\\\"])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Appsync mappings > Should translate AWS::AppSync::DataSource 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_appsync_datasource\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"api-id\\",
+        \\"description\\": \\"description\\",
+        \\"dynamodb_config\\": {
+          \\"delta_sync_config\\": {
+            \\"base_table_ttl\\": 60,
+            \\"delta_sync_table_name\\": \\"delta-sync-table-name\\",
+            \\"delta_sync_table_ttl\\": 60
+          },
+          \\"region\\": \\"aws-region\\",
+          \\"table_name\\": \\"table-name\\",
+          \\"use_caller_credentials\\": true,
+          \\"versioned\\": true
+        },
+        \\"elasticsearch_config\\": {
+          \\"endpoint\\": \\"endpoint\\",
+          \\"region\\": \\"aws-region\\"
+        },
+        \\"event_bridge_config\\": {
+          \\"event_bus_arn\\": \\"event-bus-arn\\"
+        },
+        \\"http_config\\": {
+          \\"authorization_config\\": {
+            \\"authorization_type\\": \\"authorization-type\\",
+            \\"aws_iam_config\\": {
+              \\"signing_region\\": \\"signing-region\\",
+              \\"signing_service_name\\": \\"signing-service-name\\"
+            }
+          },
+          \\"endpoint\\": \\"endpoint\\"
+        },
+        \\"lambda_config\\": {
+          \\"function_arn\\": \\"lambda-function-arn\\"
+        },
+        \\"name\\": \\"name\\",
+        \\"opensearchservice_config\\": {
+          \\"endpoint\\": \\"endpoint\\",
+          \\"region\\": \\"aws-region\\"
+        },
+        \\"relational_database_config\\": {
+          \\"http_endpoint_config\\": {
+            \\"aws_secret_store_arn\\": \\"aws-secret-store-arn\\",
+            \\"database_name\\": \\"database-name\\",
+            \\"db_cluster_identifier\\": \\"db-cluster-identifier\\",
+            \\"region\\": \\"aws-region\\",
+            \\"schema\\": \\"schema\\"
+          },
+          \\"source_type\\": \\"relational-database-source-type\\"
+        },
+        \\"service_role_arn\\": \\"service-role-arn\\",
+        \\"type\\": \\"type\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_datasource.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_appsync_datasource.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_datasource.resource_22C949BF.name])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Appsync mappings > Should translate AWS::AppSync::DomainNameApiAssociation 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_appsync_domain_name_api_association\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"api-id\\",
+        \\"domain_name\\": \\"domain-name\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_appsync_domain_name_api_association.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Appsync mappings > Should translate AWS::AppSync::Resolver 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_appsync_resolver\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"api-id\\",
+        \\"caching_config\\": {
+          \\"caching_keys\\": [
+            \\"stuff\\"
+          ],
+          \\"ttl\\": 60
+        },
+        \\"code\\": \\"code\\",
+        \\"data_source\\": \\"data-source-name\\",
+        \\"field\\": \\"field-name\\",
+        \\"kind\\": \\"kind\\",
+        \\"max_batch_size\\": 60,
+        \\"pipeline_config\\": {
+          \\"functions\\": [
+            \\"function\\"
+          ]
+        },
+        \\"request_template\\": \\"request-mapping-template\\",
+        \\"response_template\\": \\"response-mapping-template\\",
+        \\"runtime\\": {
+          \\"name\\": \\"name\\",
+          \\"runtime_version\\": \\"runtime-version\\"
+        },
+        \\"sync_config\\": {
+          \\"conflict_detection\\": \\"conflict-detection\\",
+          \\"conflict_handler\\": \\"conflict-handler\\",
+          \\"lambda_conflict_handler_config\\": {
+            \\"lambda_conflict_handler_arn\\": \\"lambda-conflict-handler-arn\\"
+          }
+        },
+        \\"type\\": \\"type-name\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_resolver.resource_22C949BF.field, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.type])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Appsync mappings > Should translate AWS::AppSync:FunctionConfiguration 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_appsync_function\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"api-id\\",
+        \\"code\\": \\"code\\",
+        \\"data_source\\": \\"data-source-name\\",
+        \\"description\\": \\"description\\",
+        \\"function_version\\": \\"function-version\\",
+        \\"max_batch_size\\": 60,
+        \\"name\\": \\"name\\",
+        \\"request_mapping_template\\": \\"request-mapping-template\\",
+        \\"response_mapping_template\\": \\"response-mapping-template\\",
+        \\"runtime\\": {
+          \\"name\\": \\"name\\",
+          \\"runtime_version\\": \\"runtime-version\\"
+        },
+        \\"sync_config\\": {
+          \\"conflict_detection\\": \\"conflict-detection\\",
+          \\"conflict_handler\\": \\"conflict-handler\\",
+          \\"lambda_conflict_handler_config\\": {
+            \\"lambda_conflict_handler_arn\\": \\"lambda-conflict-handler-arn\\"
+          }
+        }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_function.resource_22C949BF.data_source, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.function_id, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.name])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;

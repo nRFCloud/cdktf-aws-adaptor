@@ -155,7 +155,6 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
 
     // Reconstruct dependency tree
     Aspects.of(this).add({
-      // eslint-disable-next-line sonarjs/cognitive-complexity
       visit: (res: IConstruct) => {
         if (res.node.dependencies.length > 0) {
           const targets = res.node.findAll().filter(r =>
@@ -187,7 +186,6 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
    * Most of the time references are resolved within individual constructs but this is not the case for deeply nested tokens
    * This method will resolve all references within all tokens
    */
-  // eslint-disable-next-line sonarjs/cognitive-complexity
   private resolveCfnInTokenMap() {
     cdkTokenResolutionCompat.disableUnresolvedTfTokens();
     const tokenMapInstance = TokenMap.instance();
@@ -490,7 +488,6 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
       // we wrap strings if they contain stringified json (e.g. for step functions)
       // (which contains quotes (") which need to be escaped)
       // or if they contain `${` which needs to be escaped for Terraform strings as well
-      // eslint-disable-next-line unicorn/prefer-ternary
       if (
         !Token.isUnresolved(str) // only if there is no token in them
         && (str.includes("\"") || str.includes("${"))

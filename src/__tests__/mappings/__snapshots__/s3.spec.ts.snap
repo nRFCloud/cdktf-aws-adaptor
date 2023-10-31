@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`S3 mappings > Should map AWS::S3::BucketPolicy 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_s3_bucket_policy\\": {
+      \\"resource_22C949BF\\": {
+        \\"bucket\\": \\"test-bucket\\",
+        \\"policy\\": \\"\${jsonencode({\\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\", \\\\\\"Statement\\\\\\" = [{\\\\\\"Sid\\\\\\" = \\\\\\"test-sid\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = \\\\\\"*\\\\\\", \\\\\\"Action\\\\\\" = [\\\\\\"s3:GetObject\\\\\\"], \\\\\\"Resource\\\\\\" = [\\\\\\"arn:aws:s3:::test-bucket/*\\\\\\"]}]})}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;

@@ -1,0 +1,357 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`EC2 VPC mappings > Should map AWS::EC2::InternetGateway 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_internet_gateway\\": {
+      \\"resource_22C949BF\\": {
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_internet_gateway.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroup 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_security_group\\": {
+      \\"resource_22C949BF\\": {
+        \\"description\\": \\"test-security-group-description\\",
+        \\"name\\": \\"test-security-group\\",
+        \\"vpc_id\\": \\"test-vpc-id\\"
+      }
+    },
+    \\"aws_vpc_security_group_egress_rule\\": {
+      \\"resource_0-egress_4775819E\\": {
+        \\"cidr_ipv4\\": \\"10.0.0.0/16\\",
+        \\"cidr_ipv6\\": \\"2001:db8:1234:1a00::/64\\",
+        \\"description\\": \\"test-security-group-egress-description\\",
+        \\"from_port\\": 0,
+        \\"ip_protocol\\": \\"-1\\",
+        \\"prefix_list_id\\": \\"destination-prefix-list-id\\",
+        \\"referenced_security_group_id\\": \\"destination-security-group-id\\",
+        \\"security_group_id\\": \\"\${aws_security_group.resource_22C949BF.id}\\",
+        \\"to_port\\": 0
+      }
+    },
+    \\"aws_vpc_security_group_ingress_rule\\": {
+      \\"resource_0-ingress_051257B0\\": {
+        \\"cidr_ipv4\\": \\"10.0.0.0/16\\",
+        \\"cidr_ipv6\\": \\"2001:db8:1234:1a00::/64\\",
+        \\"description\\": \\"test-security-group-ingress-description\\",
+        \\"from_port\\": 0,
+        \\"ip_protocol\\": \\"-1\\",
+        \\"prefix_list_id\\": \\"source-prefix-list-id\\",
+        \\"referenced_security_group_id\\": \\"source-security-group-id\\",
+        \\"security_group_id\\": \\"\${aws_security_group.resource_22C949BF.id}\\",
+        \\"to_port\\": 0
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_security_group.resource_22C949BF.id, \\\\\\",\\\\\\", aws_security_group.resource_22C949BF.id, \\\\\\",\\\\\\", aws_security_group.resource_22C949BF.vpc_id])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroupEgress 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_vpc_security_group_egress_rule\\": {
+      \\"resource_22C949BF\\": {
+        \\"cidr_ipv4\\": \\"10.0.0.0/16\\",
+        \\"cidr_ipv6\\": \\"2001:db8:1234:1a00::/64\\",
+        \\"description\\": \\"test-security-group-egress-description\\",
+        \\"from_port\\": 0,
+        \\"ip_protocol\\": \\"-1\\",
+        \\"prefix_list_id\\": \\"destination-prefix-list-id\\",
+        \\"referenced_security_group_id\\": \\"destination-security-group-id\\",
+        \\"security_group_id\\": \\"group-id\\",
+        \\"to_port\\": 0
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_vpc_security_group_egress_rule.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroupIngress 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_vpc_security_group_ingress_rule\\": {
+      \\"resource_22C949BF\\": {
+        \\"cidr_ipv4\\": \\"10.0.0.0/16\\",
+        \\"cidr_ipv6\\": \\"2001:db8:1234:1a00::/64\\",
+        \\"description\\": \\"test-security-group-ingress-description\\",
+        \\"from_port\\": 0,
+        \\"ip_protocol\\": \\"-1\\",
+        \\"prefix_list_id\\": \\"source-prefix-list-id\\",
+        \\"referenced_security_group_id\\": \\"source-security-group-id\\",
+        \\"security_group_id\\": \\"group-id\\",
+        \\"to_port\\": 0
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_vpc_security_group_ingress_rule.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`EC2 VPC mappings > Should map AWS::EC2::SubnetRouteTableAssociation 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_route_table_association\\": {
+      \\"resource_22C949BF\\": {
+        \\"route_table_id\\": \\"route-table-id\\",
+        \\"subnet_id\\": \\"subnet-id\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_route_table_association.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`EC2 VPC mappings > Should provision all the components of a VPC 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_cloudcontrolapi_resource\\": {
+      \\"resource_AACBEC77\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.0.0/16\\\\\\", \\\\\\"EnableDnsHostnames\\\\\\" = true, \\\\\\"EnableDnsSupport\\\\\\" = true, \\\\\\"InstanceTenancy\\\\\\" = \\\\\\"default\\\\\\"})}\\",
+        \\"type_name\\": \\"AWS::EC2::VPC\\"
+      },
+      \\"resource_PrivateSubnet1_DefaultRoute_EDAF69FB\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"NatGatewayId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_NATGateway_BA73323D.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PrivateSubnet1_RouteTable_19EB98C9.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Route\\"
+      },
+      \\"resource_PrivateSubnet1_RouteTable_19EB98C9\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::RouteTable\\"
+      },
+      \\"resource_PrivateSubnet1_Subnet_58408BD5\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1a\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.128.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = false, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Subnet\\"
+      },
+      \\"resource_PrivateSubnet2_DefaultRoute_8696734F\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"NatGatewayId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_NATGateway_BA73323D.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PrivateSubnet2_RouteTable_EB0EBC65.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Route\\"
+      },
+      \\"resource_PrivateSubnet2_RouteTable_EB0EBC65\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::RouteTable\\"
+      },
+      \\"resource_PrivateSubnet2_Subnet_A8F6FDF0\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1b\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.192.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = false, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Subnet\\"
+      },
+      \\"resource_PublicSubnet1_DefaultRoute_1F0D9FA0\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"GatewayId\\\\\\" = aws_internet_gateway.resource_IGW_222CDE0E.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_RouteTable_A84723D1.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Route\\"
+      },
+      \\"resource_PublicSubnet1_EIP_9ED2119C\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"Domain\\\\\\" = \\\\\\"vpc\\\\\\"})}\\",
+        \\"type_name\\": \\"AWS::EC2::EIP\\"
+      },
+      \\"resource_PublicSubnet1_NATGateway_BA73323D\\": {
+        \\"depends_on\\": [
+          \\"aws_route_table_association.resource_PublicSubnet1_RouteTableAssociation_C1359716\\",
+          \\"aws_cloudcontrolapi_resource.resource_PublicSubnet1_DefaultRoute_1F0D9FA0\\"
+        ],
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AllocationId\\\\\\" = jsondecode(aws_cloudcontrolapi_resource.resource_PublicSubnet1_EIP_9ED2119C.properties).AllocationId, \\\\\\"SubnetId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_Subnet_334F89CE.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::NatGateway\\"
+      },
+      \\"resource_PublicSubnet1_RouteTable_A84723D1\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::RouteTable\\"
+      },
+      \\"resource_PublicSubnet1_Subnet_334F89CE\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1a\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.0.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = true, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Subnet\\"
+      },
+      \\"resource_PublicSubnet2_DefaultRoute_317000C9\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"GatewayId\\\\\\" = aws_internet_gateway.resource_IGW_222CDE0E.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet2_RouteTable_25E515ED.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Route\\"
+      },
+      \\"resource_PublicSubnet2_RouteTable_25E515ED\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::RouteTable\\"
+      },
+      \\"resource_PublicSubnet2_Subnet_5F1A806C\\": {
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1b\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.64.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = true, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"type_name\\": \\"AWS::EC2::Subnet\\"
+      }
+    },
+    \\"aws_internet_gateway\\": {
+      \\"resource_IGW_222CDE0E\\": {
+        \\"vpc_id\\": \\"\${aws_cloudcontrolapi_resource.resource_AACBEC77.id}\\"
+      }
+    },
+    \\"aws_route_table_association\\": {
+      \\"resource_PrivateSubnet1_RouteTableAssociation_B6B60980\\": {
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PrivateSubnet1_RouteTable_19EB98C9.id}\\",
+        \\"subnet_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PrivateSubnet1_Subnet_58408BD5.id}\\"
+      },
+      \\"resource_PrivateSubnet2_RouteTableAssociation_5E91DB53\\": {
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PrivateSubnet2_RouteTable_EB0EBC65.id}\\",
+        \\"subnet_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PrivateSubnet2_Subnet_A8F6FDF0.id}\\"
+      },
+      \\"resource_PublicSubnet1_RouteTableAssociation_C1359716\\": {
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet1_RouteTable_A84723D1.id}\\",
+        \\"subnet_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet1_Subnet_334F89CE.id}\\"
+      },
+      \\"resource_PublicSubnet2_RouteTableAssociation_A663F51A\\": {
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet2_RouteTable_25E515ED.id}\\",
+        \\"subnet_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet2_Subnet_5F1A806C.id}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  }
+}"
+`;

@@ -1,0 +1,163 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Apigateway mappings > should map AWS::ApiGateway::Account 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_api_gateway_account\\": {
+      \\"resource_22C949BF\\": {
+        \\"cloudwatch_role_arn\\": \\"cw-role-arn\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_api_gateway_account.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Apigateway mappings > should map AWS::ApiGateway::BasePathMapping 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_api_gateway_base_path_mapping\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"rest-api-id\\",
+        \\"base_path\\": \\"base-path\\",
+        \\"domain_name\\": \\"domain-name\\",
+        \\"id\\": \\"id\\",
+        \\"stage_name\\": \\"stage\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Apigateway mappings > should map AWS::ApiGateway::Deployment 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_cloudcontrolapi_resource\\": {
+      \\"resource_22C949BF\\": {
+        \\"desired_state\\": \\"{\\\\\\"DeploymentCanarySettings\\\\\\":{\\\\\\"PercentTraffic\\\\\\":50,\\\\\\"StageVariableOverrides\\\\\\":{\\\\\\"stage-variable\\\\\\":\\\\\\"stage-variable-value\\\\\\"},\\\\\\"UseStageCache\\\\\\":true},\\\\\\"Description\\\\\\":\\\\\\"description\\\\\\",\\\\\\"RestApiId\\\\\\":\\\\\\"rest-api-id\\\\\\",\\\\\\"StageDescription\\\\\\":{\\\\\\"AccessLogSetting\\\\\\":{\\\\\\"DestinationArn\\\\\\":\\\\\\"destination-arn\\\\\\"},\\\\\\"CacheClusterEnabled\\\\\\":true,\\\\\\"CacheClusterSize\\\\\\":\\\\\\"cache-cluster-size\\\\\\",\\\\\\"CacheDataEncrypted\\\\\\":true,\\\\\\"CacheTtlInSeconds\\\\\\":60,\\\\\\"CachingEnabled\\\\\\":true,\\\\\\"CanarySetting\\\\\\":{\\\\\\"PercentTraffic\\\\\\":50,\\\\\\"StageVariableOverrides\\\\\\":{\\\\\\"stage-variable\\\\\\":\\\\\\"stage-variable-value\\\\\\"}},\\\\\\"ClientCertificateId\\\\\\":\\\\\\"client-certificate-id\\\\\\",\\\\\\"DataTraceEnabled\\\\\\":true,\\\\\\"DocumentationVersion\\\\\\":\\\\\\"documentation-version\\\\\\",\\\\\\"LoggingLevel\\\\\\":\\\\\\"logging-level\\\\\\",\\\\\\"MethodSettings\\\\\\":[{\\\\\\"CacheDataEncrypted\\\\\\":true,\\\\\\"CacheTtlInSeconds\\\\\\":60,\\\\\\"CachingEnabled\\\\\\":true,\\\\\\"DataTraceEnabled\\\\\\":true,\\\\\\"HttpMethod\\\\\\":\\\\\\"http-method\\\\\\",\\\\\\"LoggingLevel\\\\\\":\\\\\\"logging-level\\\\\\",\\\\\\"MetricsEnabled\\\\\\":true,\\\\\\"ResourcePath\\\\\\":\\\\\\"resource-path\\\\\\",\\\\\\"ThrottlingBurstLimit\\\\\\":60,\\\\\\"ThrottlingRateLimit\\\\\\":60}],\\\\\\"MetricsEnabled\\\\\\":true,\\\\\\"ThrottlingBurstLimit\\\\\\":60,\\\\\\"ThrottlingRateLimit\\\\\\":60,\\\\\\"TracingEnabled\\\\\\":true},\\\\\\"StageName\\\\\\":\\\\\\"stage-name\\\\\\"}\\",
+        \\"type_name\\": \\"AWS::ApiGateway::Deployment\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${jsondecode(aws_cloudcontrolapi_resource.resource_22C949BF.properties).DeploymentId}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Apigateway mappings > should map AWS::ApiGateway::Stage 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_cloudcontrolapi_resource\\": {
+      \\"resource_22C949BF\\": {
+        \\"desired_state\\": \\"{\\\\\\"AccessLogSetting\\\\\\":{\\\\\\"DestinationArn\\\\\\":\\\\\\"destination-arn\\\\\\"},\\\\\\"CacheClusterEnabled\\\\\\":true,\\\\\\"CacheClusterSize\\\\\\":\\\\\\"cache-cluster-size\\\\\\",\\\\\\"CanarySetting\\\\\\":{\\\\\\"PercentTraffic\\\\\\":50,\\\\\\"StageVariableOverrides\\\\\\":{\\\\\\"stage-variable\\\\\\":\\\\\\"stage-variable-value\\\\\\"}},\\\\\\"ClientCertificateId\\\\\\":\\\\\\"client-certificate-id\\\\\\",\\\\\\"DeploymentId\\\\\\":\\\\\\"deployment-id\\\\\\",\\\\\\"Description\\\\\\":\\\\\\"description\\\\\\",\\\\\\"DocumentationVersion\\\\\\":\\\\\\"documentation-version\\\\\\",\\\\\\"MethodSettings\\\\\\":[],\\\\\\"RestApiId\\\\\\":\\\\\\"rest-api-id\\\\\\",\\\\\\"StageName\\\\\\":\\\\\\"stage-name\\\\\\",\\\\\\"TracingEnabled\\\\\\":true}\\",
+        \\"type_name\\": \\"AWS::ApiGateway::Stage\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;

@@ -13,7 +13,8 @@
     "rootDir": "src",
     "composite": true,
     "types": [
-      "node"
+      "node",
+      "vitest/globals"
     ],
     "esModuleInterop": true,
     "resolveJsonModule": true,

@@ -1,0 +1,77 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CertificateManager mappings > should map AWS::CertificateManager::Certificate 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_acm_certificate\\": {
+      \\"resource_22C949BF\\": {
+        \\"certificate_authority_arn\\": \\"certificate-authority-arn\\",
+        \\"domain_name\\": \\"domain-name\\",
+        \\"key_algorithm\\": \\"key-algorithm\\",
+        \\"options\\": {
+          \\"certificate_transparency_logging_preference\\": \\"certificate-transparency-logging-preference\\"
+        },
+        \\"subject_alternative_names\\": [
+          \\"subject-alternative-name\\"
+        ],
+        \\"tags\\": {
+          \\"key\\": \\"value\\"
+        },
+        \\"validation_method\\": \\"DNS\\",
+        \\"validation_option\\": [
+          {
+            \\"domain_name\\": \\"domain-name\\",
+            \\"validation_domain\\": \\"validation-domain\\"
+          }
+        ]
+      }
+    },
+    \\"aws_acm_certificate_validation\\": {
+      \\"resource_resource-certvalidation_7A4B7325\\": {
+        \\"certificate_arn\\": \\"\${aws_acm_certificate.resource_22C949BF.arn}\\",
+        \\"validation_record_fqdns\\": \\"\${[for record in aws_route53_record.resource_resource-validation-record_CCA35AF6 : record.fqdn]}\\"
+      }
+    },
+    \\"aws_route53_record\\": {
+      \\"resource_resource-validation-record_CCA35AF6\\": {
+        \\"allow_overwrite\\": true,
+        \\"for_each\\": \\"\${{\\\\n    for dvo in aws_acm_certificate.resource_22C949BF.domain_validation_options : dvo.domain_name => {\\\\n      name   = dvo.resource_record_name\\\\n      record = dvo.resource_record_value\\\\n      type   = dvo.resource_record_type\\\\n    }\\\\n  }\\\\n}\\",
+        \\"name\\": \\"\${each.value.name}\\",
+        \\"records\\": [
+          \\"\${each.value.record}\\"
+        ],
+        \\"ttl\\": 60,
+        \\"type\\": \\"\${each.value.type}\\",
+        \\"zone_id\\": \\"hosted-zone-id\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_acm_certificate_validation.resource_resource-certvalidation_7A4B7325.certificate_arn}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;

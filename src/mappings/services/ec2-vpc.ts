@@ -76,7 +76,6 @@ export function registerEC2VPCMappings() {
   });
 
   registerMappingTyped(CfnSecurityGroup, SecurityGroup, {
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     resource: (scope, id, cfnProps) => {
       const props: SecurityGroupConfig = {
         name: cfnProps.GroupName,
@@ -87,7 +86,6 @@ export function registerEC2VPCMappings() {
 
       const securityGroup = new SecurityGroup(scope, id, deleteUndefinedKeys(props));
 
-      // eslint-disable-next-line unicorn/no-array-for-each
       cfnProps.SecurityGroupIngress?.forEach((ingress, idx) => {
         new VpcSecurityGroupIngressRule(
           securityGroup,
@@ -106,7 +104,6 @@ export function registerEC2VPCMappings() {
         );
       });
 
-      // eslint-disable-next-line unicorn/no-array-for-each
       cfnProps.SecurityGroupEgress?.forEach((egress, idx) => {
         new VpcSecurityGroupEgressRule(
           securityGroup,
