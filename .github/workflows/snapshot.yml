@@ -11,7 +11,7 @@ env:
   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 jobs:
   snapshot:
-    name: Publish snapshot release for this pr
+    name: Publish snapshot release
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

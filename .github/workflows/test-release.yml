@@ -47,6 +47,7 @@ jobs:
   snapshot:
     needs:
       - unit-tests
+    if: github.actor == 'nRFCloud'
     name: Snapshot Release
     runs-on: ubuntu-latest
     steps:

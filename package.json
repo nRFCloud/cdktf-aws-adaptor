@@ -15,6 +15,9 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "licenses": [{
+    "type": "MIT"
+  }],
   "files": [
     "dist",
     "!dist/__tests__",
@@ -39,7 +42,8 @@
     "test": "vitest",
     "prepublish": "pnpm clean && pnpm compile && pnpm test",
     "release": "changeset publish",
-    "update-cc-supported": "node scripts/update-cc-supported.js"
+    "update-cc-supported": "node scripts/update-cc-supported.js",
+    "build": "pnpm compile"
   },
   "author": "John Conley",
   "license": "MIT",

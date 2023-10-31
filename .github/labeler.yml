@@ -7,4 +7,3 @@ Infrastructure changes:
 
 Implementation changes:
   - packages/*/src/**/*
-  - !packages/*/src/aws/**/*

@@ -25,9 +25,9 @@ jobs:
           SLACK_FOOTER: ''
           SLACK_MESSAGE: |
             @here
-            account-service
+            utils
             ${{ github.event.pull_request.title }}
-            https://github.com/nRFCloud/account-service/pull/${{ github.event.number }}
+            https://github.com/nRFCloud/service-utils/pull/${{ github.event.number }}
       - name: PR Ready for Review
         if: github.event.action == 'ready_for_review' && github.event.pull_request.draft == false
         uses: rtCamp/action-slack-notify@12e36fc18b0689399306c2e0b3e0f2978b7f1ee7 #v2.2.0
@@ -39,9 +39,9 @@ jobs:
           SLACK_FOOTER: ''
           SLACK_MESSAGE: |
             @here
-            account-service
+            utils
             ${{ github.event.pull_request.title }}
-            https://github.com/nRFCloud/account-service/pull/${{ github.event.number }}
+            https://github.com/nRFCloud/service-utils/pull/${{ github.event.number }}
       - name: Updated PR
         if: github.event.action == 'synchronize' && github.event.pull_request.draft == false
         uses: rtCamp/action-slack-notify@12e36fc18b0689399306c2e0b3e0f2978b7f1ee7 #v2.2.0
@@ -51,6 +51,6 @@ jobs:
           SLACK_TITLE: PR Updated
           SLACK_FOOTER: ''
           SLACK_MESSAGE: |
-            account-service
+            utils
             ${{ github.event.pull_request.title }}
-            https://github.com/nRFCloud/account-service/pull/${{ github.event.number }}
+            https://github.com/nRFCloud/service-utils/pull/${{ github.event.number }}
