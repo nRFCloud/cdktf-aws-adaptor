@@ -26,4 +26,7 @@ export default [
             "plugin:@typescript-eslint/recommended",
             ]
     }),
+    {
+        ignores: ["dist", "node_modules", "src/lib/core/time"]
+    }
 ];
