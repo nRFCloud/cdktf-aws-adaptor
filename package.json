@@ -42,8 +42,7 @@
     "clean": "rm -rf dist && rm -rf tests/dist && rm -rf src/generated",
     "compile": "tsc",
     "test": "vitest",
-    "prepublish": "pnpm clean && pnpm compile && pnpm test",
-    "release": "changeset publish",
+    "release": "pnpm clean && pnpm build && pnpm lint && changeset publish",
     "update-cc-supported": "node scripts/update-cc-supported.js",
     "build": "pnpm compile"
   },
