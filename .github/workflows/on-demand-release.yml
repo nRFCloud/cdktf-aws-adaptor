@@ -6,6 +6,10 @@ on:
             description: 'The tag to use for the snapshot release'
             required: true
 
+env:
+  NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 jobs:
   snapshot:
     name: Snapshot Release
