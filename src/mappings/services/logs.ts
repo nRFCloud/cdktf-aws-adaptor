@@ -1,5 +1,9 @@
 import { CloudwatchLogGroup, CloudwatchLogGroupConfig } from "@cdktf/provider-aws/lib/cloudwatch-log-group/index.js";
-import { CfnLogGroup } from "aws-cdk-lib/aws-logs";
+import {
+  CloudwatchLogResourcePolicy,
+  CloudwatchLogResourcePolicyConfig,
+} from "@cdktf/provider-aws/lib/cloudwatch-log-resource-policy/index.js";
+import { CfnLogGroup, CfnResourcePolicy } from "aws-cdk-lib/aws-logs";
 import { TerraformStack } from "cdktf";
 import { deleteUndefinedKeys, getDeletableObject, registerMapping, registerMappingTyped } from "../utils.js";
 
@@ -64,6 +68,20 @@ export function registerLogMappings() {
     attributes: {
       Ref: resource => resource.id,
       Arn: resource => resource.arn,
+    },
+  });
+
+  registerMappingTyped(CfnResourcePolicy, CloudwatchLogResourcePolicy, {
+    resource: (scope, id, props) => {
+      const config: CloudwatchLogResourcePolicyConfig = {
+        policyDocument: props.PolicyDocument,
+        policyName: props.PolicyName,
+      };
+
+      return new CloudwatchLogResourcePolicy(scope, id, deleteUndefinedKeys(config));
+    },
+    attributes: {
+      Ref: resource => resource.id,
     },
   });
 }

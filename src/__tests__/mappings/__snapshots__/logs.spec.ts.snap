@@ -43,3 +43,43 @@ exports[`Logs mappings > Should map AWS::Logs::LogGroup 1`] = `
   }
 }"
 `;
+
+exports[`Logs mappings > Should map AWS::Logs::ResourcePolicy 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_cloudwatch_log_resource_policy\\": {
+      \\"resource_22C949BF\\": {
+        \\"policy_document\\": \\"\${join(\\\\\\"\\\\\\", [\\\\\\"{\\\\\\\\\\\\\\"Version\\\\\\\\\\\\\\":\\\\\\\\\\\\\\"2012-10-17\\\\\\\\\\\\\\",\\\\\\\\\\\\\\"Statement\\\\\\\\\\\\\\":[{\\\\\\\\\\\\\\"Sid\\\\\\\\\\\\\\":\\\\\\\\\\\\\\"test-sid\\\\\\\\\\\\\\",\\\\\\\\\\\\\\"Effect\\\\\\\\\\\\\\":\\\\\\\\\\\\\\"Allow\\\\\\\\\\\\\\",\\\\\\\\\\\\\\"Principal\\\\\\\\\\\\\\":{\\\\\\\\\\\\\\"AWS\\\\\\\\\\\\\\":\\\\\\\\\\\\\\"test-principal\\\\\\\\\\\\\\"},\\\\\\\\\\\\\\"Action\\\\\\\\\\\\\\":\\\\\\\\\\\\\\"logs:PutLogEvents\\\\\\\\\\\\\\",\\\\\\\\\\\\\\"Resource\\\\\\\\\\\\\\":\\\\\\\\\\\\\\"test-resource\\\\\\\\\\\\\\"}]}\\\\\\"])}\\",
+        \\"policy_name\\": \\"test-policy-name\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
