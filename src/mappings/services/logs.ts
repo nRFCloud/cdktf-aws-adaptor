@@ -40,9 +40,6 @@ export function registerLogMappings() {
         name: LogGroupName,
         retentionInDays: RetentionInDays ? Number.parseInt(RetentionInDays) : undefined,
         skipDestroy: true,
-        lifecycle: {
-          ignoreChanges: ["kmsKeyId", "name"],
-        },
       });
     },
     attributes: {
