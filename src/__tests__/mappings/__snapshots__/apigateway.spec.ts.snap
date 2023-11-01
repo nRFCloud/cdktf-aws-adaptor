@@ -1,5 +1,60 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Authorizer 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_apigatewayv2_authorizer\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"api-id\\",
+        \\"authorizer_credentials_arn\\": \\"authorizer-credentials-arn\\",
+        \\"authorizer_payload_format_version\\": \\"authorizer-payload-format-version\\",
+        \\"authorizer_result_ttl_in_seconds\\": 60,
+        \\"authorizer_type\\": \\"authorizer-type\\",
+        \\"authorizer_uri\\": \\"authorizer-uri\\",
+        \\"enable_simple_responses\\": true,
+        \\"identity_sources\\": [
+          \\"identity-source\\"
+        ],
+        \\"jwt_configuration\\": {
+          \\"audience\\": [
+            \\"audience\\"
+          ],
+          \\"issuer\\": \\"issuer\\"
+        },
+        \\"name\\": \\"name\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_apigatewayv2_authorizer.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
 exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::DomainName 1`] = `
 "{
   \\"provider\\": {

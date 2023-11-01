@@ -1,6 +1,16 @@
 # @nrfcloud/cdktf-aws-adaptor
 ***A compatibility layer for using the CDK for Terraform with AWS CDK constructs***
 
+### Why?
+The CDK for Terraform is a great tool for managing infrastructure, but it lacks the ecosystem of constructs that the AWS CDK has.
+This tool allows you to use the excellent aws-cdk-lib construct library, while also getting access to the benefits of terraform.
+Think of provisioning a CockroachDB cloud cluster and connecting it to a lambda using the high level nodejs function construct in the same stack.
+
+#### But isn't there already an adaptor?
+[Yes](https://github.com/hashicorp/cdktf-aws-cdk), but it's in technical preview and missing many essential features.
+It also doesn't seem to be actively maintained.
+
+
 ### Supported Features
 * Bidirectional references between AWS CDK and CDK for Terraform constructs
 * Interstack referencing

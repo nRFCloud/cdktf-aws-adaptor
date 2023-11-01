@@ -1,11 +1,13 @@
 import { ApiGatewayAccount } from "@cdktf/provider-aws/lib/api-gateway-account/index.js";
 import { ApiGatewayBasePathMapping } from "@cdktf/provider-aws/lib/api-gateway-base-path-mapping/index.js";
+import { Apigatewayv2Authorizer } from "@cdktf/provider-aws/lib/apigatewayv2-authorizer/index.js";
 import { Apigatewayv2DomainName } from "@cdktf/provider-aws/lib/apigatewayv2-domain-name/index.js";
 import { Apigatewayv2Integration } from "@cdktf/provider-aws/lib/apigatewayv2-integration/index.js";
 import { Apigatewayv2Stage } from "@cdktf/provider-aws/lib/apigatewayv2-stage/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnAccount, CfnBasePathMapping, CfnDeployment, CfnStage } from "aws-cdk-lib/aws-apigateway";
 import {
+  CfnAuthorizer as CfnAuthorizerV2,
   CfnDomainName as CfnDomainNameV2,
   CfnIntegration as CfnIntegrationV2,
   CfnStage as CfnStageV2,
@@ -305,7 +307,10 @@ describe("Apigateway mappings", () => {
         "request-parameter": "request-parameter-value",
       },
       responseParameters: [
-        { statusCode: "200", mappings: { source: "destination" } },
+        {
+          statusCode: "200",
+          mappings: { source: "destination" },
+        },
       ],
       requestTemplates: {
         "request-template": "request-template-value",
@@ -313,6 +318,41 @@ describe("Apigateway mappings", () => {
       tlsConfig: {
         serverNameToVerify: "server-name-to-verify",
       },
+    },
+  );
+
+  itShouldMapCfnElementToTerraformResource(
+    CfnAuthorizerV2,
+    {
+      apiId: "api-id",
+      authorizerCredentialsArn: "authorizer-credentials-arn",
+      authorizerPayloadFormatVersion: "authorizer-payload-format-version",
+      authorizerResultTtlInSeconds: 60,
+      authorizerType: "authorizer-type",
+      authorizerUri: "authorizer-uri",
+      enableSimpleResponses: true,
+      identitySource: ["identity-source"],
+      name: "name",
+      jwtConfiguration: {
+        audience: ["audience"],
+        issuer: "issuer",
+      },
+    },
+    Apigatewayv2Authorizer,
+    {
+      apiId: "api-id",
+      name: "name",
+      jwtConfiguration: {
+        audience: ["audience"],
+        issuer: "issuer",
+      },
+      enableSimpleResponses: true,
+      identitySources: ["identity-source"],
+      authorizerCredentialsArn: "authorizer-credentials-arn",
+      authorizerPayloadFormatVersion: "authorizer-payload-format-version",
+      authorizerResultTtlInSeconds: 60,
+      authorizerType: "authorizer-type",
+      authorizerUri: "authorizer-uri",
     },
   );
 });
