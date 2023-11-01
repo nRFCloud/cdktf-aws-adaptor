@@ -157,7 +157,7 @@ export function registerApiGatewayMappings() {
           ownershipVerificationCertificateArn: props.DomainNameConfigurations?.[0]?.OwnershipVerificationCertificateArn,
           endpointType: props.DomainNameConfigurations?.[0]?.EndpointType as string,
           certificateArn: props.DomainNameConfigurations?.[0]?.CertificateArn as string,
-          securityPolicy: props.DomainNameConfigurations?.[0]?.SecurityPolicy as string,
+          securityPolicy: props.DomainNameConfigurations?.[0]?.SecurityPolicy || "TLS_1_2",
         },
         mutualTlsAuthentication: {
           truststoreVersion: props.MutualTlsAuthentication?.TruststoreVersion as string,
