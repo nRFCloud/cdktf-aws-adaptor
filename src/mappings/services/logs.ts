@@ -58,6 +58,7 @@ export function registerLogMappings() {
         name: props?.LogGroupName,
         kmsKeyId: props?.KmsKeyId,
         retentionInDays: props?.RetentionInDays,
+        tags: Object.fromEntries(props?.Tags?.map(tag => [tag.Key, tag.Value]) ?? []),
       };
 
       return new CloudwatchLogGroup(scope, id, deleteUndefinedKeys(config));
