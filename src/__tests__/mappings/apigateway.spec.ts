@@ -1,10 +1,15 @@
 import { ApiGatewayAccount } from "@cdktf/provider-aws/lib/api-gateway-account/index.js";
 import { ApiGatewayBasePathMapping } from "@cdktf/provider-aws/lib/api-gateway-base-path-mapping/index.js";
 import { Apigatewayv2DomainName } from "@cdktf/provider-aws/lib/apigatewayv2-domain-name/index.js";
+import { Apigatewayv2Integration } from "@cdktf/provider-aws/lib/apigatewayv2-integration/index.js";
 import { Apigatewayv2Stage } from "@cdktf/provider-aws/lib/apigatewayv2-stage/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnAccount, CfnBasePathMapping, CfnDeployment, CfnStage } from "aws-cdk-lib/aws-apigateway";
-import { CfnDomainName as CfnDomainNameV2, CfnStage as CfnStageV2 } from "aws-cdk-lib/aws-apigatewayv2";
+import {
+  CfnDomainName as CfnDomainNameV2,
+  CfnIntegration as CfnIntegrationV2,
+  CfnStage as CfnStageV2,
+} from "aws-cdk-lib/aws-apigatewayv2";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
 import { registerMappings } from "../../mappings/index.js";
 import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
@@ -239,6 +244,74 @@ describe("Apigateway mappings", () => {
         endpointType: "REGIONAL",
         securityPolicy: "TLS_1_2",
         ownershipVerificationCertificateArn: "ownership-verification-certificate-arn",
+      },
+    },
+  );
+
+  itShouldMapCfnElementToTerraformResource(
+    CfnIntegrationV2,
+    {
+      apiId: "api-id",
+      connectionId: "connection-id",
+      connectionType: "connection-type",
+      contentHandlingStrategy: "content-handling-strategy",
+      credentialsArn: "credentials-arn",
+      description: "description",
+      integrationMethod: "integration-method",
+      integrationSubtype: "integration-subtype",
+      integrationType: "integration-type",
+      integrationUri: "integration-uri",
+      passthroughBehavior: "passthrough-behavior",
+      payloadFormatVersion: "payload-format-version",
+      templateSelectionExpression: "template-selection-expression",
+      timeoutInMillis: 60,
+      requestParameters: {
+        "request-parameter": "request-parameter-value",
+      },
+      requestTemplates: {
+        "request-template": "request-template-value",
+      },
+      responseParameters: {
+        "200": {
+          ResponseParameters: [
+            {
+              Source: "source",
+              Destination: "destination",
+            },
+          ],
+        },
+      },
+      tlsConfig: {
+        serverNameToVerify: "server-name-to-verify",
+      },
+    },
+    Apigatewayv2Integration,
+    {
+      apiId: "api-id",
+      connectionId: "connection-id",
+      connectionType: "connection-type",
+      contentHandlingStrategy: "content-handling-strategy",
+      credentialsArn: "credentials-arn",
+      description: "description",
+      integrationMethod: "integration-method",
+      integrationSubtype: "integration-subtype",
+      integrationType: "integration-type",
+      integrationUri: "integration-uri",
+      passthroughBehavior: "passthrough-behavior",
+      payloadFormatVersion: "payload-format-version",
+      templateSelectionExpression: "template-selection-expression",
+      timeoutMilliseconds: 60,
+      requestParameters: {
+        "request-parameter": "request-parameter-value",
+      },
+      responseParameters: [
+        { statusCode: "200", mappings: { source: "destination" } },
+      ],
+      requestTemplates: {
+        "request-template": "request-template-value",
+      },
+      tlsConfig: {
+        serverNameToVerify: "server-name-to-verify",
       },
     },
   );

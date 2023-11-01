@@ -4,10 +4,19 @@ import {
   Apigatewayv2DomainName,
   Apigatewayv2DomainNameConfig,
 } from "@cdktf/provider-aws/lib/apigatewayv2-domain-name/index.js";
+import {
+  Apigatewayv2Integration,
+  Apigatewayv2IntegrationConfig,
+  Apigatewayv2IntegrationResponseParameters,
+} from "@cdktf/provider-aws/lib/apigatewayv2-integration/index.js";
 import { Apigatewayv2Stage, Apigatewayv2StageConfig } from "@cdktf/provider-aws/lib/apigatewayv2-stage/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnAccount, CfnBasePathMapping, CfnDeployment, CfnStage } from "aws-cdk-lib/aws-apigateway";
-import { CfnDomainName as CfnDomainNameV2, CfnStage as CfnStageV2 } from "aws-cdk-lib/aws-apigatewayv2";
+import {
+  CfnDomainName as CfnDomainNameV2,
+  CfnIntegration as CfnIntegrationV2,
+  CfnStage as CfnStageV2,
+} from "aws-cdk-lib/aws-apigatewayv2";
 import { Fn } from "cdktf";
 import { propertyAccess } from "cdktf/lib/tfExpression.js";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
@@ -164,6 +173,61 @@ export function registerApiGatewayMappings() {
       Ref: res => res.id,
       RegionalHostedZoneId: res => res.domainNameConfiguration?.hostedZoneId,
       RegionalDomainName: res => res.domainNameConfiguration?.targetDomainName,
+    },
+  });
+
+  registerMappingTyped(CfnIntegrationV2, Apigatewayv2Integration, {
+    resource(scope, id, props) {
+      const responseParameters = props.ResponseParameters as {
+        [key: `${number}`]: {
+          ResponseParameters: {
+            Destination: string;
+            Source: string;
+          }[];
+        };
+      } | undefined;
+
+      const terraformResponseParameters: Apigatewayv2IntegrationResponseParameters[] | undefined = responseParameters
+        ? Object.entries(responseParameters)
+          .map(([statusCode, mappings]) => ({
+            statusCode,
+            mappings: Object.fromEntries(
+              mappings.ResponseParameters.map(({
+                Destination,
+                Source,
+              }) => [Source, Destination]),
+            ),
+          } as Apigatewayv2IntegrationResponseParameters))
+        : undefined;
+
+      const config: Apigatewayv2IntegrationConfig = {
+        apiId: props.ApiId,
+        connectionId: props.ConnectionId,
+        connectionType: props.ConnectionType,
+        contentHandlingStrategy: props.ContentHandlingStrategy,
+        credentialsArn: props.CredentialsArn,
+        description: props.Description,
+        integrationMethod: props.IntegrationMethod,
+        integrationSubtype: props.IntegrationSubtype,
+        integrationType: props.IntegrationType,
+        integrationUri: props.IntegrationUri,
+        passthroughBehavior: props.PassthroughBehavior,
+        payloadFormatVersion: props.PayloadFormatVersion,
+        templateSelectionExpression: props.TemplateSelectionExpression,
+        timeoutMilliseconds: props.TimeoutInMillis,
+        tlsConfig: {
+          serverNameToVerify: props.TlsConfig?.ServerNameToVerify,
+        },
+        requestParameters: props.RequestParameters,
+        responseParameters: terraformResponseParameters,
+        requestTemplates: props.RequestTemplates,
+      };
+
+      return new Apigatewayv2Integration(scope, id, deleteUndefinedKeys(config));
+    },
+    attributes: {
+      Id: res => res.id,
+      Ref: res => res.id,
     },
   });
 }
