@@ -1,5 +1,124 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::DomainName 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_apigatewayv2_domain_name\\": {
+      \\"resource_22C949BF\\": {
+        \\"domain_name\\": \\"domain-name\\",
+        \\"domain_name_configuration\\": {
+          \\"certificate_arn\\": \\"certificate-arn\\",
+          \\"endpoint_type\\": \\"REGIONAL\\",
+          \\"ownership_verification_certificate_arn\\": \\"ownership-verification-certificate-arn\\",
+          \\"security_policy\\": \\"TLS_1_2\\"
+        },
+        \\"mutual_tls_authentication\\": {
+          \\"truststore_uri\\": \\"truststore-uri\\",
+          \\"truststore_version\\": \\"truststore-version\\"
+        },
+        \\"tags\\": {
+          \\"tag\\": \\"tag-value\\"
+        }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_apigatewayv2_domain_name.resource_22C949BF.domain_name_configuration[0].target_domain_name, \\\\\\",\\\\\\", aws_apigatewayv2_domain_name.resource_22C949BF.domain_name_configuration[0].hosted_zone_id])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Stage 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_apigatewayv2_stage\\": {
+      \\"resource_22C949BF\\": {
+        \\"access_log_settings\\": {
+          \\"destination_arn\\": \\"destination-arn\\",
+          \\"format\\": \\"format\\"
+        },
+        \\"api_id\\": \\"api-id\\",
+        \\"auto_deploy\\": true,
+        \\"client_certificate_id\\": \\"client-certificate-id\\",
+        \\"default_route_settings\\": {
+          \\"data_trace_enabled\\": true,
+          \\"detailed_metrics_enabled\\": true,
+          \\"logging_level\\": \\"logging-level\\",
+          \\"throttling_burst_limit\\": 60,
+          \\"throttling_rate_limit\\": 60
+        },
+        \\"deployment_id\\": \\"deployment-id\\",
+        \\"description\\": \\"description\\",
+        \\"name\\": \\"stage-name\\",
+        \\"route_settings\\": [
+          {
+            \\"data_trace_enabled\\": true,
+            \\"route_key\\": \\"route-key\\"
+          }
+        ],
+        \\"stage_variables\\": {
+          \\"stage-variable\\": \\"stage-variable-value\\"
+        },
+        \\"tags\\": {
+          \\"tag\\": \\"tag-value\\"
+        }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_apigatewayv2_stage.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
 exports[`Apigateway mappings > should map AWS::ApiGateway::Account 1`] = `
 "{
   \\"provider\\": {

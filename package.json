@@ -41,7 +41,7 @@
     "lint:fix": "dprint fmt && eslint --cache --fix .",
     "clean": "rm -rf dist && rm -rf tests/dist && rm -rf src/generated",
     "compile": "tsc",
-    "test": "vitest",
+    "test": "vitest --reporter=junit --reporter=basic --outputFile.junit=coverage/junit.xml",
     "release": "pnpm clean && pnpm build && pnpm lint && changeset publish",
     "update-cc-supported": "node scripts/update-cc-supported.js",
     "build": "pnpm compile"
@@ -57,6 +57,7 @@
     "@types/node": "^18.15.5",
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
+    "@vitest/coverage-v8": "^0.34.6",
     "aws-cdk-lib": ">=2.101.0",
     "cdktf": "^0.19.0",
     "cdktf-cli": "^0.18.2",

@@ -3,7 +3,11 @@
  */
 const config = {
     test: {
-        globals: true
+        globals: true,
+        coverage: {
+            enabled: true,
+            reporter: ["json", "html", "json-summary", "lcov"],
+        }
     }
 }
 
