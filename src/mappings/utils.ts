@@ -99,7 +99,7 @@ export interface CfnMapper<
 > {
   resource(scope: Construct, id: string, props: CfnPropsForResourceClass<CfClass>): InstanceType<TfClass>;
 
-  unsupportedProps?: (keyof CfnPropsForResourceClass<CfClass>)[];
+  unsupportedProps?: (keyof Exclude<CfnPropsForResourceClass<CfClass>, null | undefined>)[];
   attributes: {
     [key in keyof CfnAttributes<InstanceType<CfClass>>]: (
       resource: InstanceType<TfClass>,
