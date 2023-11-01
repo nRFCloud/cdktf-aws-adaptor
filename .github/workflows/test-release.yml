@@ -44,28 +44,27 @@ jobs:
           reporter: jest-junit
           fail-on-error: false
 
-  snapshot:
-    needs:
-      - unit-tests
-    if: github.actor == 'nRFCloud'
-    name: Snapshot Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v3.x
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8.2.0
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: 'pnpm'
-          registry-url: 'https://registry.npmjs.org'
-      - name: Prepare
-        run: pnpm i
-      - name: Publish
-        uses: ./.github/actions/snapshot-release
-        with:
-          tag: ${{ env.GITHUB_HEAD_REF_SLUG }}
+#  snapshot:
+#    needs:
+#      - unit-tests
+#    name: Snapshot Release
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Inject slug/short variables
+#        uses: rlespinasse/github-slug-action@v3.x
+#      - uses: actions/checkout@v3
+#      - uses: pnpm/action-setup@v2
+#        with:
+#          version: 8.2.0
+#      - name: Use Node.js
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: 18.x
+#          cache: 'pnpm'
+#          registry-url: 'https://registry.npmjs.org'
+#      - name: Prepare
+#        run: pnpm i
+#      - name: Publish
+#        uses: ./.github/actions/snapshot-release
+#        with:
+#          tag: ${{ env.GITHUB_HEAD_REF_SLUG }}
