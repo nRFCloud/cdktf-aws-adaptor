@@ -1,10 +1,13 @@
 import { ApiGatewayAccount } from "@cdktf/provider-aws/lib/api-gateway-account/index.js";
 import { ApiGatewayBasePathMapping } from "@cdktf/provider-aws/lib/api-gateway-base-path-mapping/index.js";
+import { Apigatewayv2DomainName } from "@cdktf/provider-aws/lib/apigatewayv2-domain-name/index.js";
+import { Apigatewayv2Stage } from "@cdktf/provider-aws/lib/apigatewayv2-stage/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnAccount, CfnBasePathMapping, CfnDeployment, CfnStage } from "aws-cdk-lib/aws-apigateway";
+import { CfnDomainName as CfnDomainNameV2, CfnStage as CfnStageV2 } from "aws-cdk-lib/aws-apigatewayv2";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
 import { registerMappings } from "../../mappings/index.js";
-import { synthesizeElementAndTestStability } from "../helpers.js";
+import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
 
 setupJest();
 registerMappings();
@@ -138,4 +141,105 @@ describe("Apigateway mappings", () => {
       },
     );
   });
+
+  itShouldMapCfnElementToTerraformResource(
+    CfnStageV2,
+    {
+      accessLogSettings: {
+        destinationArn: "destination-arn",
+        format: "format",
+      },
+      apiId: "api-id",
+      autoDeploy: true,
+      clientCertificateId: "client-certificate-id",
+      defaultRouteSettings: {
+        dataTraceEnabled: true,
+        detailedMetricsEnabled: true,
+        loggingLevel: "logging-level",
+        throttlingBurstLimit: 60,
+        throttlingRateLimit: 60,
+      },
+      deploymentId: "deployment-id",
+      description: "description",
+      stageVariables: {
+        "stage-variable": "stage-variable-value",
+      },
+      stageName: "stage-name",
+      routeSettings: {
+        DataTraceEnabled: true,
+        RouteKey: "route-key",
+      },
+      tags: {
+        "tag": "tag-value",
+      },
+    },
+    Apigatewayv2Stage,
+    {
+      routeSettings: [{
+        dataTraceEnabled: true,
+        routeKey: "route-key",
+      }],
+      tags: {
+        "tag": "tag-value",
+      },
+      accessLogSettings: {
+        destinationArn: "destination-arn",
+        format: "format",
+      },
+      apiId: "api-id",
+      autoDeploy: true,
+      description: "description",
+      name: "stage-name",
+      stageVariables: {
+        "stage-variable": "stage-variable-value",
+      },
+      deploymentId: "deployment-id",
+      clientCertificateId: "client-certificate-id",
+      defaultRouteSettings: {
+        dataTraceEnabled: true,
+        detailedMetricsEnabled: true,
+        loggingLevel: "logging-level",
+        throttlingBurstLimit: 60,
+        throttlingRateLimit: 60,
+      },
+    },
+  );
+
+  itShouldMapCfnElementToTerraformResource(
+    CfnDomainNameV2,
+    {
+      domainName: "domain-name",
+      domainNameConfigurations: [{
+        certificateArn: "certificate-arn",
+        endpointType: "REGIONAL",
+        securityPolicy: "TLS_1_2",
+        certificateName: "certificate-name",
+        ownershipVerificationCertificateArn: "ownership-verification-certificate-arn",
+      }],
+      mutualTlsAuthentication: {
+        truststoreUri: "truststore-uri",
+        truststoreVersion: "truststore-version",
+      },
+      tags: {
+        "tag": "tag-value",
+      },
+    },
+    Apigatewayv2DomainName,
+    {
+      tags: {
+        "tag": "tag-value",
+      },
+      domainName: "domain-name",
+      mutualTlsAuthentication: {
+        truststoreUri: "truststore-uri",
+        truststoreVersion: "truststore-version",
+      },
+      domainNameConfiguration: {
+        certificateArn: "certificate-arn",
+        endpointType: "REGIONAL",
+        securityPolicy: "TLS_1_2",
+        ownershipVerificationCertificateArn: "ownership-verification-certificate-arn",
+      },
+    },
+  );
 });
