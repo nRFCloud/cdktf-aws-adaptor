@@ -1,6 +1,10 @@
 import { ApiGatewayAccount } from "@cdktf/provider-aws/lib/api-gateway-account/index.js";
 import { ApiGatewayBasePathMapping } from "@cdktf/provider-aws/lib/api-gateway-base-path-mapping/index.js";
 import {
+  Apigatewayv2Authorizer,
+  Apigatewayv2AuthorizerConfig,
+} from "@cdktf/provider-aws/lib/apigatewayv2-authorizer/index.js";
+import {
   Apigatewayv2DomainName,
   Apigatewayv2DomainNameConfig,
 } from "@cdktf/provider-aws/lib/apigatewayv2-domain-name/index.js";
@@ -13,6 +17,7 @@ import { Apigatewayv2Stage, Apigatewayv2StageConfig } from "@cdktf/provider-aws/
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnAccount, CfnBasePathMapping, CfnDeployment, CfnStage } from "aws-cdk-lib/aws-apigateway";
 import {
+  CfnAuthorizer as CfnAuthorizerV2,
   CfnDomainName as CfnDomainNameV2,
   CfnIntegration as CfnIntegrationV2,
   CfnStage as CfnStageV2,
@@ -227,6 +232,33 @@ export function registerApiGatewayMappings() {
     },
     attributes: {
       Id: res => res.id,
+      Ref: res => res.id,
+    },
+  });
+
+  registerMappingTyped(CfnAuthorizerV2, Apigatewayv2Authorizer, {
+    resource(scope, id, props) {
+      const config: Apigatewayv2AuthorizerConfig = {
+        apiId: props.ApiId,
+        authorizerType: props.AuthorizerType,
+        authorizerUri: props.AuthorizerUri,
+        identitySources: props.IdentitySource,
+        authorizerCredentialsArn: props.AuthorizerCredentialsArn,
+        authorizerPayloadFormatVersion: props.AuthorizerPayloadFormatVersion,
+        authorizerResultTtlInSeconds: props.AuthorizerResultTtlInSeconds,
+        enableSimpleResponses: props.EnableSimpleResponses,
+        jwtConfiguration: {
+          audience: props.JwtConfiguration?.Audience,
+          issuer: props.JwtConfiguration?.Issuer,
+        },
+        name: props.Name,
+      };
+
+      return new Apigatewayv2Authorizer(scope, id, deleteUndefinedKeys(config));
+    },
+    unsupportedProps: ["IdentityValidationExpression"],
+    attributes: {
+      AuthorizerId: res => res.id,
       Ref: res => res.id,
     },
   });

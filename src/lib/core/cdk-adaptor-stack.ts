@@ -584,7 +584,7 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
 
     const att = typeof mapping.mapping.attributes === "function"
       ? mapping.mapping.attributes.bind(undefined, attribute)
-      : mapping.mapping.attributes[attribute];
+      : mapping.mapping.attributes[attribute.replace(".", "")];
     if (!att) {
       throw new Error(
         `no "${attribute}" attribute mapping for resource of type ${mapping.resourceType}`,

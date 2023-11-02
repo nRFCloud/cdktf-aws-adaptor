@@ -38,7 +38,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersion 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -83,7 +83,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersionPermission 1`] = 
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -129,13 +129,114 @@ exports[`Lambda mappings > Should map AWS::Lambda::Permission 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
       \\"default\\": \\"\${aws_lambda_permission.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`Lambda mappings > should map CfnFunction to LambdaFunction 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_lambda_function\\": {
+      \\"resource_22C949BF\\": {
+        \\"architectures\\": [
+          \\"x86_64\\"
+        ],
+        \\"code_signing_config_arn\\": \\"codeSigningConfigArn\\",
+        \\"dead_letter_config\\": {
+          \\"target_arn\\": \\"targetArn\\"
+        },
+        \\"description\\": \\"description\\",
+        \\"environment\\": {
+          \\"variables\\": {
+            \\"key\\": \\"value\\"
+          }
+        },
+        \\"ephemeral_storage\\": {
+          \\"size\\": 1
+        },
+        \\"file_system_config\\": {
+          \\"arn\\": \\"arn\\",
+          \\"local_mount_path\\": \\"localMountPath\\"
+        },
+        \\"function_name\\": \\"functionName\\",
+        \\"handler\\": \\"handler\\",
+        \\"image_config\\": {
+          \\"command\\": [
+            \\"command\\"
+          ],
+          \\"entry_point\\": [
+            \\"entryPoint\\"
+          ],
+          \\"working_directory\\": \\"workingDirectory\\"
+        },
+        \\"image_uri\\": \\"imageUri\\",
+        \\"kms_key_arn\\": \\"kmsKeyArn\\",
+        \\"layers\\": [
+          \\"layers\\"
+        ],
+        \\"memory_size\\": 1,
+        \\"package_type\\": \\"packageType\\",
+        \\"publish\\": true,
+        \\"reserved_concurrent_executions\\": 1,
+        \\"role\\": \\"role\\",
+        \\"runtime\\": \\"runtime\\",
+        \\"s3_bucket\\": \\"s3Bucket\\",
+        \\"s3_key\\": \\"s3Key\\",
+        \\"s3_object_version\\": \\"s3ObjectVersion\\",
+        \\"snap_start\\": {
+          \\"apply_on\\": \\"1\\"
+        },
+        \\"tags\\": {
+          \\"key\\": \\"value\\"
+        },
+        \\"timeout\\": 1,
+        \\"tracing_config\\": {
+          \\"mode\\": \\"Active\\"
+        },
+        \\"vpc_config\\": {
+          \\"security_group_ids\\": [
+            \\"securityGroupIds\\"
+          ],
+          \\"subnet_ids\\": [
+            \\"subnetIds\\"
+          ]
+        }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.23.1\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_lambda_function.resource_22C949BF.arn, \\\\\\",\\\\\\", \\\\\\"[object Object]\\\\\\", \\\\\\",\\\\\\", aws_lambda_function.resource_22C949BF.snap_start[0].apply_on, \\\\\\",\\\\\\", aws_lambda_function.resource_22C949BF.snap_start[0].optimization_status])}\\",
       \\"type\\": \\"string\\"
     }
   }
