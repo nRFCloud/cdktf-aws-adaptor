@@ -1,0 +1,40 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CloudFront > Should map AWS::CloudFront::CloudFrontOriginAccessIdentity 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_cloudfront_origin_access_identity\\": {
+      \\"resource_22C949BF\\": {
+        \\"comment\\": \\"test\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.22.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_cloudfront_origin_access_identity.resource_22C949BF.id, \\\\\\",\\\\\\", aws_cloudfront_origin_access_identity.resource_22C949BF.s3_canonical_user_id])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
