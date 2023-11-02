@@ -26,7 +26,7 @@ exports[`CloudFront > Should map AWS::CloudFront::CloudFrontOriginAccessIdentity
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -265,7 +265,7 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },

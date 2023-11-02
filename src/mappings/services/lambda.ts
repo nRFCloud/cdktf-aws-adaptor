@@ -152,7 +152,7 @@ export function registerLambdaMappings() {
       lambda.functionName = mapped.functionName || Names.uniqueResourceName(lambda, { maxLength: 64 });
       return lambda;
     },
-    unsupportedProps: ["RuntimeManagementConfig"],
+    unsupportedProps: ["RuntimeManagementConfig", "Policy"],
     attributes: {
       Arn: resource => resource.arn,
       SnapStartResponseApplyOn: resource => resource.snapStart.applyOn,
