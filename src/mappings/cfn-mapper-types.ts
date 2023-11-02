@@ -1,4 +1,5 @@
 import { CfnResource, IResolvable } from "aws-cdk-lib";
+import { CfnDistribution } from "aws-cdk-lib/aws-cloudfront";
 import { CfnIdentityPoolRoleAttachment, CfnUserPool } from "aws-cdk-lib/aws-cognito";
 import { CfnRule } from "aws-cdk-lib/aws-events";
 import { CfnPermissionProps } from "aws-cdk-lib/aws-lambda";
@@ -46,6 +47,26 @@ type HandleSpecialObjectCases<T> = T extends Exact<CfnIdentityPoolRoleAttachment
     }>
   : T extends Exact<CfnPermissionProps, T> ? ManualPropertyRemap<CfnPermissionProps, {
       "principalOrgId": "PrincipalOrgID";
+    }>
+  : T extends Exact<CfnDistribution.DistributionConfigProperty, T>
+    ? ManualPropertyRemap<CfnDistribution.DistributionConfigProperty, {
+      "cnamEs": "CNAMEs";
+      "ipv6Enabled": "IPV6Enabled";
+      "webAclId": "WebACLId";
+    }>
+  : T extends Exact<CfnDistribution.FunctionAssociationProperty, T>
+    ? ManualPropertyRemap<CfnDistribution.FunctionAssociationProperty, {
+      "functionArn": "FunctionARN";
+    }>
+  : T extends Exact<CfnDistribution.LambdaFunctionAssociationProperty, T>
+    ? ManualPropertyRemap<CfnDistribution.LambdaFunctionAssociationProperty, {
+      "lambdaFunctionArn": "LambdaFunctionARN";
+    }>
+  : T extends Exact<CfnDistribution.CustomOriginConfigProperty, T>
+    ? ManualPropertyRemap<CfnDistribution.CustomOriginConfigProperty, {
+      "httpPort": "HTTPPort";
+      "httpsPort": "HTTPSPort";
+      originSslProtocols: "OriginSSLProtocols";
     }>
   : never;
 

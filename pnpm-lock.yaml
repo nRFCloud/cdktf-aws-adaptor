@@ -3080,7 +3080,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231031
+      typescript: 5.3.0-dev.20231102
     dev: true
 
   /dprint@0.35.3:
@@ -6087,8 +6087,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20231031:
-    resolution: {integrity: sha512-+w6szmOFr7GSWj/eNFgHdYqubMux9B5ao5LFoGdn712gbDYMpLwqLNkPLpJHD9chl/2wc/W96iSfALkZs7sVXQ==}
+  /typescript@5.3.0-dev.20231102:
+    resolution: {integrity: sha512-M1maLdHyAvE+y4w27IBplkqekR5Lzf2B7XualvF3lXJUC2165swvSmpThFdfHcXxP/+/SYmLI9z2CVvN7pEK+g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true

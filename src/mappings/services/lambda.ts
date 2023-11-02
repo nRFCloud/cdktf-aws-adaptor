@@ -1,8 +1,9 @@
+import { LambdaFunction, LambdaFunctionConfig } from "@cdktf/provider-aws/lib/lambda-function/index.js";
 import { LambdaLayerVersionPermission } from "@cdktf/provider-aws/lib/lambda-layer-version-permission/index.js";
 import { LambdaLayerVersion } from "@cdktf/provider-aws/lib/lambda-layer-version/index.js";
 import { LambdaPermission } from "@cdktf/provider-aws/lib/lambda-permission/index.js";
-import { Names } from "aws-cdk-lib";
-import { CfnLayerVersion, CfnLayerVersionPermission, CfnPermission } from "aws-cdk-lib/aws-lambda";
+import { IResolvable, Names } from "aws-cdk-lib";
+import { CfnFunction, CfnLayerVersion, CfnLayerVersionPermission, CfnPermission } from "aws-cdk-lib/aws-lambda";
 import { Fn } from "cdktf";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
@@ -93,71 +94,74 @@ export function registerLambdaMappings() {
   //   },
   // });
   //
-  // registerMappingTyped(CfnFunction, LambdaFunction, {
-  //   resource(scope, id, lambdaProps): LambdaFunction {
-  //     const mapped: LambdaFunctionConfig = {
-  //       ephemeralStorage: {
-  //         size: lambdaProps.EphemeralStorage?.Size as number,
-  //       },
-  //       description: lambdaProps.Description,
-  //       // eslint-disable-next-line @typescript-eslint/naming-convention
-  //       tags: Object.fromEntries(lambdaProps.Tags?.map(({ Key, Value }) => [Key, Value]) || []),
-  //       codeSigningConfigArn: lambdaProps.CodeSigningConfigArn,
-  //       s3Bucket: lambdaProps.Code.S3Bucket,
-  //       functionName: lambdaProps.FunctionName!,
-  //       deadLetterConfig: {
-  //         targetArn: lambdaProps.DeadLetterConfig?.TargetArn as string,
-  //       },
-  //       architectures: lambdaProps.Architectures,
-  //       s3Key: lambdaProps.Code.S3Key,
-  //       s3ObjectVersion: lambdaProps.Code.S3ObjectVersion,
-  //       fileSystemConfig: {
-  //         arn: lambdaProps.FileSystemConfigs?.[0].Arn as string,
-  //         localMountPath: lambdaProps.FileSystemConfigs?.[0].LocalMountPath as string,
-  //       },
-  //       environment: {
-  //         variables: lambdaProps.Environment?.Variables,
-  //       },
-  //       imageConfig: {
-  //         command: lambdaProps.ImageConfig?.Command,
-  //         entryPoint: lambdaProps.ImageConfig?.EntryPoint,
-  //         workingDirectory: lambdaProps.ImageConfig?.WorkingDirectory,
-  //       },
-  //       handler: lambdaProps.Handler,
-  //       role: lambdaProps.Role,
-  //       imageUri: lambdaProps.Code.ImageUri,
-  //       kmsKeyArn: lambdaProps.KmsKeyArn,
-  //       layers: lambdaProps.Layers,
-  //       packageType: lambdaProps.PackageType,
-  //       memorySize: lambdaProps.MemorySize,
-  //       reservedConcurrentExecutions: lambdaProps.ReservedConcurrentExecutions,
-  //       runtime: lambdaProps.Runtime,
-  //       vpcConfig: {
-  //         subnetIds: lambdaProps.VpcConfig?.SubnetIds as string[],
-  //         securityGroupIds: lambdaProps.VpcConfig?.SecurityGroupIds as string[],
-  //       },
-  //       publish: true,
-  //       tracingConfig: {
-  //         mode: lambdaProps.TracingConfig?.Mode as string,
-  //       },
-  //       timeout: lambdaProps.Timeout,
-  //       snapStart: {
-  //         applyOn: lambdaProps.SnapStart?.ApplyOn as string,
-  //       },
-  //     };
-  //
-  //     const lambda = new LambdaFunction(scope, id, mapped);
-  //
-  //     lambda.functionName = mapped.functionName || Names.uniqueResourceName(lambda, { maxLength: 64 });
-  //     return lambda;
-  //   },
-  //   unsupportedProps: ["RuntimeManagementConfig"],
-  //   attributes: {
-  //     Arn: resource => resource.arn,
-  //     SnapStartResponseApplyOn: resource => resource.snapStart.applyOn,
-  //     SnapStartResponseOptimizationStatus: resource => resource.snapStart.optimizationStatus,
-  //     Ref: resource => resource.id,
-  //     SnapStartResponse: resource => resource.snapStart,
-  //   },
-  // });
+  registerMappingTyped(CfnFunction, LambdaFunction, {
+    resource(scope, id, lambdaProps): LambdaFunction {
+      const mapped: LambdaFunctionConfig = {
+        ephemeralStorage: {
+          size: lambdaProps.EphemeralStorage?.Size as number,
+        },
+        description: lambdaProps.Description,
+        // eslint-disable-next-line @typescript-eslint/naming-convention
+        tags: Object.fromEntries(lambdaProps.Tags?.map(({ Key, Value }) => [Key, Value]) || []),
+        codeSigningConfigArn: lambdaProps.CodeSigningConfigArn,
+        s3Bucket: lambdaProps.Code.S3Bucket,
+        functionName: lambdaProps.FunctionName!,
+        deadLetterConfig: {
+          targetArn: lambdaProps.DeadLetterConfig?.TargetArn as string,
+        },
+        architectures: lambdaProps.Architectures,
+        s3Key: lambdaProps.Code.S3Key,
+        s3ObjectVersion: lambdaProps.Code.S3ObjectVersion,
+        fileSystemConfig: {
+          arn: lambdaProps.FileSystemConfigs?.[0].Arn as string,
+          localMountPath: lambdaProps.FileSystemConfigs?.[0].LocalMountPath as string,
+        },
+        environment: {
+          variables: lambdaProps.Environment?.Variables,
+        },
+        imageConfig: {
+          command: lambdaProps.ImageConfig?.Command,
+          entryPoint: lambdaProps.ImageConfig?.EntryPoint,
+          workingDirectory: lambdaProps.ImageConfig?.WorkingDirectory,
+        },
+        handler: lambdaProps.Handler,
+        role: lambdaProps.Role,
+        imageUri: lambdaProps.Code.ImageUri,
+        kmsKeyArn: lambdaProps.KmsKeyArn,
+        layers: lambdaProps.Layers,
+        packageType: lambdaProps.PackageType,
+        memorySize: lambdaProps.MemorySize,
+        reservedConcurrentExecutions: lambdaProps.ReservedConcurrentExecutions,
+        runtime: lambdaProps.Runtime,
+        vpcConfig: {
+          subnetIds: lambdaProps.VpcConfig?.SubnetIds as string[],
+          securityGroupIds: lambdaProps.VpcConfig?.SecurityGroupIds as string[],
+        },
+        publish: true,
+        tracingConfig: {
+          mode: lambdaProps.TracingConfig?.Mode as string,
+        },
+        timeout: lambdaProps.Timeout,
+        snapStart: {
+          applyOn: lambdaProps.SnapStart?.ApplyOn as string,
+        },
+      };
+
+      const lambda = new LambdaFunction(scope, id, mapped);
+
+      lambda.functionName = mapped.functionName || Names.uniqueResourceName(lambda, { maxLength: 64 });
+      return lambda;
+    },
+    unsupportedProps: ["RuntimeManagementConfig"],
+    attributes: {
+      Arn: resource => resource.arn,
+      SnapStartResponseApplyOn: resource => resource.snapStart.applyOn,
+      SnapStartResponseOptimizationStatus: resource => resource.snapStart.optimizationStatus,
+      Ref: resource => resource.id,
+      SnapStartResponse: resource => ({
+        ApplyOn: resource.snapStart.applyOn,
+        OptimizationStatus: resource.snapStart.optimizationStatus,
+      } as unknown as IResolvable),
+    },
+  });
 }

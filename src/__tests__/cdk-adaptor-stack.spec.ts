@@ -425,10 +425,6 @@ describe("Stack synthesis", () => {
         bucket: bucketRef,
       });
 
-      expect(tfJson).toHaveResourceWithProperties(CloudcontrolapiResource, {
-        type_name: "AWS::Lambda::Function",
-      });
-
       const assetFileStat = statSync(assetPath);
 
       expect(assetFileStat.isFile()).toBe(true);
