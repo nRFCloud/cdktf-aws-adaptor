@@ -54,7 +54,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   }
@@ -136,7 +136,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -191,7 +191,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::ApiKey 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -279,7 +279,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::DataSource 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -319,7 +319,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::DomainNameApiAssociat
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -388,7 +388,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::Resolver 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
@@ -446,13 +446,13 @@ exports[`Appsync mappings > Should translate AWS::AppSync:FunctionConfiguration 
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.22.0\\"
+        \\"version\\": \\"5.23.1\\"
       }
     }
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_function.resource_22C949BF.data_source, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.function_id, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.name])}\\",
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_function.resource_22C949BF.data_source, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.function_id, \\\\\\",\\\\\\", aws_appsync_function.resource_22C949BF.name])}\\",
       \\"type\\": \\"string\\"
     }
   }

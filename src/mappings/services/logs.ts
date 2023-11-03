@@ -1,6 +1,11 @@
-import { CloudwatchLogGroup } from "@cdktf/provider-aws/lib/cloudwatch-log-group/index.js";
+import { CloudwatchLogGroup, CloudwatchLogGroupConfig } from "@cdktf/provider-aws/lib/cloudwatch-log-group/index.js";
+import {
+  CloudwatchLogResourcePolicy,
+  CloudwatchLogResourcePolicyConfig,
+} from "@cdktf/provider-aws/lib/cloudwatch-log-resource-policy/index.js";
+import { CfnLogGroup, CfnResourcePolicy } from "aws-cdk-lib/aws-logs";
 import { TerraformStack } from "cdktf";
-import { getDeletableObject, registerMapping } from "../utils.js";
+import { deleteUndefinedKeys, getDeletableObject, registerMapping, registerMappingTyped } from "../utils.js";
 
 interface LogRetentionProps {
   ServiceToken: string;
@@ -38,12 +43,45 @@ export function registerLogMappings() {
       return new CloudwatchLogGroup(scope, id, {
         name: LogGroupName,
         retentionInDays: RetentionInDays ? Number.parseInt(RetentionInDays) : undefined,
+        skipDestroy: true,
       });
     },
     attributes: {
       Arn: resource => resource.arn,
       Name: resource => resource.name,
       Id: resource => resource.id,
+    },
+  });
+
+  registerMappingTyped(CfnLogGroup, CloudwatchLogGroup, {
+    resource: (scope, id, props) => {
+      const config: CloudwatchLogGroupConfig = {
+        name: props?.LogGroupName,
+        kmsKeyId: props?.KmsKeyId,
+        retentionInDays: props?.RetentionInDays,
+        tags: Object.fromEntries(props?.Tags?.map(tag => [tag.Key, tag.Value]) ?? []),
+      };
+
+      return new CloudwatchLogGroup(scope, id, deleteUndefinedKeys(config));
+    },
+    unsupportedProps: ["DataProtectionPolicy"],
+    attributes: {
+      Ref: resource => resource.id,
+      Arn: resource => resource.arn,
+    },
+  });
+
+  registerMappingTyped(CfnResourcePolicy, CloudwatchLogResourcePolicy, {
+    resource: (scope, id, props) => {
+      const config: CloudwatchLogResourcePolicyConfig = {
+        policyDocument: props.PolicyDocument,
+        policyName: props.PolicyName,
+      };
+
+      return new CloudwatchLogResourcePolicy(scope, id, deleteUndefinedKeys(config));
+    },
+    attributes: {
+      Ref: resource => resource.id,
     },
   });
 }

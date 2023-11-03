@@ -118,7 +118,6 @@ export function registerAppSyncMappings() {
           apiId: props.ApiId,
           description: props.Description,
           expires: props.Expires ? new Date(props.Expires).toISOString() : undefined,
-          id: props.ApiKeyId,
         }),
       );
     },
@@ -309,7 +308,6 @@ export function registerAppSyncMappings() {
     unsupportedProps: ["CodeS3Location", "RequestMappingTemplateS3Location", "ResponseMappingTemplateS3Location"],
     attributes: {
       Ref: (resource) => resource.id,
-      Id: (resource) => resource.id,
       FunctionId: (resource) => resource.functionId,
       FunctionArn: (resource) => resource.arn,
       Name: (resource) => resource.name,

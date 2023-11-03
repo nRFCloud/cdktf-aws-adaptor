@@ -63,6 +63,7 @@ export function registerCognitoMappings() {
       ClientSecret: resource => resource.clientSecret,
       Ref: resource => resource.id,
       Id: resource => resource.id,
+      ClientId: resource => resource.id,
     },
   });
 
@@ -263,7 +264,7 @@ export function registerCognitoMappings() {
     },
     attributes: {
       Ref: resource => resource.id,
-      Id: resource => resource.id,
+      UserPoolId: resource => resource.id,
       Arn: resource => resource.arn,
       ProviderName: resource => resource.endpoint,
       ProviderURL: resource => `https://${resource.endpoint}`,

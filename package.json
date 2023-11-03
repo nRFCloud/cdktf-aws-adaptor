@@ -58,7 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^6.9.1",
     "@typescript-eslint/parser": "^6.9.1",
     "@vitest/coverage-v8": "^0.34.6",
-    "aws-cdk-lib": ">=2.101.0",
+    "aws-cdk-lib": "^2.104.0",
     "cdktf": "^0.19.0",
     "cdktf-cli": "^0.18.2",
     "constructs": "^10.2.69",
