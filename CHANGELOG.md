@@ -1,5 +1,14 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.4.0
+
+### Minor Changes
+
+- 822b071: add log group mapping
+- 822b071: add mapping for cloudfront distro
+- 822b071: update cc mappings
+- 822b071: add mapping for lambda functions
+
 ## 0.3.0
 
 ### Minor Changes
