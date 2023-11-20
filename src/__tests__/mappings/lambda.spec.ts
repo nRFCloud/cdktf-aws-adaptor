@@ -2,10 +2,10 @@ import { LambdaFunction } from "@cdktf/provider-aws/lib/lambda-function/index.js
 import { LambdaLayerVersionPermission } from "@cdktf/provider-aws/lib/lambda-layer-version-permission/index.js";
 import { LambdaLayerVersion } from "@cdktf/provider-aws/lib/lambda-layer-version/index.js";
 import { LambdaPermission } from "@cdktf/provider-aws/lib/lambda-permission/index.js";
+import AdmZip from "adm-zip";
 import { CfnFunction, CfnLayerVersion, CfnLayerVersionPermission, CfnPermission } from "aws-cdk-lib/aws-lambda";
 import { Testing } from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
-import { readFileSync } from "node:fs";
 import { describe } from "vitest";
 import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
 
@@ -191,7 +191,7 @@ describe("Lambda mappings", () => {
         snapStart: {
           applyOn: "1",
         },
-        filename: "assets/resource_Code_901B5548/41ECB52905810203770A011E90C102B8",
+        filename: "assets/resource_Code_901B5548/41ECB52905810203770A011E90C102B8/archive.zip",
         s3Key: "s3Key",
         s3ObjectVersion: "s3ObjectVersion",
         tags: {
@@ -203,7 +203,8 @@ describe("Lambda mappings", () => {
     const output = Testing.fullSynth(stack);
 
     const inlinePath = resolve(resource, resource.filenameInput as string);
-    const inlineContent = readFileSync(output + `/stacks/${stack.node.id}/` + inlinePath + "/index.js", "utf-8");
-    expect(inlineContent).toEqual("console.log(true);");
+    const archivePath = output + `/stacks/${stack.node.id}/` + inlinePath;
+    const zipFile = new AdmZip(archivePath);
+    expect(zipFile.readAsText("index.js")).toEqual("console.log(true);");
   });
 });

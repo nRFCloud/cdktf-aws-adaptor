@@ -103,7 +103,7 @@ export function registerLambdaMappings() {
         const tmpFilePath = mkdtempSync(tmpdir() + "/");
         writeFileSync(tmpFilePath + "/index.js", lambdaProps.Code.ZipFile);
         codeAsset = new TerraformAsset(scope, "Code", {
-          type: AssetType.DIRECTORY,
+          type: AssetType.ARCHIVE,
           path: tmpFilePath,
         });
       }

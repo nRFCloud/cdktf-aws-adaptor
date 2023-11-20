@@ -31,6 +31,9 @@ devDependencies:
   '@eslint/js':
     specifier: ^8.52.0
     version: 8.52.0
+  '@types/adm-zip':
+    specifier: ^0.5.4
+    version: 0.5.4
   '@types/debug':
     specifier: ^4.1.8
     version: 4.1.8
@@ -46,6 +49,9 @@ devDependencies:
   '@vitest/coverage-v8':
     specifier: ^0.34.6
     version: 0.34.6(vitest@0.34.6)
+  adm-zip:
+    specifier: ^0.5.10
+    version: 0.5.10
   aws-cdk-lib:
     specifier: ^2.104.0
     version: 2.104.0(constructs@10.2.69)
@@ -1875,6 +1881,12 @@ packages:
       tslib: 2.6.2
     dev: true
 
+  /@types/adm-zip@0.5.4:
+    resolution: {integrity: sha512-/pYie/76O0TTqU4L/z1XqQ5mA5QvScaP/EO3lpH7iQ6/AjioYyuvi2IAmQeimuTTnytl03e9g8YFYkGV2Bxojw==}
+    dependencies:
+      '@types/node': 18.15.5
+    dev: true
+
   /@types/chai-subset@1.3.4:
     resolution: {integrity: sha512-CCWNXrJYSUIojZ1149ksLl3AN9cmZ5djf+yUoVVV+NuYrtydItQVlL2ZDqyC6M6O9LWRnVf8yYDxbXHO2TfQZg==}
     dependencies:
@@ -2188,6 +2200,11 @@ packages:
   /address@1.2.2:
     resolution: {integrity: sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA==}
     engines: {node: '>= 10.0.0'}
+    dev: true
+
+  /adm-zip@0.5.10:
+    resolution: {integrity: sha512-x0HvcHqVJNTPk/Bw8JbLWlWoo6Wwnsug0fnYYro1HBrjxZ3G7/AZk7Ahv8JwDe1uIcz8eBqvu86FuF1POiG7vQ==}
+    engines: {node: '>=6.0'}
     dev: true
 
   /agent-base@6.0.2:
@@ -3066,7 +3083,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231102
+      typescript: 5.4.0-dev.20231120
     dev: true
 
   /dprint@0.35.3:
@@ -6045,8 +6062,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.3.0-dev.20231102:
-    resolution: {integrity: sha512-M1maLdHyAvE+y4w27IBplkqekR5Lzf2B7XualvF3lXJUC2165swvSmpThFdfHcXxP/+/SYmLI9z2CVvN7pEK+g==}
+  /typescript@5.4.0-dev.20231120:
+    resolution: {integrity: sha512-MG4Zg5HXb8bnvGdZrMeLBekqbCjHjaMPewXh3wVrNgTF+toQ4BrdhXnYiqMU0pLLxcsxRSMPB5MzB7YHgr67Cg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
