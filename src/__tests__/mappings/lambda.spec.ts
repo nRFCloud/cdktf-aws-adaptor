@@ -191,8 +191,7 @@ describe("Lambda mappings", () => {
         snapStart: {
           applyOn: "1",
         },
-        filename:
-          "assets/resource_Code_901B5548/41ECB52905810203770A011E90C102B8/T2c2501b5951d220250aa1c6088b0fb96c985ec9a394f3dde08b8b5dc85addbeb",
+        filename: "assets/resource_Code_901B5548/41ECB52905810203770A011E90C102B8",
         s3Key: "s3Key",
         s3ObjectVersion: "s3ObjectVersion",
         tags: {
@@ -204,7 +203,7 @@ describe("Lambda mappings", () => {
     const output = Testing.fullSynth(stack);
 
     const inlinePath = resolve(resource, resource.filenameInput as string);
-    const inlineContent = readFileSync(output + `/stacks/${stack.node.id}/` + inlinePath, "utf-8");
+    const inlineContent = readFileSync(output + `/stacks/${stack.node.id}/` + inlinePath + "/index.js", "utf-8");
     expect(inlineContent).toEqual("console.log(true);");
   });
 });

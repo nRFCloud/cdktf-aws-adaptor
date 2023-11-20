@@ -175,7 +175,7 @@ exports[`Lambda mappings > should map CfnFunction to LambdaFunction 1`] = `
           \\"arn\\": \\"arn\\",
           \\"local_mount_path\\": \\"localMountPath\\"
         },
-        \\"filename\\": \\"assets/resource_Code_901B5548/41ECB52905810203770A011E90C102B8/T2c2501b5951d220250aa1c6088b0fb96c985ec9a394f3dde08b8b5dc85addbeb\\",
+        \\"filename\\": \\"assets/resource_Code_901B5548/41ECB52905810203770A011E90C102B8\\",
         \\"function_name\\": \\"functionName\\",
         \\"handler\\": \\"handler\\",
         \\"image_config\\": {

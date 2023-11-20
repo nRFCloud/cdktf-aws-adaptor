@@ -5,8 +5,7 @@ import { LambdaPermission } from "@cdktf/provider-aws/lib/lambda-permission/inde
 import { IResolvable, Names } from "aws-cdk-lib";
 import { CfnFunction, CfnLayerVersion, CfnLayerVersionPermission, CfnPermission } from "aws-cdk-lib/aws-lambda";
 import { AssetType, Fn, TerraformAsset } from "cdktf";
-import { createHash } from "node:crypto";
-import { writeFileSync } from "node:fs";
+import { mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
@@ -101,10 +100,10 @@ export function registerLambdaMappings() {
     resource(scope, id, lambdaProps): LambdaFunction {
       let codeAsset: TerraformAsset | undefined;
       if (lambdaProps.Code?.ZipFile) {
-        const tmpFilePath = tmpdir() + createHash("sha256").update(lambdaProps.Code.ZipFile).digest("hex");
-        writeFileSync(tmpFilePath, lambdaProps.Code.ZipFile);
+        const tmpFilePath = mkdtempSync(tmpdir() + "/");
+        writeFileSync(tmpFilePath + "/index.js", lambdaProps.Code.ZipFile);
         codeAsset = new TerraformAsset(scope, "Code", {
-          type: AssetType.FILE,
+          type: AssetType.DIRECTORY,
           path: tmpFilePath,
         });
       }
