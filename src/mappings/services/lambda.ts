@@ -4,7 +4,10 @@ import { LambdaLayerVersion } from "@cdktf/provider-aws/lib/lambda-layer-version
 import { LambdaPermission } from "@cdktf/provider-aws/lib/lambda-permission/index.js";
 import { IResolvable, Names } from "aws-cdk-lib";
 import { CfnFunction, CfnLayerVersion, CfnLayerVersionPermission, CfnPermission } from "aws-cdk-lib/aws-lambda";
-import { Fn } from "cdktf";
+import { AssetType, Fn, TerraformAsset } from "cdktf";
+import { createHash } from "node:crypto";
+import { writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerLambdaMappings() {
@@ -96,10 +99,21 @@ export function registerLambdaMappings() {
   //
   registerMappingTyped(CfnFunction, LambdaFunction, {
     resource(scope, id, lambdaProps): LambdaFunction {
+      let codeAsset: TerraformAsset | undefined;
+      if (lambdaProps.Code?.ZipFile) {
+        const tmpFilePath = tmpdir() + createHash("sha256").update(lambdaProps.Code.ZipFile).digest("hex");
+        writeFileSync(tmpFilePath, lambdaProps.Code.ZipFile);
+        codeAsset = new TerraformAsset(scope, "Code", {
+          type: AssetType.FILE,
+          path: tmpFilePath,
+        });
+      }
+
       const mapped: LambdaFunctionConfig = {
         ephemeralStorage: {
           size: lambdaProps.EphemeralStorage?.Size as number,
         },
+        filename: codeAsset?.path,
         description: lambdaProps.Description,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         tags: Object.fromEntries(lambdaProps.Tags?.map(({ Key, Value }) => [Key, Value]) || []),
