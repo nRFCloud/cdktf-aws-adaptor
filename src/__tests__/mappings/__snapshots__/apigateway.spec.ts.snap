@@ -176,6 +176,65 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Integration 1`] = `
 }"
 `;
 
+exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Route 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_apigatewayv2_route\\": {
+      \\"resource_22C949BF\\": {
+        \\"api_id\\": \\"api-id\\",
+        \\"api_key_required\\": true,
+        \\"authorization_scopes\\": [
+          \\"authorization-scope\\"
+        ],
+        \\"authorization_type\\": \\"authorization-type\\",
+        \\"authorizer_id\\": \\"authorizer-id\\",
+        \\"model_selection_expression\\": \\"model-selection-expression\\",
+        \\"operation_name\\": \\"operation-name\\",
+        \\"request_models\\": {
+          \\"request-model\\": \\"request-model-value\\"
+        },
+        \\"request_parameter\\": [
+          {
+            \\"request_parameter_key\\": \\"request-parameter\\",
+            \\"required\\": false
+          }
+        ],
+        \\"route_key\\": \\"route-key\\",
+        \\"route_response_selection_expression\\": \\"route-response-selection-expression\\",
+        \\"target\\": \\"target\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.23.1\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_apigatewayv2_route.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
 exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Stage 1`] = `
 "{
   \\"provider\\": {
