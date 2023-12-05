@@ -13,11 +13,8 @@ exports[`SNS mappings > AWS:SNS:Subscription > should translate 1`] = `
   \\"resource\\": {
     \\"aws_sns_topic_subscription\\": {
       \\"resource_22C949BF\\": {
-        \\"delivery_policy\\": \\"\${jsonencode()}\\",
         \\"endpoint\\": \\"example-endpoint.example\\",
-        \\"filter_policy\\": \\"\${jsonencode()}\\",
         \\"protocol\\": \\"https\\",
-        \\"redrive_policy\\": \\"\${jsonencode()}\\",
         \\"topic_arn\\": \\"ExampleArn\\"
       }
     }
