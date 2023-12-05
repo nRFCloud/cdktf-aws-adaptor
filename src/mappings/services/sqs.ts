@@ -1,4 +1,4 @@
-import { SqsQueuePolicy, SqsQueuePolicyConfig } from "@cdktf/provider-aws/lib/sqs-queue-policy";
+import { SqsQueuePolicy, SqsQueuePolicyConfig } from "@cdktf/provider-aws/lib/sqs-queue-policy/index.js";
 import { CfnQueuePolicy } from "aws-cdk-lib/aws-sqs";
 import { Fn } from "cdktf";
 import { registerMappingTyped } from "../utils.js";
