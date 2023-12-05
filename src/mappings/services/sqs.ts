@@ -5,26 +5,27 @@ import { registerMappingTyped } from "../utils.js";
 
 export function registerSqsMappings() {
   registerMappingTyped(CfnQueuePolicy, SqsQueuePolicy, {
-    resource(scope, id, config) {
-      const configEncoded = Fn.jsonencode(config.PolicyDocument);
-      const configs = config.Queues.map((queue): SqsQueuePolicyConfig => ({
-        policy: configEncoded,
+    resource(scope, id, props) {
+      const policiesEncoded = Fn.jsonencode(props.PolicyDocument);
+      const sqsQueuePolicies = props.Queues.map((queue): SqsQueuePolicyConfig => ({
+        policy: policiesEncoded,
         queueUrl: queue,
-      })).map((queuePolicyConfig, index, configs) =>
-        new SqsQueuePolicy(scope, index === configs.length - 1 ? id : id + index, queuePolicyConfig)
+      })).map((queuePolicyConfig, index) =>
+        new SqsQueuePolicy(scope, index === props.Queues.length - 1 ? id : id + index, queuePolicyConfig)
       );
-      configs.forEach((config, index) => {
-        const prevConfig = configs[index - 1];
-        if (prevConfig) {
-          config.node.addDependency(prevConfig);
-        }
-      });
 
-      return configs.at(-1)!;
+      for (const [index, sqsQueuePolicy] of sqsQueuePolicies.entries()) {
+        const prevConfig = sqsQueuePolicies[index - 1];
+        if (prevConfig) {
+          sqsQueuePolicy.node.addDependency(prevConfig);
+        }
+      }
+
+      return sqsQueuePolicies.at(-1)!;
     },
     attributes: {
       Id: (resource) => resource.id,
-      Ref: (ref) => ref.id,
+      Ref: (resource) => resource.id,
     },
   });
 }

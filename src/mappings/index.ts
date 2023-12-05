@@ -11,6 +11,7 @@ import { registerLambdaMappings } from "./services/lambda.js";
 import { registerLogMappings } from "./services/logs.js";
 import { registerRoute53Mappings } from "./services/route53.js";
 import { registerS3Mappings } from "./services/s3.js";
+import { registerSnsMappings } from "./services/sns.js";
 import { registerSqsMappings } from "./services/sqs.js";
 import { registerMapping } from "./utils.js";
 
@@ -36,6 +37,7 @@ export function registerMappings() {
   registerLogMappings();
   registerCloudfrontMappings();
   registerSqsMappings();
+  registerSnsMappings();
 }
 
 registerMappings();
