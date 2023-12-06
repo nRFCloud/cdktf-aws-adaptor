@@ -1,5 +1,6 @@
 import { SnsTopicSubscription } from "@cdktf/provider-aws/lib/sns-topic-subscription/index.js";
 import { CfnSubscription } from "aws-cdk-lib/aws-sns";
+import { Fn } from "cdktf";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerSnsMappings() {
@@ -12,11 +13,11 @@ export function registerSnsMappings() {
           endpoint: props.Endpoint!,
           protocol: props.Protocol,
           topicArn: props.TopicArn,
-          deliveryPolicy: props.DeliveryPolicy,
-          filterPolicy: props.FilterPolicy,
+          deliveryPolicy: props.DeliveryPolicy && Fn.jsonencode(props.DeliveryPolicy),
+          filterPolicy: props.FilterPolicy && Fn.jsonencode(props.FilterPolicy),
           filterPolicyScope: props.FilterPolicyScope,
           rawMessageDelivery: props.RawMessageDelivery,
-          redrivePolicy: props.RedrivePolicy,
+          redrivePolicy: props.RedrivePolicy && Fn.jsonencode(props.RedrivePolicy),
           subscriptionRoleArn: props.SubscriptionRoleArn,
         }),
       );
