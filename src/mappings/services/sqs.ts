@@ -6,6 +6,8 @@ import { registerMappingTyped } from "../utils.js";
 export function registerSqsMappings() {
   registerMappingTyped(CfnQueuePolicy, SqsQueuePolicy, {
     resource(scope, id, props) {
+      console.log(id);
+      console.log(props);
       const policiesEncoded = Fn.jsonencode(props.PolicyDocument);
       const sqsQueuePolicies = props.Queues.map((queue): SqsQueuePolicyConfig => ({
         policy: policiesEncoded,
@@ -20,7 +22,7 @@ export function registerSqsMappings() {
           sqsQueuePolicy.node.addDependency(prevConfig);
         }
       }
-
+      console.log(sqsQueuePolicies);
       return sqsQueuePolicies.at(-1)!;
     },
     attributes: {
