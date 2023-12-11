@@ -42,10 +42,13 @@ describe("SQS mappings", () => {
           queueUrl: queueUrl2,
         },
       );
-
       expect(synth).toHaveResourceWithProperties(SqsQueuePolicy, {
         policy: "${jsonencode({\"read\" = true})}",
         queue_url: queueUrl1,
+      });
+      expect(synth).toHaveResourceWithProperties(SqsQueuePolicy, {
+        policy: "${jsonencode({\"read\" = true})}",
+        queue_url: queueUrl2,
       });
     });
   });
