@@ -3,6 +3,7 @@ import { ApiGatewayBasePathMapping } from "@cdktf/provider-aws/lib/api-gateway-b
 import { Apigatewayv2Authorizer } from "@cdktf/provider-aws/lib/apigatewayv2-authorizer/index.js";
 import { Apigatewayv2DomainName } from "@cdktf/provider-aws/lib/apigatewayv2-domain-name/index.js";
 import { Apigatewayv2Integration } from "@cdktf/provider-aws/lib/apigatewayv2-integration/index.js";
+import { Apigatewayv2Route } from "@cdktf/provider-aws/lib/apigatewayv2-route/index.js";
 import { Apigatewayv2Stage } from "@cdktf/provider-aws/lib/apigatewayv2-stage/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnAccount, CfnBasePathMapping, CfnDeployment, CfnStage } from "aws-cdk-lib/aws-apigateway";
@@ -10,6 +11,7 @@ import {
   CfnAuthorizer as CfnAuthorizerV2,
   CfnDomainName as CfnDomainNameV2,
   CfnIntegration as CfnIntegrationV2,
+  CfnRoute as CfnRouteV2,
   CfnStage as CfnStageV2,
 } from "aws-cdk-lib/aws-apigatewayv2";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
@@ -353,6 +355,48 @@ describe("Apigateway mappings", () => {
       authorizerResultTtlInSeconds: 60,
       authorizerType: "authorizer-type",
       authorizerUri: "authorizer-uri",
+    },
+  );
+
+  itShouldMapCfnElementToTerraformResource(
+    CfnRouteV2,
+    {
+      apiId: "api-id",
+      apiKeyRequired: true,
+      authorizationScopes: ["authorization-scope"],
+      authorizationType: "authorization-type",
+      requestParameters: {
+        "request-parameter": "request-parameter-value",
+      },
+      routeKey: "route-key",
+      routeResponseSelectionExpression: "route-response-selection-expression",
+      target: "target",
+      operationName: "operation-name",
+      requestModels: {
+        "request-model": "request-model-value",
+      },
+      modelSelectionExpression: "model-selection-expression",
+      authorizerId: "authorizer-id",
+    },
+    Apigatewayv2Route,
+    {
+      apiId: "api-id",
+      apiKeyRequired: true,
+      authorizationScopes: ["authorization-scope"],
+      authorizationType: "authorization-type",
+      requestParameter: [{
+        required: false,
+        requestParameterKey: "request-parameter",
+      }],
+      routeKey: "route-key",
+      routeResponseSelectionExpression: "route-response-selection-expression",
+      target: "target",
+      operationName: "operation-name",
+      requestModels: {
+        "request-model": "request-model-value",
+      },
+      authorizerId: "authorizer-id",
+      modelSelectionExpression: "model-selection-expression",
     },
   );
 });

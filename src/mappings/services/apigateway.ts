@@ -13,6 +13,7 @@ import {
   Apigatewayv2IntegrationConfig,
   Apigatewayv2IntegrationResponseParameters,
 } from "@cdktf/provider-aws/lib/apigatewayv2-integration/index.js";
+import { Apigatewayv2Route, Apigatewayv2RouteConfig } from "@cdktf/provider-aws/lib/apigatewayv2-route/index.js";
 import { Apigatewayv2Stage, Apigatewayv2StageConfig } from "@cdktf/provider-aws/lib/apigatewayv2-stage/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnAccount, CfnBasePathMapping, CfnDeployment, CfnStage } from "aws-cdk-lib/aws-apigateway";
@@ -20,6 +21,7 @@ import {
   CfnAuthorizer as CfnAuthorizerV2,
   CfnDomainName as CfnDomainNameV2,
   CfnIntegration as CfnIntegrationV2,
+  CfnRoute as CfnRouteV2,
   CfnStage as CfnStageV2,
 } from "aws-cdk-lib/aws-apigatewayv2";
 import { Fn } from "cdktf";
@@ -259,6 +261,39 @@ export function registerApiGatewayMappings() {
     unsupportedProps: ["IdentityValidationExpression"],
     attributes: {
       AuthorizerId: res => res.id,
+      Ref: res => res.id,
+    },
+  });
+
+  registerMappingTyped(CfnRouteV2, Apigatewayv2Route, {
+    resource(scope, id, props) {
+      const requestParameter =
+        Object.entries((props.RequestParameters || {}) as { [key: string]: { Required?: boolean } }).map((
+          [key, value],
+        ) => ({
+          requestParameterKey: key,
+          required: value.Required || false,
+        })) || [];
+
+      const config: Apigatewayv2RouteConfig = {
+        apiId: props.ApiId,
+        apiKeyRequired: props.ApiKeyRequired,
+        authorizationScopes: props.AuthorizationScopes,
+        authorizationType: props.AuthorizationType,
+        authorizerId: props.AuthorizerId,
+        modelSelectionExpression: props.ModelSelectionExpression,
+        operationName: props.OperationName,
+        requestModels: props.RequestModels,
+        requestParameter,
+        routeKey: props.RouteKey,
+        routeResponseSelectionExpression: props.RouteResponseSelectionExpression,
+        target: props.Target,
+      };
+
+      return new Apigatewayv2Route(scope, id, deleteUndefinedKeys(config));
+    },
+    attributes: {
+      RouteId: res => res.id,
       Ref: res => res.id,
     },
   });
