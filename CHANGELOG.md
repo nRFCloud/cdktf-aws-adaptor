@@ -1,5 +1,13 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.5.0
+
+### Minor Changes
+
+- 5172166: Add mapping for AWS:SQS:QueuePolicy
+- a2560eb: Add mapping for AWS:SNS:Subscription
+- a3df412: Add parameter mapping for ApiGatewayV2Route.
+
 ## 0.4.0
 
 ### Minor Changes
