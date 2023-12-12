@@ -1,0 +1,88 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to multiple SqsQueuePolicy 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_sqs_queue_policy\\": {
+      \\"resource_22C949BF\\": {
+        \\"depends_on\\": [
+          \\"aws_sqs_queue_policy.resource_resource0_0E1F9B69\\"
+        ],
+        \\"policy\\": \\"\${jsonencode({\\\\\\"read\\\\\\" = true})}\\",
+        \\"queue_url\\": \\"https://sqs:us-east-2.amazonaws.com/444455556666/queue2\\"
+      },
+      \\"resource_resource0_0E1F9B69\\": {
+        \\"policy\\": \\"\${jsonencode({\\\\\\"read\\\\\\" = true})}\\",
+        \\"queue_url\\": \\"https://sqs:us-east-2.amazonaws.com/444455556666/queue1\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.23.1\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_sqs_queue_policy.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to single SqsQueuePolicy 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_sqs_queue_policy\\": {
+      \\"resource_22C949BF\\": {
+        \\"policy\\": \\"\${jsonencode({\\\\\\"read\\\\\\" = true})}\\",
+        \\"queue_url\\": \\"https://sqs:us-east-2.amazonaws.com/444455556666/queue1\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.23.1\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_sqs_queue_policy.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
