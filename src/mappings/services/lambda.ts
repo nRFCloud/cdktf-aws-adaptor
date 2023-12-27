@@ -1,9 +1,20 @@
+import {
+  LambdaAlias,
+  LambdaAliasConfig,
+  LambdaAliasRoutingConfig,
+} from "@cdktf/provider-aws/lib/lambda-alias/index.js";
 import { LambdaFunction, LambdaFunctionConfig } from "@cdktf/provider-aws/lib/lambda-function/index.js";
 import { LambdaLayerVersionPermission } from "@cdktf/provider-aws/lib/lambda-layer-version-permission/index.js";
 import { LambdaLayerVersion } from "@cdktf/provider-aws/lib/lambda-layer-version/index.js";
 import { LambdaPermission } from "@cdktf/provider-aws/lib/lambda-permission/index.js";
 import { IResolvable, Names } from "aws-cdk-lib";
-import { CfnFunction, CfnLayerVersion, CfnLayerVersionPermission, CfnPermission } from "aws-cdk-lib/aws-lambda";
+import {
+  CfnAlias,
+  CfnFunction,
+  CfnLayerVersion,
+  CfnLayerVersionPermission,
+  CfnPermission,
+} from "aws-cdk-lib/aws-lambda";
 import { Fn } from "cdktf";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
@@ -84,6 +95,39 @@ export function registerLambdaMappings() {
     attributes: {
       Ref: (versionPermission: LambdaLayerVersionPermission) => versionPermission.id,
       Id: resource => resource.id,
+    },
+  });
+
+  registerMappingTyped(CfnAlias, LambdaAlias, {
+    resource: (scope, id, props): LambdaAlias => {
+      const lambdaAliasConfig: LambdaAliasConfig = {
+        description: props.Description,
+        functionName: props.FunctionName!,
+        functionVersion: props.FunctionVersion!,
+        name: props.Name,
+        routingConfig: {
+          additionalVersionWeights: props.RoutingConfig?.AdditionalVersionWeights.reduce((carry, weight) => {
+            return {
+              ...carry,
+              [weight.FunctionVersion]: weight.FunctionWeight,
+            };
+          }, {}),
+        } as LambdaAliasRoutingConfig,
+      };
+
+      const alias = new LambdaAlias(
+        scope,
+        id,
+        lambdaAliasConfig,
+      );
+
+      alias.name = props.Name || Names.uniqueResourceName(alias, { maxLength: 64 });
+      return alias;
+    },
+    unsupportedProps: ["ProvisionedConcurrencyConfig"],
+    attributes: {
+      Ref: (alias: LambdaAlias) => alias.id,
+      Id: (alias: LambdaAlias) => alias.id,
     },
   });
 

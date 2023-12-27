@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Lambda mappings > Should map AWS::Lambda::LayerVersion 1`] = `
+exports[`Lambda mappings > should map CfnAlias to LambdaAlias 1`] = `
 "{
   \\"provider\\": {
     \\"aws\\": [
@@ -11,212 +11,17 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersion 1`] = `
     ]
   },
   \\"resource\\": {
-    \\"aws_lambda_layer_version\\": {
+    \\"aws_lambda_alias\\": {
       \\"resource_22C949BF\\": {
-        \\"compatible_architectures\\": [
-          \\"x86_64\\"
-        ],
-        \\"compatible_runtimes\\": [
-          \\"nodejs12.x\\"
-        ],
-        \\"description\\": \\"my description\\",
-        \\"layer_name\\": \\"my-layer\\",
-        \\"license_info\\": \\"my-license\\",
-        \\"s3_bucket\\": \\"my-bucket\\",
-        \\"s3_key\\": \\"my-key\\",
-        \\"s3_object_version\\": \\"my-version\\",
-        \\"skip_destroy\\": true
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
-      }
-    },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
-      }
-    }
-  },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_lambda_layer_version.resource_22C949BF.arn}\\",
-      \\"type\\": \\"string\\"
-    }
-  }
-}"
-`;
-
-exports[`Lambda mappings > Should map AWS::Lambda::LayerVersionPermission 1`] = `
-"{
-  \\"provider\\": {
-    \\"aws\\": [
-      {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
-      }
-    ]
-  },
-  \\"resource\\": {
-    \\"aws_lambda_layer_version_permission\\": {
-      \\"resource_22C949BF\\": {
-        \\"action\\": \\"lambda:GetLayerVersion\\",
-        \\"layer_name\\": \\"arn:aws:lambda:us-east-1:123456789012:layer:my-layer:1\\",
-        \\"organization_id\\": \\"o-123456\\",
-        \\"principal\\": \\"123456789012\\",
-        \\"skip_destroy\\": true,
-        \\"statement_id\\": \\"teststackawstackresourceC278F851\\",
-        \\"version_number\\": \\"\${tonumber(element(split(\\\\\\":\\\\\\", \\\\\\"arn:aws:lambda:us-east-1:123456789012:layer:my-layer:1\\\\\\"), 7))}\\"
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
-      }
-    },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
-      }
-    }
-  },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_lambda_layer_version_permission.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
-    }
-  }
-}"
-`;
-
-exports[`Lambda mappings > Should map AWS::Lambda::Permission 1`] = `
-"{
-  \\"provider\\": {
-    \\"aws\\": [
-      {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
-      }
-    ]
-  },
-  \\"resource\\": {
-    \\"aws_lambda_permission\\": {
-      \\"resource_22C949BF\\": {
-        \\"action\\": \\"lambda:InvokeFunction\\",
-        \\"event_source_token\\": \\"token\\",
-        \\"function_name\\": \\"my-function\\",
-        \\"function_url_auth_type\\": \\"IAM\\",
-        \\"principal\\": \\"sns.amazonaws.com\\",
-        \\"principal_org_id\\": \\"123456789012\\",
-        \\"source_account\\": \\"123456789012\\",
-        \\"source_arn\\": \\"arn:aws:sns:us-east-1:123456789012:my-topic-1a2b3c4d\\"
-      }
-    }
-  },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
-      }
-    },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
-      }
-    }
-  },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_lambda_permission.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
-    }
-  }
-}"
-`;
-
-exports[`Lambda mappings > should map CfnFunction to LambdaFunction 1`] = `
-"{
-  \\"provider\\": {
-    \\"aws\\": [
-      {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
-      }
-    ]
-  },
-  \\"resource\\": {
-    \\"aws_lambda_function\\": {
-      \\"resource_22C949BF\\": {
-        \\"architectures\\": [
-          \\"x86_64\\"
-        ],
-        \\"code_signing_config_arn\\": \\"codeSigningConfigArn\\",
-        \\"dead_letter_config\\": {
-          \\"target_arn\\": \\"targetArn\\"
-        },
         \\"description\\": \\"description\\",
-        \\"environment\\": {
-          \\"variables\\": {
-            \\"key\\": \\"value\\"
-          }
-        },
-        \\"ephemeral_storage\\": {
-          \\"size\\": 1
-        },
-        \\"file_system_config\\": {
-          \\"arn\\": \\"arn\\",
-          \\"local_mount_path\\": \\"localMountPath\\"
-        },
         \\"function_name\\": \\"functionName\\",
-        \\"handler\\": \\"handler\\",
-        \\"image_config\\": {
-          \\"command\\": [
-            \\"command\\"
-          ],
-          \\"entry_point\\": [
-            \\"entryPoint\\"
-          ],
-          \\"working_directory\\": \\"workingDirectory\\"
-        },
-        \\"image_uri\\": \\"imageUri\\",
-        \\"kms_key_arn\\": \\"kmsKeyArn\\",
-        \\"layers\\": [
-          \\"layers\\"
-        ],
-        \\"memory_size\\": 1,
-        \\"package_type\\": \\"packageType\\",
-        \\"publish\\": true,
-        \\"reserved_concurrent_executions\\": 1,
-        \\"role\\": \\"role\\",
-        \\"runtime\\": \\"runtime\\",
-        \\"s3_bucket\\": \\"s3Bucket\\",
-        \\"s3_key\\": \\"s3Key\\",
-        \\"s3_object_version\\": \\"s3ObjectVersion\\",
-        \\"snap_start\\": {
-          \\"apply_on\\": \\"1\\"
-        },
-        \\"tags\\": {
-          \\"key\\": \\"value\\"
-        },
-        \\"timeout\\": 1,
-        \\"tracing_config\\": {
-          \\"mode\\": \\"Active\\"
-        },
-        \\"vpc_config\\": {
-          \\"security_group_ids\\": [
-            \\"securityGroupIds\\"
-          ],
-          \\"subnet_ids\\": [
-            \\"subnetIds\\"
-          ]
+        \\"function_version\\": \\"functionVersion\\",
+        \\"name\\": \\"name\\",
+        \\"routing_config\\": {
+          \\"additional_version_weights\\": {
+            \\"1\\": 2,
+            \\"2\\": 1
+          }
         }
       }
     }
@@ -236,7 +41,7 @@ exports[`Lambda mappings > should map CfnFunction to LambdaFunction 1`] = `
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_lambda_function.resource_22C949BF.arn, \\\\\\",\\\\\\", \\\\\\"[object Object]\\\\\\", \\\\\\",\\\\\\", aws_lambda_function.resource_22C949BF.snap_start[0].apply_on, \\\\\\",\\\\\\", aws_lambda_function.resource_22C949BF.snap_start[0].optimization_status])}\\",
+      \\"default\\": \\"\${aws_lambda_alias.resource_22C949BF.id}\\",
       \\"type\\": \\"string\\"
     }
   }
