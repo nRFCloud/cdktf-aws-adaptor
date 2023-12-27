@@ -65,12 +65,10 @@ jobs:
       - name: Prepare
         run: pnpm i
       - name: Build
-        run: pnpm build:clean
+        run: pnpm build
       - name: Publish
         id: publish
         uses: apkostka/changesets-snapshot@v0
-        with:
-          pre-publish: pnpm build
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
