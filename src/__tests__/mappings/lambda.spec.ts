@@ -86,7 +86,7 @@ describe("Lambda mappings", () => {
     },
   );
 
-  it.only("should map CfnAlias to LambdaAlias", () => {
+  it("should map CfnAlias to LambdaAlias", () => {
     synthesizeElementAndTestStability(
       CfnAlias,
       {
