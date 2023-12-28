@@ -1,0 +1,100 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`CodeDeploy mappings > should map CfnFunction to LambdaFunction 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_codedeploy_deployment_group\\": {
+      \\"resource_22C949BF\\": {
+        \\"app_name\\": \\"my-application\\",
+        \\"auto_rollback_configuration\\": {
+          \\"enabled\\": true,
+          \\"events\\": [
+            \\"DEPLOYMENT_FAILURE\\"
+          ]
+        },
+        \\"deployment_config_name\\": \\"CodeDeployDefault.LambdaAllAtOnce\\",
+        \\"deployment_group_name\\": \\"my-deployment-group\\",
+        \\"deployment_style\\": {
+          \\"deployment_option\\": \\"WITH_TRAFFIC_CONTROL\\",
+          \\"deployment_type\\": \\"BLUE_GREEN\\"
+        },
+        \\"ec2_tag_filter\\": [
+          {
+            \\"key\\": \\"my-key\\",
+            \\"type\\": \\"KEY_AND_VALUE\\",
+            \\"value\\": \\"my-value\\"
+          }
+        ],
+        \\"ec2_tag_set\\": [
+          {
+            \\"ec2_tag_filter\\": [
+              {
+                \\"key\\": \\"my-key\\",
+                \\"type\\": \\"KEY_AND_VALUE\\",
+                \\"value\\": \\"my-value\\"
+              }
+            ]
+          }
+        ],
+        \\"ecs_service\\": {
+          \\"cluster_name\\": \\"my-cluster\\",
+          \\"service_name\\": \\"my-service\\"
+        },
+        \\"load_balancer_info\\": {
+          \\"elb_info\\": [
+            {
+              \\"name\\": \\"my-elb\\"
+            }
+          ]
+        },
+        \\"on_premises_instance_tag_filter\\": [
+          {
+            \\"key\\": \\"my-key\\",
+            \\"type\\": \\"KEY_AND_VALUE\\",
+            \\"value\\": \\"my-value\\"
+          }
+        ],
+        \\"service_role_arn\\": \\"arn:aws:iam::123456789012:role/CodeDeployServiceRole\\",
+        \\"tags\\": {
+        },
+        \\"trigger_configuration\\": [
+          {
+            \\"trigger_events\\": [
+              \\"DeploymentFailure\\"
+            ],
+            \\"trigger_name\\": \\"my-trigger\\",
+            \\"trigger_target_arn\\": \\"arn:aws:sns:us-east-1:123456789012:my-topic\\"
+          }
+        ]
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.23.1\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_codedeploy_deployment_group.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
