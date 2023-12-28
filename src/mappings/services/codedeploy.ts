@@ -1,7 +1,7 @@
 import {
   CodedeployDeploymentGroup,
   CodedeployDeploymentGroupConfig,
-} from "@cdktf/provider-aws/lib/codedeploy-deployment-group";
+} from "@cdktf/provider-aws/lib/codedeploy-deployment-group/index.js";
 import { Names } from "aws-cdk-lib";
 import { CfnDeploymentGroup } from "aws-cdk-lib/aws-codedeploy";
 import { registerMappingTyped } from "../utils.js";
