@@ -1,5 +1,6 @@
 import { CfnResource, IResolvable } from "aws-cdk-lib";
 import { CfnDistribution } from "aws-cdk-lib/aws-cloudfront";
+import { CfnDeploymentGroupProps } from "aws-cdk-lib/aws-codedeploy";
 import { CfnIdentityPoolRoleAttachment, CfnUserPool } from "aws-cdk-lib/aws-cognito";
 import { CfnRule } from "aws-cdk-lib/aws-events";
 import { CfnPermissionProps } from "aws-cdk-lib/aws-lambda";
@@ -44,6 +45,9 @@ type HandleSpecialObjectCases<T> = T extends Exact<CfnIdentityPoolRoleAttachment
     }>
   : T extends Exact<CfnRule.EcsParametersProperty, T> ? ManualPropertyRemap<CfnRule.EcsParametersProperty, {
       "enableEcsManagedTags": "EnableECSManagedTags";
+    }>
+  : T extends Exact<CfnDeploymentGroupProps, T> ? ManualPropertyRemap<CfnDeploymentGroupProps, {
+      "ecsServices": "ECSServices";
     }>
   : T extends Exact<CfnPermissionProps, T> ? ManualPropertyRemap<CfnPermissionProps, {
       "principalOrgId": "PrincipalOrgID";

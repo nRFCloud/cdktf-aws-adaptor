@@ -2,6 +2,7 @@ import { registerApiGatewayMappings } from "./services/apigateway.js";
 import { registerAppSyncMappings } from "./services/appsync.js";
 import { registerCertificateManagerMappings } from "./services/certificate-manager.js";
 import { registerCloudfrontMappings } from "./services/cloudfront.js";
+import { registerCodedeployMappings } from "./services/codedeploy.js";
 import { registerCognitoMappings } from "./services/cognito.js";
 import { registerDynamoDBMappings } from "./services/dynamodb.js";
 import { registerEC2VPCMappings } from "./services/ec2-vpc.js";
@@ -23,6 +24,7 @@ export function registerMappings() {
     attributes: {},
   });
 
+  registerCodedeployMappings();
   registerCognitoMappings();
   registerDynamoDBMappings();
   registerLambdaMappings();
