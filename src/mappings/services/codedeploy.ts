@@ -97,7 +97,7 @@ export function registerCodedeployMappings() {
     ],
     attributes: {
       Id: (deploymentGroup: CodedeployDeploymentGroup) => deploymentGroup.id,
-      Ref: (deploymentGroup: CodedeployDeploymentGroup) => deploymentGroup.id,
+      Ref: (deploymentGroup: CodedeployDeploymentGroup) => deploymentGroup.deploymentGroupName,
     },
   });
 }

@@ -126,7 +126,7 @@ export function registerLambdaMappings() {
     },
     unsupportedProps: ["ProvisionedConcurrencyConfig"],
     attributes: {
-      Ref: (alias: LambdaAlias) => alias.id,
+      Ref: (alias: LambdaAlias) => alias.arn,
       Id: (alias: LambdaAlias) => alias.id,
     },
   });
