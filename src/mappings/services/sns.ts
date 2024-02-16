@@ -19,6 +19,7 @@ export function registerSnsMappings() {
           rawMessageDelivery: props.RawMessageDelivery,
           redrivePolicy: props.RedrivePolicy && Fn.jsonencode(props.RedrivePolicy),
           subscriptionRoleArn: props.SubscriptionRoleArn,
+          replayPolicy: props.ReplayPolicy && Fn.jsonencode(props.ReplayPolicy),
         }),
       );
     },

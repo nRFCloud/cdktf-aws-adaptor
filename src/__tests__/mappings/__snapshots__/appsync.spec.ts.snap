@@ -43,6 +43,24 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
         \\"desired_state\\": \\"\${jsonencode({\\\\\\"AssumeRolePolicyDocument\\\\\\" = {\\\\\\"Statement\\\\\\" = [{\\\\\\"Action\\\\\\" = \\\\\\"sts:AssumeRole\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"appsync.amazonaws.com\\\\\\"}}], \\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\"}, \\\\\\"ManagedPolicyArns\\\\\\" = [join(\\\\\\"\\\\\\", [\\\\\\"arn:\\\\\\", data.aws_partition.aws-partition.partition, \\\\\\":iam::aws:policy/service-role/AWSAppSyncPushToCloudWatchLogs\\\\\\"])]})}\\",
         \\"type_name\\": \\"AWS::IAM::Role\\"
       }
+    },
+    \\"aws_cloudwatch_log_group\\": {
+      \\"api_LogRetention_531D9956\\": {
+        \\"name\\": \\"\${join(\\\\\\"\\\\\\", [\\\\\\"/aws/appsync/apis/\\\\\\", aws_appsync_graphql_api.api_C8550315.id])}\\",
+        \\"skip_destroy\\": true
+      }
+    },
+    \\"aws_s3_bucket\\": {
+      \\"AssetBucket\\": {
+      }
+    },
+    \\"aws_s3_object\\": {
+      \\"asset-asset4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35-object\\": {
+        \\"bucket\\": \\"\${aws_s3_bucket.AssetBucket.bucket}\\",
+        \\"key\\": \\"4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35\\",
+        \\"source\\": \\"assets/asset-4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35/4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35/archive.zip\\",
+        \\"source_hash\\": \\"4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35\\"
+      }
     }
   },
   \\"terraform\\": {
@@ -54,7 +72,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   }
@@ -136,13 +154,13 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_graphql_api.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.arn, \\\\\\",\\\\\\", replace(replace(aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"GRAPHQL\\\\\\"], \\\\\\"https://\\\\\\", \\\\\\"\\\\\\"), \\\\\\"/graphql\\\\\\", \\\\\\"\\\\\\"), \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"GRAPHQL\\\\\\"], \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.id, \\\\\\",\\\\\\", replace(replace(aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"REALTIME\\\\\\"], \\\\\\"wss://\\\\\\", \\\\\\"\\\\\\"), \\\\\\"/graphql\\\\\\", \\\\\\"\\\\\\"), \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"REALTIME\\\\\\"]])}\\",
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_graphql_api.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.arn, \\\\\\",\\\\\\", replace(replace(aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"GRAPHQL\\\\\\"], \\\\\\"https://\\\\\\", \\\\\\"\\\\\\"), \\\\\\"/graphql\\\\\\", \\\\\\"\\\\\\"), \\\\\\",\\\\\\", \\\\\\"\\\\\\", \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"GRAPHQL\\\\\\"], \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.id, \\\\\\",\\\\\\", replace(replace(aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"REALTIME\\\\\\"], \\\\\\"wss://\\\\\\", \\\\\\"\\\\\\"), \\\\\\"/graphql\\\\\\", \\\\\\"\\\\\\"), \\\\\\",\\\\\\", aws_appsync_graphql_api.resource_22C949BF.uris[\\\\\\"REALTIME\\\\\\"]])}\\",
       \\"type\\": \\"string\\"
     }
   }
@@ -191,7 +209,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::ApiKey 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -279,7 +297,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::DataSource 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -319,7 +337,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::DomainNameApiAssociat
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -388,13 +406,13 @@ exports[`Appsync mappings > Should translate AWS::AppSync::Resolver 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_resolver.resource_22C949BF.field, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.id, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.type])}\\",
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_appsync_resolver.resource_22C949BF.field, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_appsync_resolver.resource_22C949BF.type])}\\",
       \\"type\\": \\"string\\"
     }
   }
@@ -446,7 +464,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync:FunctionConfiguration 
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },

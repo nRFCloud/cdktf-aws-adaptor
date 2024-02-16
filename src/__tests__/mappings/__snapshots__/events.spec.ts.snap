@@ -143,13 +143,13 @@ exports[`Events mappings > Should map AWS::Events::Rule 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_cloudwatch_event_rule.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_cloudwatch_event_rule.resource_22C949BF.id])}\\",
+      \\"default\\": \\"\${aws_cloudwatch_event_rule.resource_22C949BF.arn}\\",
       \\"type\\": \\"string\\"
     }
   }

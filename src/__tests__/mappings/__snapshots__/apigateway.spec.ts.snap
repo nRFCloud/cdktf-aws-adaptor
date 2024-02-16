@@ -42,7 +42,7 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Authorizer 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -94,7 +94,7 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::DomainName 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -163,7 +163,7 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Integration 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -222,7 +222,7 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Route 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -289,7 +289,7 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Stage 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -328,7 +328,7 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::Account 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -371,7 +371,7 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::BasePathMapping 1`] =
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -411,7 +411,7 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::Deployment 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
@@ -451,7 +451,7 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::Stage 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.23.1\\"
+        \\"version\\": \\"5.37.0\\"
       }
     }
   },
