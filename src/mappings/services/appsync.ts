@@ -39,6 +39,10 @@ export function registerAppSyncMappings() {
         scope,
         id,
         {
+          introspectionConfig: props.IntrospectionConfig,
+          resolverCountLimit: props.ResolverCountLimit,
+          queryDepthLimit: props.QueryDepthLimit,
+
           name: props.Name,
           visibility: props.Visibility,
           authenticationType: props.AuthenticationType,
@@ -96,12 +100,13 @@ export function registerAppSyncMappings() {
 
       return api;
     },
-    unsupportedProps: ["OwnerContact", "ApiType", "MergedApiExecutionRoleArn"],
+    unsupportedProps: ["OwnerContact", "ApiType", "MergedApiExecutionRoleArn", "EnvironmentVariables"],
     attributes: {
       Ref: (resource) => resource.id,
       Id: (resource) => resource.id,
       Arn: (resource) => resource.arn,
       ApiId: (resource) => resource.id,
+      GraphQLEndpointArn: () => "",
       GraphQLUrl: resource => resource.uris.lookup("GRAPHQL"),
       RealtimeUrl: resource => resource.uris.lookup("REALTIME"),
       GraphQLDns: resource => Fn.replace(Fn.replace(resource.uris.lookup("GRAPHQL"), "https://", ""), "/graphql", ""),

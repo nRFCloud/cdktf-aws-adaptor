@@ -100,6 +100,12 @@ export function registerLambdaMappings() {
         ephemeralStorage: {
           size: lambdaProps.EphemeralStorage?.Size as number,
         },
+        loggingConfig: {
+          logFormat: lambdaProps.LoggingConfig?.LogFormat as string,
+          logGroup: lambdaProps.LoggingConfig?.LogGroup as string,
+          applicationLogLevel: lambdaProps.LoggingConfig?.SystemLogLevel as string,
+          systemLogLevel: lambdaProps.LoggingConfig?.SystemLogLevel as string,
+        },
         description: lambdaProps.Description,
         // eslint-disable-next-line @typescript-eslint/naming-convention
         tags: Object.fromEntries(lambdaProps.Tags?.map(({ Key, Value }) => [Key, Value]) || []),
@@ -152,7 +158,7 @@ export function registerLambdaMappings() {
       lambda.functionName = mapped.functionName || Names.uniqueResourceName(lambda, { maxLength: 64 });
       return lambda;
     },
-    unsupportedProps: ["RuntimeManagementConfig", "Policy"],
+    unsupportedProps: ["RuntimeManagementConfig"],
     attributes: {
       Arn: resource => resource.arn,
       SnapStartResponseApplyOn: resource => resource.snapStart.applyOn,

@@ -57,6 +57,7 @@ export function registerLogMappings() {
     resource: (scope, id, props) => {
       const config: CloudwatchLogGroupConfig = {
         name: props?.LogGroupName,
+        logGroupClass: props?.LogGroupClass,
         kmsKeyId: props?.KmsKeyId,
         retentionInDays: props?.RetentionInDays,
         tags: Object.fromEntries(props?.Tags?.map(tag => [tag.Key, tag.Value]) ?? []),
