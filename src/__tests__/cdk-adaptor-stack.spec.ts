@@ -14,6 +14,7 @@ import * as path from "node:path";
 import * as url from "node:url";
 import { AwsTerraformAdaptorStack } from "../lib/core/cdk-adaptor-stack.js";
 import { registerMappings } from "../mappings/index.js";
+import { resourceMappings } from "../mappings/utils.js";
 
 setupJest();
 
@@ -38,7 +39,10 @@ class ReferencingStack extends AwsTerraformAdaptorStack {
   });
 
   constructor(scope: App, id: string, awsCdkBucketName: string, cdktfBucketName: string) {
-    super(scope, id, "us-east-1");
+    super(scope, id, {
+      region: "us-east-1",
+      useCloudControlFallback: false,
+    });
     this.awsCdkbucket = new Bucket(this, "aws-cdk-test-bucket", {
       bucketName: awsCdkBucketName,
     });
@@ -70,7 +74,10 @@ function ridiculouslyNestedFunction(username: string): string {
 describe("Stack synthesis", () => {
   it.skip("Should support basic stack synthesis with mixed resources", () => {
     const testApp = Testing.app({});
-    const testStack = new BucketTestStack(testApp, "test-stack", "us-east-1");
+    const testStack = new BucketTestStack(testApp, "test-stack", {
+      region: "us-east-1",
+      useCloudControlFallback: false,
+    });
 
     testStack.prepareStack();
     expect(Testing.fullSynth(testStack)).toBeValidTerraform();
@@ -103,7 +110,10 @@ describe("Stack synthesis", () => {
 
     it("Should not perturb complex native resources", () => {
       const testApp = Testing.app();
-      const stack = new ComplexNativeStack(testApp, "test-stack", "us-east-1");
+      const stack = new ComplexNativeStack(testApp, "test-stack", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       stack.prepareStack();
       const synthed = Testing.synth(stack);
 
@@ -138,7 +148,10 @@ describe("Stack synthesis", () => {
       }
 
       const testApp = Testing.app();
-      const stack = new NestedTokenStack(testApp, "test-stack", "us-east-1");
+      const stack = new NestedTokenStack(testApp, "test-stack", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       stack.prepareStack();
       const synthed = Testing.synth(stack);
 
@@ -147,10 +160,37 @@ describe("Stack synthesis", () => {
           "${replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_cloudcontrolapi_resource.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")}",
       });
 
-      expect(synthed).toHaveResourceWithProperties(CloudcontrolapiResource, {
-        desired_state:
-          "${jsonencode({\"BucketName\" = replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_cloudcontrolapi_resource.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")})}",
+      expect(synthed).toHaveResourceWithProperties(S3Bucket, {
+        bucket:
+          "${replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_cloudcontrolapi_resource.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")}",
       });
+      // expect(synthed).toHaveResourceWithProperties(CloudcontrolapiResource, {
+      //   desired_state:
+      //     "${jsonencode({\"BucketName\" = replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_cloudcontrolapi_resource.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")})}",
+      // });
+    });
+  });
+
+  describe("Manage CloudContrlApi resources", () => {
+    const original = resourceMappings["AWS::S3::Bucket"];
+
+    beforeAll(() => {
+      delete resourceMappings["AWS::S3::Bucket"];
+    });
+    afterAll(() => {
+      resourceMappings["AWS::S3::Bucket"] = original;
+    });
+
+    it("Should not map using CloudControl when disabled", () => {
+      class CloudControlDisabledStack extends AwsTerraformAdaptorStack {
+        public readonly bucket = new Bucket(this, "bucket");
+      }
+
+      const testApp = Testing.app();
+      const stack = new CloudControlDisabledStack(testApp, "test-stack", {
+        useCloudControlFallback: false,
+      });
+      expect(() => stack.prepareStack()).toThrow("No mapping found");
     });
   });
 
@@ -167,12 +207,6 @@ describe("Stack synthesis", () => {
     it("Should have native s3 bucket", () => {
       expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
         bucket: "cdktf-test-bucket",
-      });
-    });
-
-    it("Should have translated cloudcontrol resource", () => {
-      expect(synthesized).toHaveResourceWithProperties(CloudcontrolapiResource, {
-        type_name: "AWS::S3::Bucket",
       });
     });
   });
@@ -196,13 +230,16 @@ describe("Stack synthesis", () => {
 
     it("Should preserve dependencies on CDKTF resources", () => {
       const testApp = Testing.app();
-      const testStack = new BucketTestStack(testApp, "test-stack-4", "us-east-1");
+      const testStack = new BucketTestStack(testApp, "test-stack-4", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       testStack.awsCdkbucket.node.addDependency(testStack.cdktfBucket);
       testStack.prepareStack();
       const synthesized = Testing.synth(testStack);
 
       const ref = resolve(testStack, dependable(testStack.cdktfBucket));
-      expect(synthesized).toHaveResourceWithProperties(CloudcontrolapiResource, {
+      expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
         depends_on: [ref],
       });
     });
@@ -218,7 +255,10 @@ describe("Stack synthesis", () => {
       }
 
       const testApp = Testing.app();
-      const testStack = new AwsCdkTokenRefStack(testApp, "test-stack-5", "us-east-1");
+      const testStack = new AwsCdkTokenRefStack(testApp, "test-stack-5", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       testStack.prepareStack();
       const synthesized = Testing.synth(testStack);
 
@@ -241,7 +281,10 @@ describe("Stack synthesis", () => {
       }
 
       const testApp = Testing.app();
-      const testStack = new AwsCdkTokenRefStack(testApp, "test-stack-6", "us-east-1");
+      const testStack = new AwsCdkTokenRefStack(testApp, "test-stack-6", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       testStack.prepareStack();
       const synthesized = Testing.synth(testStack);
       const ref = resolve(
@@ -249,8 +292,8 @@ describe("Stack synthesis", () => {
         (testStack.awsCdkbucket.node.tryFindChild("Resource") as CloudcontrolapiResource).id,
       ).slice(2, -1);
 
-      expect(synthesized).toHaveResourceWithProperties(CloudcontrolapiResource, {
-        desired_state: `$\{jsonencode({"BucketName" = ${ref}})}`,
+      expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
+        bucket: `$\{${ref}}`,
       });
     });
 
@@ -263,14 +306,17 @@ describe("Stack synthesis", () => {
       }
 
       const testApp = Testing.app();
-      const testStack = new AwsCdkTokenRefStack(testApp, "test-stack-7", "us-east-1");
+      const testStack = new AwsCdkTokenRefStack(testApp, "test-stack-7", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       testStack.prepareStack();
       const synthesized = Testing.synth(testStack);
 
       const ref = resolve(testStack, testStack.cdktfBucket.bucket).slice(2, -1);
 
-      expect(synthesized).toHaveResourceWithProperties(CloudcontrolapiResource, {
-        desired_state: `$\{jsonencode({"BucketName" = ${ref}})}`,
+      expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
+        bucket: `$\{${ref}}`,
       });
     });
   });
@@ -346,9 +392,9 @@ describe("Stack synthesis", () => {
         },
       });
 
-      expect(synthesized2).toHaveResourceWithProperties(CloudcontrolapiResource, {
-        desired_state:
-          `$\{jsonencode({"BucketName" = data.terraform_remote_state.cross-stack-reference-input-test-stack-10-aws-stage--test-stack-10-aws-stack--test-stack-10.outputs.cross-stack-output-${bucketNameOutputRef}})}`,
+      expect(synthesized2).toHaveResourceWithProperties(S3Bucket, {
+        bucket:
+          `$\{data.terraform_remote_state.cross-stack-reference-input-test-stack-10-aws-stage--test-stack-10-aws-stack--test-stack-10.outputs.cross-stack-output-${bucketNameOutputRef}}`,
       });
     });
 
@@ -387,9 +433,9 @@ describe("Stack synthesis", () => {
         },
       });
 
-      expect(synthesized2).toHaveResourceWithProperties(CloudcontrolapiResource, {
-        desired_state:
-          `$\{jsonencode({"BucketName" = data.terraform_remote_state.cross-stack-reference-input-test-stack-12-aws-stage--test-stack-12-aws-stack--test-stack-12.outputs.cross-stack-output-${bucketNameOutputRef}})}`,
+      expect(synthesized2).toHaveResourceWithProperties(S3Bucket, {
+        bucket:
+          `$\{data.terraform_remote_state.cross-stack-reference-input-test-stack-12-aws-stage--test-stack-12-aws-stack--test-stack-12.outputs.cross-stack-output-${bucketNameOutputRef}}`,
       });
     });
   });
@@ -405,7 +451,10 @@ describe("Stack synthesis", () => {
       }
 
       const testApp = Testing.app();
-      const testStack = new LambdaAssetStack(testApp, "test-stack-14", "us-east-1");
+      const testStack = new LambdaAssetStack(testApp, "test-stack-14", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       testStack.prepareStack();
 
       const outDir = Testing.fullSynth(testStack);

@@ -62,7 +62,6 @@ export function registerCognitoMappings() {
       Name: resource => resource.name,
       ClientSecret: resource => resource.clientSecret,
       Ref: resource => resource.id,
-      Id: resource => resource.id,
       ClientId: resource => resource.id,
     },
   });

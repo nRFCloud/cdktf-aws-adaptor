@@ -69,6 +69,7 @@ function getConditionConstructId(conditionId: string) {
 }
 
 export abstract class AwsTerraformAdaptorStack extends TerraformStack {
+  public readonly useCloudControlFallback: boolean;
   private readonly awsStage: AWSStage;
   private readonly host: AWSStack;
   private _awsPartition?: DataAwsPartition;
@@ -127,18 +128,30 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
     }
   }
 
-  constructor(scope: Construct, id: string, region: string) {
+  constructor(scope: Construct, id: string, region: string);
+  constructor(scope: Construct, id: string, props: { region?: string; useCloudControlFallback?: boolean });
+  constructor(
+    scope: Construct,
+    id: string,
+    options: string | { region?: string; useCloudControlFallback?: boolean } = "us-east-1",
+  ) {
     const awsStage = new AWSStage(scope, `${id}-aws-stage`);
+    const props = typeof options === "string" ? { region: options, useCloudControlFallback: true } : {
+      region: "us-east-1",
+      useCloudControlFallback: true,
+      ...options,
+    };
     const awsSynthesizer = new TerraformSynthesizer();
     const awsCdkStack = new AWSStack(awsStage, `${id}-aws-stack`, {
       synthesizer: awsSynthesizer,
       env: {
-        region,
+        region: props.region,
       },
     });
 
     super(awsCdkStack, id);
-    this.getRegionalAwsProvider(region);
+    this.getRegionalAwsProvider(props.region);
+    this.useCloudControlFallback = props.useCloudControlFallback;
 
     awsSynthesizer.terraformStack = this;
     this.awsStage = awsStage;
@@ -373,7 +386,7 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
     resource: CloudFormationResource,
   ): TerraformResource | void {
     // TODO: add debug log console.log(JSON.stringify(resource, null, 2));
-    const m = findMapping(resource.Type);
+    const m = findMapping(resource.Type, this.useCloudControlFallback);
     if (!m) {
       throw new Error(`no mapping for ${resource.Type}`);
     }

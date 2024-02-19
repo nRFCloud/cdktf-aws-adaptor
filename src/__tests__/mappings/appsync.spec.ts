@@ -166,7 +166,10 @@ describe("Appsync mappings", () => {
         });
       }
 
-      const stack = new Stack(app, "stack", "us-east-1");
+      const stack = new Stack(app, "stack", {
+        region: "us-east-1",
+        useCloudControlFallback: false,
+      });
       stack.prepareStack();
       const synthed = Testing.synth(stack);
       const schemaFile = readFileSync(`${dirname}/../../../test-data/schema.graphql`, "utf8");

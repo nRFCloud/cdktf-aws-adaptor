@@ -5,6 +5,7 @@ import createDebug from "debug";
 
 export const mapperDebug = createDebug("cdktf-lib:mapper:debug");
 export const mapperTrace = createDebug("cdktf-lib:mapper:trace");
+export const mapperWarn = createDebug("cdktf-lib:mapper:warn");
 
 const isObject = (x: unknown): x is object => x != null && typeof x === "object" && !Array.isArray(x);
 const isArrayOfObjects = (x: unknown): x is object[] => Array.isArray(x) && x.length > 0 && isObject(x[0]);

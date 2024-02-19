@@ -17,7 +17,10 @@ export function synthesizeConstructAndTestStability<T extends Construct, C exten
   }
 
   const app = Testing.app();
-  const testStack = new TestClass(app, "test-stack", "us-east-1");
+  const testStack = new TestClass(app, "test-stack", {
+    region: "us-east-1",
+    useCloudControlFallback: false,
+  });
   testStack.prepareStack();
   const synthStack = Testing.synth(testStack);
   expect(synthStack).toMatchSnapshot();

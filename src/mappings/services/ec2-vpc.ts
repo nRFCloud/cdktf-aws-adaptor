@@ -1,17 +1,21 @@
 import { InternetGateway } from "@cdktf/provider-aws/lib/internet-gateway/index.js";
 import { RouteTableAssociation } from "@cdktf/provider-aws/lib/route-table-association/index.js";
+import { Route } from "@cdktf/provider-aws/lib/route/index.js";
 import { SecurityGroup, SecurityGroupConfig } from "@cdktf/provider-aws/lib/security-group/index.js";
 import { VpcSecurityGroupEgressRule } from "@cdktf/provider-aws/lib/vpc-security-group-egress-rule/index.js";
 import { VpcSecurityGroupIngressRule } from "@cdktf/provider-aws/lib/vpc-security-group-ingress-rule/index.js";
+import { Vpc } from "@cdktf/provider-aws/lib/vpc/index.js";
 import {
   CfnInternetGateway,
+  CfnRoute,
   CfnSecurityGroup,
   CfnSecurityGroupEgress,
   CfnSecurityGroupIngress,
   CfnSubnetRouteTableAssociation,
+  CfnVPC,
 } from "aws-cdk-lib/aws-ec2";
 import { Aspects } from "cdktf";
-import { deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
+import { createGenericCCApiMapping, deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 export function registerEC2VPCMappings() {
   registerMappingTyped(CfnInternetGateway, InternetGateway, {
@@ -21,6 +25,75 @@ export function registerEC2VPCMappings() {
     attributes: {
       InternetGatewayId: (igw: InternetGateway) => igw.id,
       Ref: (igw: InternetGateway) => igw.id,
+    },
+  });
+
+  registerMapping("AWS::EC2::Subnet", createGenericCCApiMapping("AWS::EC2::Subnet"));
+
+  registerMapping("AWS::EC2::RouteTable", createGenericCCApiMapping("AWS::EC2::RouteTable"));
+
+  registerMappingTyped(CfnRoute, Route, {
+    resource: (scope, id, props) => {
+      return new Route(
+        scope,
+        id,
+        deleteUndefinedKeys({
+          destinationCidrBlock: props.DestinationCidrBlock,
+          destinationIpv6CidrBlock: props.DestinationIpv6CidrBlock,
+          destinationPrefixListId: props.DestinationPrefixListId,
+          egressOnlyGatewayId: props.EgressOnlyInternetGatewayId,
+          gatewayId: props.GatewayId,
+          routeTableId: props.RouteTableId,
+          instanceId: props.InstanceId,
+          carrierGatewayId: props.CarrierGatewayId,
+          natGatewayId: props.NatGatewayId,
+          networkInterfaceId: props.NetworkInterfaceId,
+          transitGatewayId: props.TransitGatewayId,
+          vpcPeeringConnectionId: props.VpcPeeringConnectionId,
+          coreNetworkArn: props.CoreNetworkArn,
+          localGatewayId: props.LocalGatewayId,
+          vpcEndpointId: props.VpcEndpointId,
+        }),
+      );
+    },
+    attributes: {
+      CidrBlock: (route: Route) => route.destinationCidrBlock,
+      Ref: (route: Route) => route.id,
+    },
+  });
+
+  registerMapping("AWS::EC2::EIP", createGenericCCApiMapping("AWS::EC2::EIP"));
+
+  registerMapping("AWS::EC2::NatGateway", createGenericCCApiMapping("AWS::EC2::NatGateway"));
+  registerMappingTyped(CfnVPC, Vpc, {
+    resource: (scope, id, props) => {
+      return new Vpc(
+        scope,
+        id,
+        deleteUndefinedKeys({
+          cidrBlock: props?.CidrBlock,
+          enableDnsHostnames: props?.EnableDnsHostnames,
+          enableDnsSupport: props?.EnableDnsSupport,
+          instanceTenancy: props?.InstanceTenancy,
+          ipv4NetmaskLength: props?.Ipv4NetmaskLength,
+          ipv4IpamPoolId: props?.Ipv4IpamPoolId,
+          tags: Object.fromEntries(
+            props?.Tags?.map(({
+              Key: key,
+              Value: value,
+            }) => [key, value]) || [],
+          ),
+        }),
+      );
+    },
+    attributes: {
+      VpcId: (vpc: Vpc) => vpc.id,
+      Ref: (vpc: Vpc) => vpc.id,
+      CidrBlock: (vpc: Vpc) => vpc.cidrBlock,
+      DefaultNetworkAcl: (vpc: Vpc) => vpc.defaultNetworkAclId,
+      DefaultSecurityGroup: (vpc: Vpc) => vpc.defaultSecurityGroupId,
+      Ipv6CidrBlocks: (vpc: Vpc) => [vpc.ipv6CidrBlock],
+      CidrBlockAssociations: (vpc: Vpc) => [vpc.ipv6AssociationId],
     },
   });
 
@@ -81,7 +154,12 @@ export function registerEC2VPCMappings() {
         name: cfnProps.GroupName,
         vpcId: cfnProps.VpcId,
         description: cfnProps.GroupDescription,
-        tags: Object.fromEntries(cfnProps.Tags?.map(({ Key: key, Value: value }) => [key, value]) || []),
+        tags: Object.fromEntries(
+          cfnProps.Tags?.map(({
+            Key: key,
+            Value: value,
+          }) => [key, value]) || [],
+        ),
       };
 
       const securityGroup = new SecurityGroup(scope, id, deleteUndefinedKeys(props));

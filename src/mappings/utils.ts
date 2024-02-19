@@ -34,18 +34,17 @@ export type Mapping<T extends TerraformResource> = {
   } | AnyAttributeMapper<T>;
 };
 
-const mapping: { [type: string]: Mapping<TerraformResource> } = {};
+/**
+ * @internal
+ */
+export const resourceMappings: { [type: string]: Mapping<TerraformResource> } = {};
 
-function createGenericCCApiMapping(
+export function createGenericCCApiMapping(
   resourceType: string,
 ): Mapping<CloudcontrolapiResource> {
   if (!supportedAwsccResourceTypes.has(resourceType)) {
     throw new Error(
-      `Unsupported resource Type ${resourceType}. There is no custom mapping registered for ${resourceType} and the AWS CloudControl API does not seem to support it yet. If you think this is an error or you need support for this resource, file an issue at: ${
-        encodeURI(
-          `https://github.com/hashicorp/cdktf-aws-cdk/issues/new?title=Unsupported Resource Type \`${resourceType}\``,
-        )
-      } and mention the AWS CDK constructs you want to use`,
+      `Unsupported resource Type ${resourceType}. There is no custom mapping registered for ${resourceType} and the AWS CloudControl API does not seem to support it yet. You can register your own custom mapping or file an issue on github (or better yet, a PR)`,
     );
   }
 
@@ -69,13 +68,26 @@ function createGenericCCApiMapping(
   };
 }
 
-export function findMapping(resourceType: string): Mapping<TerraformResource> {
-  if (mapping[resourceType]) {
-    return mapping[resourceType];
+export function findMapping(
+  resourceType: string,
+  useCloudControlFallback: boolean = false,
+): Mapping<TerraformResource> {
+  if (resourceMappings[resourceType]) {
+    return resourceMappings[resourceType];
   }
 
   // no mapping found, trying to use generic aws_cloudcontrolapi_resource
-  return createGenericCCApiMapping(resourceType) as unknown as Mapping<TerraformResource>; // TODO: fix type to allow this
+  // this can lead to inconsistent behavior as cloud control constantly runs into issues updating resources
+  if (process.env.CLOUDCONTROL_FALLBACK === "true" || useCloudControlFallback) {
+    console.warn(
+      `Attempting to fallback to AWS CloudControlApi resource for ${resourceType}. Cloud control mappings are actively discouraged as they are not stable and can lead to inconsistent behavior. This behaviour will be disabled by default in a future release`,
+    );
+    return createGenericCCApiMapping(resourceType) as unknown as Mapping<TerraformResource>; // TODO: fix type to allow this
+  } else {
+    throw new Error(
+      `No mapping found for ${resourceType}. You can register your own custom mapping or file an issue on github (or better yet, a PR)`,
+    );
+  }
 }
 
 export function registerMapping<T extends TerraformResource>(
@@ -86,7 +98,7 @@ export function registerMapping<T extends TerraformResource>(
     mapperDebug(`Overriding CC resource with custom mapping for ${resourceType}`);
   }
 
-  mapping[resourceType] = map as unknown as Mapping<TerraformResource>;
+  resourceMappings[resourceType] = map as unknown as Mapping<TerraformResource>;
 }
 
 export interface CfnMapper<

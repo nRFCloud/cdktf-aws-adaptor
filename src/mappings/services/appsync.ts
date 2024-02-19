@@ -271,7 +271,6 @@ export function registerAppSyncMappings() {
     unsupportedProps: ["RequestMappingTemplateS3Location", "ResponseMappingTemplateS3Location", "CodeS3Location"],
     attributes: {
       Ref: (resource) => resource.id,
-      Id: (resource) => resource.id,
       FieldName: (resource) => resource.field,
       TypeName: (resource) => resource.type,
       ResolverArn: (resource) => resource.arn,

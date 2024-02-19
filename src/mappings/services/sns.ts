@@ -29,4 +29,38 @@ export function registerSnsMappings() {
       Ref: (resource) => resource.id,
     },
   });
+
+  // registerMappingTyped(CfnTopic, SnsTopic, {
+  //     resource(scope, id, props) {
+  //         const topic = new SnsTopic(
+  //             scope,
+  //             id,
+  //             deleteUndefinedKeys({
+  //                 name: props?.TopicName,
+  //                 displayName: props?.DisplayName,
+  //                 kmsMasterKeyId: props?.KmsMasterKeyId,
+  //                 archivePolicy: props?.ArchivePolicy && Fn.jsonencode(props.ArchivePolicy),
+  //                 fifoTopic: props?.FifoTopic,
+  //
+  //             }),
+  //         )
+  //
+  //         for (const subscription of props?.Subscription || []) {
+  //             new SnsTopicSubscription(
+  //                 topic,
+  //                 `subscription-${subscription.Protocol}-${subscription.Endpoint}`,
+  //                 deleteUndefinedKeys({
+  //                     endpoint: subscription.Endpoint!,
+  //                     protocol: subscription.Protocol,
+  //                     topicArn: topic.arn,
+  //                 }),
+  //             )
+  //         }
+  //
+  //         return topic;
+  //     },
+  //     attributes: {
+  //         TopicName
+  //     }
+  // })
 }

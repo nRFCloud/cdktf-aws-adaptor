@@ -4,12 +4,12 @@ import { IamRolePolicyAttachment } from "@cdktf/provider-aws/lib/iam-role-policy
 import { IamUserPolicyAttachment } from "@cdktf/provider-aws/lib/iam-user-policy-attachment/index.js";
 import { CfnPolicy } from "aws-cdk-lib/aws-iam";
 import { Fn } from "cdktf";
-import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
+import { createGenericCCApiMapping, deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 // const LAST_MANAGED_POLICY_DATA_SYMBOL = Symbol("lastManagedPolicy");
 
 export function registerIamMappings() {
-  // Replaced by CC resource
+  registerMapping("AWS::IAM::Role", createGenericCCApiMapping("AWS::IAM::Role"));
   // registerMappingTyped(CfnRole, IamRole, {
   //     resource(scope, id, props) {
   //         const roleProps = {

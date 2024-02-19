@@ -1,6 +1,7 @@
 import { CfnResource, IResolvable } from "aws-cdk-lib";
 import { CfnDistribution } from "aws-cdk-lib/aws-cloudfront";
 import { CfnIdentityPoolRoleAttachment, CfnUserPool } from "aws-cdk-lib/aws-cognito";
+import { CfnTable } from "aws-cdk-lib/aws-dynamodb";
 import { CfnRule } from "aws-cdk-lib/aws-events";
 import { CfnPermissionProps } from "aws-cdk-lib/aws-lambda";
 import { PascalCase } from "type-fest";
@@ -24,6 +25,7 @@ export type AdaptCfnProps<T> =
     : HandleSpecialObjectCases<T>;
 
 type AutomaticPropsAdapt<T> = T extends Array<infer U> ? Array<AdaptCfnProps<U>>
+  : T extends Date ? string
   : T extends object ? {
       [K in keyof T as ConvertScriptKey<K>]: AdaptCfnProps<T[K]>;
     }
@@ -67,6 +69,9 @@ type HandleSpecialObjectCases<T> = T extends Exact<CfnIdentityPoolRoleAttachment
       "httpPort": "HTTPPort";
       "httpsPort": "HTTPSPort";
       originSslProtocols: "OriginSSLProtocols";
+    }>
+  : T extends Exact<CfnTable.SSESpecificationProperty, T> ? ManualPropertyRemap<CfnTable.SSESpecificationProperty, {
+      "kmsMasterKeyId": "KMSMasterKeyId";
     }>
   : never;
 

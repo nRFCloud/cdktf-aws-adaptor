@@ -19,6 +19,7 @@ describe("SNS mappings", () => {
           filterPolicyScope: "FilterPolicyScope",
           rawMessageDelivery: true,
           redrivePolicy: { redrivePolicy: true },
+          replayPolicy: { replayPolicy: true },
           subscriptionRoleArn: "SubscriptionRoleArn",
         },
         SnsTopicSubscription,
@@ -32,6 +33,7 @@ describe("SNS mappings", () => {
           rawMessageDelivery: true,
           redrivePolicy: "${jsonencode({\"redrivePolicy\" = true})}",
           subscriptionRoleArn: "SubscriptionRoleArn",
+          replayPolicy: "${jsonencode({\"replayPolicy\" = true})}",
         },
       );
     });

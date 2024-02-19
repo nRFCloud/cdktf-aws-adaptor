@@ -38,6 +38,58 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::InternetGateway 1`] = `
 }"
 `;
 
+exports[`EC2 VPC mappings > Should map AWS::EC2::Route 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_route\\": {
+      \\"resource_22C949BF\\": {
+        \\"carrier_gateway_id\\": \\"carrier-gateway-id\\",
+        \\"core_network_arn\\": \\"core-network-arn\\",
+        \\"destination_cidr_block\\": \\"0.0.0.0/16\\",
+        \\"destination_ipv6_cidr_block\\": \\"2001:db8:1234:1a00::/64\\",
+        \\"destination_prefix_list_id\\": \\"destination-prefix-list-id\\",
+        \\"egress_only_gateway_id\\": \\"egress-only-internet-gateway-id\\",
+        \\"gateway_id\\": \\"gateway-id\\",
+        \\"local_gateway_id\\": \\"local-gateway-id\\",
+        \\"nat_gateway_id\\": \\"nat-gateway-id\\",
+        \\"network_interface_id\\": \\"network-interface-id\\",
+        \\"route_table_id\\": \\"route-table-id\\",
+        \\"transit_gateway_id\\": \\"transit-g\\",
+        \\"vpc_endpoint_id\\": \\"vpc-endpoint-id\\",
+        \\"vpc_peering_connection_id\\": \\"vpc-peering-connection-id\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.37.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${aws_route.resource_22C949BF.destination_cidr_block}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
 exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroup 1`] = `
 "{
   \\"provider\\": {
@@ -239,6 +291,53 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::SubnetRouteTableAssociation 1`]
 }"
 `;
 
+exports[`EC2 VPC mappings > Should map AWS::EC2::VPC 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_vpc\\": {
+      \\"resource_22C949BF\\": {
+        \\"cidr_block\\": \\"0.0.0.0/16\\",
+        \\"enable_dns_hostnames\\": true,
+        \\"enable_dns_support\\": true,
+        \\"instance_tenancy\\": \\"default\\",
+        \\"ipv4_ipam_pool_id\\": \\"ipv4-ipam-pool-id\\",
+        \\"ipv4_netmask_length\\": 24,
+        \\"tags\\": {
+          \\"Name\\": \\"test-vpc\\"
+        }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.37.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_vpc.resource_22C949BF.cidr_block, \\\\\\",\\\\\\", join(\\\\\\",\\\\\\", aws_vpc.resource_22C949BF.ipv6_association_id), \\\\\\",\\\\\\", aws_vpc.resource_22C949BF.default_network_acl_id, \\\\\\",\\\\\\", aws_vpc.resource_22C949BF.default_security_group_id, \\\\\\",\\\\\\", join(\\\\\\",\\\\\\", aws_vpc.resource_22C949BF.ipv6_cidr_block), \\\\\\",\\\\\\", aws_vpc.resource_22C949BF.id])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
 exports[`EC2 VPC mappings > Should provision all the components of a VPC 1`] = `
 "{
   \\"provider\\": {
@@ -251,37 +350,21 @@ exports[`EC2 VPC mappings > Should provision all the components of a VPC 1`] = `
   },
   \\"resource\\": {
     \\"aws_cloudcontrolapi_resource\\": {
-      \\"resource_AACBEC77\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.0.0/16\\\\\\", \\\\\\"EnableDnsHostnames\\\\\\" = true, \\\\\\"EnableDnsSupport\\\\\\" = true, \\\\\\"InstanceTenancy\\\\\\" = \\\\\\"default\\\\\\"})}\\",
-        \\"type_name\\": \\"AWS::EC2::VPC\\"
-      },
-      \\"resource_PrivateSubnet1_DefaultRoute_EDAF69FB\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"NatGatewayId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_NATGateway_BA73323D.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PrivateSubnet1_RouteTable_19EB98C9.id})}\\",
-        \\"type_name\\": \\"AWS::EC2::Route\\"
-      },
       \\"resource_PrivateSubnet1_RouteTable_19EB98C9\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::RouteTable\\"
       },
       \\"resource_PrivateSubnet1_Subnet_58408BD5\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1a\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.128.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = false, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1a\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.128.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = false, \\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::Subnet\\"
       },
-      \\"resource_PrivateSubnet2_DefaultRoute_8696734F\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"NatGatewayId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_NATGateway_BA73323D.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PrivateSubnet2_RouteTable_EB0EBC65.id})}\\",
-        \\"type_name\\": \\"AWS::EC2::Route\\"
-      },
       \\"resource_PrivateSubnet2_RouteTable_EB0EBC65\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::RouteTable\\"
       },
       \\"resource_PrivateSubnet2_Subnet_A8F6FDF0\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1b\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.192.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = false, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1b\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.192.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = false, \\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::Subnet\\"
-      },
-      \\"resource_PublicSubnet1_DefaultRoute_1F0D9FA0\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"GatewayId\\\\\\" = aws_internet_gateway.resource_IGW_222CDE0E.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_RouteTable_A84723D1.id})}\\",
-        \\"type_name\\": \\"AWS::EC2::Route\\"
       },
       \\"resource_PublicSubnet1_EIP_9ED2119C\\": {
         \\"desired_state\\": \\"\${jsonencode({\\\\\\"Domain\\\\\\" = \\\\\\"vpc\\\\\\"})}\\",
@@ -290,35 +373,53 @@ exports[`EC2 VPC mappings > Should provision all the components of a VPC 1`] = `
       \\"resource_PublicSubnet1_NATGateway_BA73323D\\": {
         \\"depends_on\\": [
           \\"aws_route_table_association.resource_PublicSubnet1_RouteTableAssociation_C1359716\\",
-          \\"aws_cloudcontrolapi_resource.resource_PublicSubnet1_DefaultRoute_1F0D9FA0\\"
+          \\"aws_route.resource_PublicSubnet1_DefaultRoute_1F0D9FA0\\"
         ],
         \\"desired_state\\": \\"\${jsonencode({\\\\\\"AllocationId\\\\\\" = jsondecode(aws_cloudcontrolapi_resource.resource_PublicSubnet1_EIP_9ED2119C.properties).AllocationId, \\\\\\"SubnetId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet1_Subnet_334F89CE.id})}\\",
         \\"type_name\\": \\"AWS::EC2::NatGateway\\"
       },
       \\"resource_PublicSubnet1_RouteTable_A84723D1\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::RouteTable\\"
       },
       \\"resource_PublicSubnet1_Subnet_334F89CE\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1a\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.0.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = true, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1a\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.0.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = true, \\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::Subnet\\"
       },
-      \\"resource_PublicSubnet2_DefaultRoute_317000C9\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"DestinationCidrBlock\\\\\\" = \\\\\\"0.0.0.0/0\\\\\\", \\\\\\"GatewayId\\\\\\" = aws_internet_gateway.resource_IGW_222CDE0E.id, \\\\\\"RouteTableId\\\\\\" = aws_cloudcontrolapi_resource.resource_PublicSubnet2_RouteTable_25E515ED.id})}\\",
-        \\"type_name\\": \\"AWS::EC2::Route\\"
-      },
       \\"resource_PublicSubnet2_RouteTable_25E515ED\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::RouteTable\\"
       },
       \\"resource_PublicSubnet2_Subnet_5F1A806C\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1b\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.64.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = true, \\\\\\"VpcId\\\\\\" = aws_cloudcontrolapi_resource.resource_AACBEC77.id})}\\",
+        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AvailabilityZone\\\\\\" = \\\\\\"us-east-1b\\\\\\", \\\\\\"CidrBlock\\\\\\" = \\\\\\"10.0.64.0/18\\\\\\", \\\\\\"MapPublicIpOnLaunch\\\\\\" = true, \\\\\\"VpcId\\\\\\" = aws_vpc.resource_AACBEC77.id})}\\",
         \\"type_name\\": \\"AWS::EC2::Subnet\\"
       }
     },
     \\"aws_internet_gateway\\": {
       \\"resource_IGW_222CDE0E\\": {
-        \\"vpc_id\\": \\"\${aws_cloudcontrolapi_resource.resource_AACBEC77.id}\\"
+        \\"vpc_id\\": \\"\${aws_vpc.resource_AACBEC77.id}\\"
+      }
+    },
+    \\"aws_route\\": {
+      \\"resource_PrivateSubnet1_DefaultRoute_EDAF69FB\\": {
+        \\"destination_cidr_block\\": \\"0.0.0.0/0\\",
+        \\"nat_gateway_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet1_NATGateway_BA73323D.id}\\",
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PrivateSubnet1_RouteTable_19EB98C9.id}\\"
+      },
+      \\"resource_PrivateSubnet2_DefaultRoute_8696734F\\": {
+        \\"destination_cidr_block\\": \\"0.0.0.0/0\\",
+        \\"nat_gateway_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet1_NATGateway_BA73323D.id}\\",
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PrivateSubnet2_RouteTable_EB0EBC65.id}\\"
+      },
+      \\"resource_PublicSubnet1_DefaultRoute_1F0D9FA0\\": {
+        \\"destination_cidr_block\\": \\"0.0.0.0/0\\",
+        \\"gateway_id\\": \\"\${aws_internet_gateway.resource_IGW_222CDE0E.id}\\",
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet1_RouteTable_A84723D1.id}\\"
+      },
+      \\"resource_PublicSubnet2_DefaultRoute_317000C9\\": {
+        \\"destination_cidr_block\\": \\"0.0.0.0/0\\",
+        \\"gateway_id\\": \\"\${aws_internet_gateway.resource_IGW_222CDE0E.id}\\",
+        \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet2_RouteTable_25E515ED.id}\\"
       }
     },
     \\"aws_route_table_association\\": {
@@ -337,6 +438,14 @@ exports[`EC2 VPC mappings > Should provision all the components of a VPC 1`] = `
       \\"resource_PublicSubnet2_RouteTableAssociation_A663F51A\\": {
         \\"route_table_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet2_RouteTable_25E515ED.id}\\",
         \\"subnet_id\\": \\"\${aws_cloudcontrolapi_resource.resource_PublicSubnet2_Subnet_5F1A806C.id}\\"
+      }
+    },
+    \\"aws_vpc\\": {
+      \\"resource_AACBEC77\\": {
+        \\"cidr_block\\": \\"10.0.0.0/16\\",
+        \\"enable_dns_hostnames\\": true,
+        \\"enable_dns_support\\": true,
+        \\"instance_tenancy\\": \\"default\\"
       }
     }
   },

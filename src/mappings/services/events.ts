@@ -125,7 +125,6 @@ export function registerEventsMappings() {
     attributes: {
       Ref: (rule: CloudwatchEventRule) => rule.id,
       Arn: (rule: CloudwatchEventRule) => rule.arn,
-      Id: (rule: CloudwatchEventRule) => rule.id,
     },
   });
 }
