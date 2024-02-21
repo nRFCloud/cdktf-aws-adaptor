@@ -32,6 +32,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
+    },
+    "./lib/aws-msk": {
+      "types": "./dist/constructs/services/msk/index.d.ts",
+      "import": "./dist/constructs/services/msk/index.js"
     }
   },
   "repository": "https://github.com/nRFCloud/ts-json-schema-transformer",

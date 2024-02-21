@@ -1,7 +1,7 @@
 import { SnsTopicSubscription } from "@cdktf/provider-aws/lib/sns-topic-subscription/index.js";
 import { CfnSubscription } from "aws-cdk-lib/aws-sns";
 import { Fn } from "cdktf";
-import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
+import { createGenericCCApiMapping, deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 export function registerSnsMappings() {
   registerMappingTyped(CfnSubscription, SnsTopicSubscription, {
@@ -30,37 +30,5 @@ export function registerSnsMappings() {
     },
   });
 
-  // registerMappingTyped(CfnTopic, SnsTopic, {
-  //     resource(scope, id, props) {
-  //         const topic = new SnsTopic(
-  //             scope,
-  //             id,
-  //             deleteUndefinedKeys({
-  //                 name: props?.TopicName,
-  //                 displayName: props?.DisplayName,
-  //                 kmsMasterKeyId: props?.KmsMasterKeyId,
-  //                 archivePolicy: props?.ArchivePolicy && Fn.jsonencode(props.ArchivePolicy),
-  //                 fifoTopic: props?.FifoTopic,
-  //
-  //             }),
-  //         )
-  //
-  //         for (const subscription of props?.Subscription || []) {
-  //             new SnsTopicSubscription(
-  //                 topic,
-  //                 `subscription-${subscription.Protocol}-${subscription.Endpoint}`,
-  //                 deleteUndefinedKeys({
-  //                     endpoint: subscription.Endpoint!,
-  //                     protocol: subscription.Protocol,
-  //                     topicArn: topic.arn,
-  //                 }),
-  //             )
-  //         }
-  //
-  //         return topic;
-  //     },
-  //     attributes: {
-  //         TopicName
-  //     }
-  // })
+  registerMapping("AWS::SNS::Topic", createGenericCCApiMapping("AWS::SNS::Topic"));
 }

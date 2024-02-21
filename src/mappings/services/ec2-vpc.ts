@@ -32,6 +32,23 @@ export function registerEC2VPCMappings() {
 
   registerMapping("AWS::EC2::RouteTable", createGenericCCApiMapping("AWS::EC2::RouteTable"));
 
+  registerMappingTyped(CfnSubnetRouteTableAssociation, RouteTableAssociation, {
+    resource: (scope, id, props) => {
+      return new RouteTableAssociation(
+        scope,
+        id,
+        deleteUndefinedKeys({
+          subnetId: props.SubnetId,
+          routeTableId: props.RouteTableId,
+        }),
+      );
+    },
+    attributes: {
+      Ref: (rta: RouteTableAssociation) => rta.id,
+      Id: (rta: RouteTableAssociation) => rta.id,
+    },
+  });
+
   registerMappingTyped(CfnRoute, Route, {
     resource: (scope, id, props) => {
       return new Route(
