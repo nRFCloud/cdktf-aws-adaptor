@@ -47,3 +47,80 @@ exports[`SNS mappings > AWS:SNS:Subscription > should translate 1`] = `
   }
 }"
 `;
+
+exports[`SNS mappings > AWS:SNS:Topic > Should translate 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_sns_topic\\": {
+      \\"resource_22C949BF\\": {
+        \\"application_failure_feedback_role_arn\\": \\"FailureFeedbackRoleArnapplication\\",
+        \\"application_success_feedback_role_arn\\": \\"SuccessFeedbackRoleArnapplication\\",
+        \\"application_success_feedback_sample_rate\\": 4,
+        \\"archive_policy\\": \\"\${jsonencode({\\\\\\"archivePolicy\\\\\\" = true})}\\",
+        \\"content_based_deduplication\\": true,
+        \\"display_name\\": \\"ExampleDisplayName\\",
+        \\"fifo_topic\\": true,
+        \\"firehose_failure_feedback_role_arn\\": \\"FailureFeedbackRoleArnfirehose\\",
+        \\"firehose_success_feedback_role_arn\\": \\"SuccessFeedbackRoleArnfirehose\\",
+        \\"firehose_success_feedback_sample_rate\\": 5,
+        \\"http_failure_feedback_role_arn\\": \\"FailureFeedbackRoleArnHttps\\",
+        \\"http_success_feedback_role_arn\\": \\"SuccessFeedbackRoleArnHttps\\",
+        \\"http_success_feedback_sample_rate\\": 1,
+        \\"kms_master_key_id\\": \\"ExampleKmsMasterKeyId\\",
+        \\"lambda_failure_feedback_role_arn\\": \\"FailureFeedbackRoleArnlambda\\",
+        \\"lambda_success_feedback_role_arn\\": \\"SuccessFeedbackRoleArnlambda\\",
+        \\"lambda_success_feedback_sample_rate\\": 3,
+        \\"name\\": \\"ExampleTopic\\",
+        \\"signature_version\\": 1,
+        \\"sqs_failure_feedback_role_arn\\": \\"FailureFeedbackRoleArnsqs\\",
+        \\"sqs_success_feedback_role_arn\\": \\"SuccessFeedbackRoleArnsqs\\",
+        \\"sqs_success_feedback_sample_rate\\": 2,
+        \\"tags\\": {
+          \\"ExampleKey\\": \\"ExampleValue\\"
+        },
+        \\"tracing_config\\": \\"PASSTHROUGH\\"
+      }
+    },
+    \\"aws_sns_topic_data_protection_policy\\": {
+      \\"resource_resource-data-protection-policy_668B61E5\\": {
+        \\"arn\\": \\"\${aws_sns_topic.resource_22C949BF.arn}\\",
+        \\"policy\\": \\"\${jsonencode({\\\\\\"dataProtectionPolicy\\\\\\" = true})}\\"
+      }
+    },
+    \\"aws_sns_topic_subscription\\": {
+      \\"resource_subscription-https-example-endpointexample_78A1AFFF\\": {
+        \\"endpoint\\": \\"example-endpoint.example\\",
+        \\"protocol\\": \\"https\\",
+        \\"topic_arn\\": \\"\${aws_sns_topic.resource_22C949BF.arn}\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.37.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_sns_topic.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_sns_topic.resource_22C949BF.name])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;

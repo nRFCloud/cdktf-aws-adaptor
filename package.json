@@ -33,7 +33,7 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./constucts/aws-msk": {
+    "./constructs/aws-msk": {
       "types": "./dist/constructs/services/msk/index.d.ts",
       "import": "./dist/constructs/services/msk/index.js"
     }
