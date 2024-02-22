@@ -35,7 +35,7 @@ export function registerStepFunctinMappings() {
 
       const config: SfnStateMachineConfig = {
         name: props?.StateMachineName,
-        definition: Fn.jsondecode(definitionString),
+        definition: definitionString,
         roleArn: props?.RoleArn,
         loggingConfiguration: {
           level: props?.LoggingConfiguration?.Level,
