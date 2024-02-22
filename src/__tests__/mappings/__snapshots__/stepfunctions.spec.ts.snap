@@ -17,7 +17,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
         \\"logging_configuration\\": {
           \\"include_execution_data\\": true,
           \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn\\"
+          \\"log_destination\\": \\"logGroupArn:*\\"
         },
         \\"name\\": \\"name\\",
         \\"role_arn\\": \\"roleArn\\",
@@ -78,7 +78,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
         \\"logging_configuration\\": {
           \\"include_execution_data\\": true,
           \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn\\"
+          \\"log_destination\\": \\"logGroupArn:*\\"
         },
         \\"name\\": \\"name\\",
         \\"role_arn\\": \\"roleArn\\",
@@ -131,7 +131,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
         \\"logging_configuration\\": {
           \\"include_execution_data\\": true,
           \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn\\"
+          \\"log_destination\\": \\"logGroupArn:*\\"
         },
         \\"name\\": \\"name\\",
         \\"role_arn\\": \\"roleArn\\",
@@ -192,7 +192,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
         \\"logging_configuration\\": {
           \\"include_execution_data\\": true,
           \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn\\"
+          \\"log_destination\\": \\"logGroupArn:*\\"
         },
         \\"name\\": \\"name\\",
         \\"role_arn\\": \\"roleArn\\",

@@ -40,7 +40,7 @@ describe("Step Functions mappings", () => {
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
-            logDestination: "logGroupArn",
+            logDestination: "logGroupArn:*",
             includeExecutionData: true,
           },
           type: "STANDARD",
@@ -89,7 +89,7 @@ describe("Step Functions mappings", () => {
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
-            logDestination: "logGroupArn",
+            logDestination: "logGroupArn:*",
             includeExecutionData: true,
           },
           type: "STANDARD",
@@ -138,7 +138,7 @@ describe("Step Functions mappings", () => {
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
-            logDestination: "logGroupArn",
+            logDestination: "logGroupArn:*",
             includeExecutionData: true,
           },
           type: "STANDARD",
@@ -192,7 +192,7 @@ describe("Step Functions mappings", () => {
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
-            logDestination: "logGroupArn",
+            logDestination: "logGroupArn:*",
             includeExecutionData: true,
           },
           type: "STANDARD",

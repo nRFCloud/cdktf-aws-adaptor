@@ -45,7 +45,7 @@ export function registerStepFunctinMappings() {
         roleArn: props?.RoleArn,
         loggingConfiguration: {
           level: props?.LoggingConfiguration?.Level,
-          logDestination: props?.LoggingConfiguration?.Destinations?.[0]?.CloudWatchLogsLogGroup?.LogGroupArn,
+          logDestination,
           includeExecutionData: props?.LoggingConfiguration?.IncludeExecutionData,
         },
         type: props?.StateMachineType,
