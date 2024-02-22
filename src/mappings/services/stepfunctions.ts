@@ -1,5 +1,5 @@
 import { DataAwsS3BucketObject } from "@cdktf/provider-aws/lib/data-aws-s3-bucket-object/index.js";
-import { SfnStateMachine, SfnStateMachineConfig } from "@cdktf/provider-aws/lib/sfn-state-machine";
+import { SfnStateMachine, SfnStateMachineConfig } from "@cdktf/provider-aws/lib/sfn-state-machine/index.js";
 import { CfnStateMachine } from "aws-cdk-lib/aws-stepfunctions";
 import { Fn } from "cdktf";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
