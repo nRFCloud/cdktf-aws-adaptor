@@ -33,6 +33,12 @@ export function registerStepFunctinMappings() {
         }
       }
 
+      let logDestination: string | undefined = props?.LoggingConfiguration?.Destinations?.[0]?.CloudWatchLogsLogGroup
+        ?.LogGroupArn;
+      if (logDestination) {
+        logDestination += ":*";
+      }
+
       const config: SfnStateMachineConfig = {
         name: props?.StateMachineName,
         definition: definitionString,

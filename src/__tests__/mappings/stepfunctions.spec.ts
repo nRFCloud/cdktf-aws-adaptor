@@ -36,7 +36,7 @@ describe("Step Functions mappings", () => {
         SfnStateMachine,
         {
           name: "name",
-          definition: "\${jsondecode(join(\"\", [\"{\\\"StartAt\\\": \\\"HelloWorld\\\", \\\"States\\\": {}}\"]))}",
+          definition: "\${join(\"\", [\"{\\\"StartAt\\\": \\\"HelloWorld\\\", \\\"States\\\": {}}\"])}",
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
@@ -85,7 +85,7 @@ describe("Step Functions mappings", () => {
         SfnStateMachine,
         {
           name: "name",
-          definition: "${jsondecode(data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body)}",
+          definition: "${data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body}",
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
@@ -134,7 +134,7 @@ describe("Step Functions mappings", () => {
         SfnStateMachine,
         {
           name: "name",
-          definition: "\${jsondecode(jsonencode({\"StartAt\" = \"HelloWorld\", \"States\" = {}}))}",
+          definition: "\${jsonencode({\"StartAt\" = \"HelloWorld\", \"States\" = {}})}",
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
@@ -188,7 +188,7 @@ describe("Step Functions mappings", () => {
         {
           name: "name",
           definition:
-            "${jsondecode(replace(replace(data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body, \"$${MyFunction}\", \"arn:aws:lambda:us-east-1:123456789012:function:my-function:1\"), \"$${Task}\", \"TaskType\"))}",
+            "${replace(replace(data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body, \"$${MyFunction}\", \"arn:aws:lambda:us-east-1:123456789012:function:my-function:1\"), \"$${Task}\", \"TaskType\")}",
           roleArn: "roleArn",
           loggingConfiguration: {
             level: "ALL",
