@@ -26,7 +26,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
       \\"api_C8550315\\": {
         \\"authentication_type\\": \\"API_KEY\\",
         \\"log_config\\": {
-          \\"cloudwatch_logs_role_arn\\": \\"\${jsondecode(aws_cloudcontrolapi_resource.api_ApiLogsRole_56BEE3F1.properties).Arn}\\",
+          \\"cloudwatch_logs_role_arn\\": \\"\${aws_iam_role.api_ApiLogsRole_56BEE3F1.arn}\\",
           \\"exclude_verbose_content\\": false,
           \\"field_log_level\\": \\"ALL\\"
         },
@@ -38,16 +38,18 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
         \\"xray_enabled\\": true
       }
     },
-    \\"aws_cloudcontrolapi_resource\\": {
-      \\"api_ApiLogsRole_56BEE3F1\\": {
-        \\"desired_state\\": \\"\${jsonencode({\\\\\\"AssumeRolePolicyDocument\\\\\\" = {\\\\\\"Statement\\\\\\" = [{\\\\\\"Action\\\\\\" = \\\\\\"sts:AssumeRole\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"appsync.amazonaws.com\\\\\\"}}], \\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\"}, \\\\\\"ManagedPolicyArns\\\\\\" = [join(\\\\\\"\\\\\\", [\\\\\\"arn:\\\\\\", data.aws_partition.aws-partition.partition, \\\\\\":iam::aws:policy/service-role/AWSAppSyncPushToCloudWatchLogs\\\\\\"])]})}\\",
-        \\"type_name\\": \\"AWS::IAM::Role\\"
-      }
-    },
     \\"aws_cloudwatch_log_group\\": {
       \\"api_LogRetention_531D9956\\": {
         \\"name\\": \\"\${join(\\\\\\"\\\\\\", [\\\\\\"/aws/appsync/apis/\\\\\\", aws_appsync_graphql_api.api_C8550315.id])}\\",
         \\"skip_destroy\\": true
+      }
+    },
+    \\"aws_iam_role\\": {
+      \\"api_ApiLogsRole_56BEE3F1\\": {
+        \\"assume_role_policy\\": \\"\${jsonencode({\\\\\\"Statement\\\\\\" = [{\\\\\\"Action\\\\\\" = \\\\\\"sts:AssumeRole\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"appsync.amazonaws.com\\\\\\"}}], \\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\"})}\\",
+        \\"managed_policy_arns\\": [
+          \\"\${join(\\\\\\"\\\\\\", [\\\\\\"arn:\\\\\\", data.aws_partition.aws-partition.partition, \\\\\\":iam::aws:policy/service-role/AWSAppSyncPushToCloudWatchLogs\\\\\\"])}\\"
+        ]
       }
     },
     \\"aws_s3_bucket\\": {

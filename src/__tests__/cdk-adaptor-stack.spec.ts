@@ -157,12 +157,12 @@ describe("Stack synthesis", () => {
 
       expect(synthed).toHaveResourceWithProperties(S3BucketPolicy, {
         bucket:
-          "${replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_cloudcontrolapi_resource.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")}",
+          "${replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_iam_role.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")}",
       });
 
       expect(synthed).toHaveResourceWithProperties(S3Bucket, {
         bucket:
-          "${replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_cloudcontrolapi_resource.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")}",
+          "${replace(replace(replace(replace(replace(replace(lower(join(\"\", [\"test\", aws_iam_role.role_C7B7E775.id])), \"/\", \".\"), \"-\", \"_\"), \"+\", \".\"), \"=\", \"_\"), \",\", \"_\"), \"@\", \".\")}",
       });
       // expect(synthed).toHaveResourceWithProperties(CloudcontrolapiResource, {
       //   desired_state:
