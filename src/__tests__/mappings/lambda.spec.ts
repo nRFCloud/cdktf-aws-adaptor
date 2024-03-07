@@ -1,8 +1,15 @@
+import { LambdaAlias } from "@cdktf/provider-aws/lib/lambda-alias/index.js";
 import { LambdaFunction } from "@cdktf/provider-aws/lib/lambda-function/index.js";
 import { LambdaLayerVersionPermission } from "@cdktf/provider-aws/lib/lambda-layer-version-permission/index.js";
 import { LambdaLayerVersion } from "@cdktf/provider-aws/lib/lambda-layer-version/index.js";
 import { LambdaPermission } from "@cdktf/provider-aws/lib/lambda-permission/index.js";
-import { CfnFunction, CfnLayerVersion, CfnLayerVersionPermission, CfnPermission } from "aws-cdk-lib/aws-lambda";
+import {
+  CfnAlias,
+  CfnFunction,
+  CfnLayerVersion,
+  CfnLayerVersionPermission,
+  CfnPermission,
+} from "aws-cdk-lib/aws-lambda";
 import { describe } from "vitest";
 import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
 
@@ -78,6 +85,43 @@ describe("Lambda mappings", () => {
       statementId: "teststackawstackresourceC278F851",
     },
   );
+
+  it("should map CfnAlias to LambdaAlias", () => {
+    synthesizeElementAndTestStability(
+      CfnAlias,
+      {
+        description: "description",
+        functionName: "functionName",
+        functionVersion: "functionVersion",
+        name: "name",
+        routingConfig: {
+          additionalVersionWeights: [
+            {
+              functionVersion: "1",
+              functionWeight: 2,
+            },
+            {
+              functionVersion: "2",
+              functionWeight: 1,
+            },
+          ],
+        },
+      },
+      LambdaAlias,
+      {
+        description: "description",
+        functionName: "functionName",
+        functionVersion: "functionVersion",
+        name: "name",
+        routingConfig: {
+          additionalVersionWeights: {
+            "1": 2,
+            "2": 1,
+          },
+        },
+      },
+    );
+  });
 
   it("should map CfnFunction to LambdaFunction", () => {
     synthesizeElementAndTestStability(
