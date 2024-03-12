@@ -30,6 +30,17 @@ exports[`Route53 mappings > Should map AWS::Route53::RecordSet 1`] = `
           \\"country\\": \\"test-country\\",
           \\"subdivision\\": \\"test-subdivision-code\\"
         },
+        \\"geoproximity_routing_policy\\": {
+          \\"aws_region\\": \\"test-region\\",
+          \\"bias\\": 60,
+          \\"coordinates\\": [
+            {
+              \\"latitude\\": \\"test-latitude\\",
+              \\"longitude\\": \\"test-longitude\\"
+            }
+          ],
+          \\"local_zone_group\\": \\"test-local-zone-group\\"
+        },
         \\"health_check_id\\": \\"test-health-check-id\\",
         \\"latency_routing_policy\\": {
           \\"region\\": \\"test-region\\"
@@ -58,7 +69,7 @@ exports[`Route53 mappings > Should map AWS::Route53::RecordSet 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.37.0\\"
+        \\"version\\": \\"5.40.0\\"
       }
     }
   },

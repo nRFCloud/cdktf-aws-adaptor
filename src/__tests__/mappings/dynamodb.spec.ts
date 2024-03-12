@@ -6,187 +6,187 @@ import { itShouldMapCfnElementToTerraformResource } from "../helpers.js";
 setupJest();
 
 describe("DynamoDB mappings", () => {
-  itShouldMapCfnElementToTerraformResource(
-    CfnTable,
-    {
-      tags: [
+    itShouldMapCfnElementToTerraformResource(
+        CfnTable,
         {
-          key: "Name",
-          value: "test-table",
-        },
-      ],
-      tableName: "test-table",
-      timeToLiveSpecification: {
-        attributeName: "test-attribute-name",
-        enabled: true,
-      },
-      tableClass: "test-table-class",
-      globalSecondaryIndexes: [
-        {
-          indexName: "test-index",
-          contributorInsightsSpecification: {
-            enabled: true,
-          },
-          keySchema: [
-            {
-              attributeName: "test-attribute-name",
-              keyType: "HASH",
+            tags: [
+                {
+                    key: "Name",
+                    value: "test-table",
+                },
+            ],
+            tableName: "test-table",
+            timeToLiveSpecification: {
+                attributeName: "test-attribute-name",
+                enabled: true,
             },
-            {
-              attributeName: "test-attribute-name-range",
-              keyType: "RANGE",
+            tableClass: "test-table-class",
+            globalSecondaryIndexes: [
+                {
+                    indexName: "test-index",
+                    contributorInsightsSpecification: {
+                        enabled: true,
+                    },
+                    keySchema: [
+                        {
+                            attributeName: "test-attribute-name",
+                            keyType: "HASH",
+                        },
+                        {
+                            attributeName: "test-attribute-name-range",
+                            keyType: "RANGE",
+                        },
+                    ],
+                    projection: {
+                        projectionType: "ALL",
+                        nonKeyAttributes: ["test"],
+                    },
+                    provisionedThroughput: {
+                        readCapacityUnits: 1,
+                        writeCapacityUnits: 1,
+                    },
+                },
+            ],
+            keySchema: [
+                {
+                    attributeName: "test-attribute-name",
+                    keyType: "HASH",
+                },
+                {
+                    attributeName: "test-attribute-name-range",
+                    keyType: "RANGE",
+                },
+            ],
+            provisionedThroughput: {
+                readCapacityUnits: 1,
+                writeCapacityUnits: 1,
             },
-          ],
-          projection: {
-            projectionType: "ALL",
-            nonKeyAttributes: ["test"],
-          },
-          provisionedThroughput: {
-            readCapacityUnits: 1,
-            writeCapacityUnits: 1,
-          },
-        },
-      ],
-      keySchema: [
-        {
-          attributeName: "test-attribute-name",
-          keyType: "HASH",
-        },
-        {
-          attributeName: "test-attribute-name-range",
-          keyType: "RANGE",
-        },
-      ],
-      provisionedThroughput: {
-        readCapacityUnits: 1,
-        writeCapacityUnits: 1,
-      },
-      streamSpecification: {
-        streamViewType: "NEW_IMAGE",
-      },
-      attributeDefinitions: [
-        {
-          attributeName: "test-attribute-name",
-          attributeType: "S",
-        },
-      ],
-      localSecondaryIndexes: [
-        {
-          indexName: "test-index",
-          keySchema: [
-            {
-              attributeName: "test-attribute-name",
-              keyType: "HASH",
+            streamSpecification: {
+                streamViewType: "NEW_IMAGE",
             },
-            {
-              attributeName: "test-attribute-name-range",
-              keyType: "RANGE",
+            attributeDefinitions: [
+                {
+                    attributeName: "test-attribute-name",
+                    attributeType: "S",
+                },
+            ],
+            localSecondaryIndexes: [
+                {
+                    indexName: "test-index",
+                    keySchema: [
+                        {
+                            attributeName: "test-attribute-name",
+                            keyType: "HASH",
+                        },
+                        {
+                            attributeName: "test-attribute-name-range",
+                            keyType: "RANGE",
+                        },
+                    ],
+                    projection: {
+                        projectionType: "ALL",
+                        nonKeyAttributes: ["test"],
+                    },
+                },
+            ],
+            pointInTimeRecoverySpecification: {
+                pointInTimeRecoveryEnabled: true,
             },
-          ],
-          projection: {
-            projectionType: "ALL",
-            nonKeyAttributes: ["test"],
-          },
+            billingMode: "PROVISIONED",
+            sseSpecification: {
+                sseEnabled: true,
+                kmsMasterKeyId: "test-kms-master-key-id",
+                sseType: "KMS",
+            },
+            contributorInsightsSpecification: {
+                enabled: true,
+            },
+            deletionProtectionEnabled: true,
+            kinesisStreamSpecification: {
+                streamArn: "test-stream-arn",
+            },
+            importSourceSpecification: {
+                s3BucketSource: {
+                    s3Bucket: "test-s3-bucket",
+                    s3BucketOwner: "test-s3-bucket-owner",
+                    s3KeyPrefix: "test-s3",
+                },
+                inputCompressionType: "NONE",
+                inputFormat: "JSON",
+                inputFormatOptions: {
+                    csv: {
+                        delimiter: "test-delimiter",
+                        headerList: ["test-header-list"],
+                    },
+                },
+            },
         },
-      ],
-      pointInTimeRecoverySpecification: {
-        pointInTimeRecoveryEnabled: true,
-      },
-      billingMode: "PROVISIONED",
-      sseSpecification: {
-        sseEnabled: true,
-        kmsMasterKeyId: "test-kms-master-key-id",
-        sseType: "KMS",
-      },
-      contributorInsightsSpecification: {
-        enabled: true,
-      },
-      deletionProtectionEnabled: true,
-      kinesisStreamSpecification: {
-        streamArn: "test-stream-arn",
-      },
-      importSourceSpecification: {
-        s3BucketSource: {
-          s3Bucket: "test-s3-bucket",
-          s3BucketOwner: "test-s3-bucket-owner",
-          s3KeyPrefix: "test-s3",
-        },
-        inputCompressionType: "NONE",
-        inputFormat: "JSON",
-        inputFormatOptions: {
-          csv: {
-            delimiter: "test-delimiter",
-            headerList: ["test-header-list"],
-          },
-        },
-      },
-    },
-    DynamodbTable,
-    {
-      tags: {
-        Name: "test-table",
-      },
-      name: "test-table",
-      deletionProtectionEnabled: true,
-      ttl: {
-        attributeName: "test-attribute-name",
-        enabled: true,
-      },
-      tableClass: "test-table-class",
-      globalSecondaryIndex: [
+        DynamodbTable,
         {
-          name: "test-index",
-          hashKey: "test-attribute-name",
-          projectionType: "ALL",
-          readCapacity: 1,
-          rangeKey: "test-attribute-name-range",
-          writeCapacity: 1,
-          nonKeyAttributes: ["test"],
+            tags: {
+                Name: "test-table",
+            },
+            name: "test-table",
+            deletionProtectionEnabled: true,
+            ttl: {
+                attributeName: "test-attribute-name",
+                enabled: true,
+            },
+            tableClass: "test-table-class",
+            globalSecondaryIndex: [
+                {
+                    name: "test-index",
+                    hashKey: "test-attribute-name",
+                    projectionType: "ALL",
+                    readCapacity: 1,
+                    rangeKey: "test-attribute-name-range",
+                    writeCapacity: 1,
+                    nonKeyAttributes: ["test"],
+                },
+            ],
+            hashKey: "test-attribute-name",
+            rangeKey: "test-attribute-name-range",
+            billingMode: "PROVISIONED",
+            streamViewType: "NEW_IMAGE",
+            attribute: [
+                {
+                    name: "test-attribute-name",
+                    type: "S",
+                },
+            ],
+            localSecondaryIndex: [
+                {
+                    name: "test-index",
+                    projectionType: "ALL",
+                    rangeKey: "test-attribute-name-range",
+                    nonKeyAttributes: ["test"],
+                },
+            ],
+            writeCapacity: 1,
+            readCapacity: 1,
+            pointInTimeRecovery: {
+                enabled: true,
+            },
+            serverSideEncryption: {
+                enabled: true,
+                kmsKeyArn: "test-kms-master-key-id",
+            },
+            importTable: {
+                s3BucketSource: {
+                    bucket: "test-s3-bucket",
+                    keyPrefix: "test-s3",
+                    bucketOwner: "test-s3-bucket-owner",
+                },
+                inputCompressionType: "NONE",
+                inputFormat: "JSON",
+                inputFormatOptions: {
+                    csv: {
+                        delimiter: "test-delimiter",
+                        headerList: ["test-header-list"],
+                    },
+                },
+            },
+            streamEnabled: true,
         },
-      ],
-      hashKey: "test-attribute-name",
-      rangeKey: "test-attribute-name-range",
-      billingMode: "PROVISIONED",
-      streamViewType: "NEW_IMAGE",
-      attribute: [
-        {
-          name: "test-attribute-name",
-          type: "S",
-        },
-      ],
-      localSecondaryIndex: [
-        {
-          name: "test-index",
-          projectionType: "ALL",
-          rangeKey: "test-attribute-name-range",
-          nonKeyAttributes: ["test"],
-        },
-      ],
-      writeCapacity: 1,
-      readCapacity: 1,
-      pointInTimeRecovery: {
-        enabled: true,
-      },
-      serverSideEncryption: {
-        enabled: true,
-        kmsKeyArn: "test-kms-master-key-id",
-      },
-      importTable: {
-        s3BucketSource: {
-          bucket: "test-s3-bucket",
-          keyPrefix: "test-s3",
-          bucketOwner: "test-s3-bucket-owner",
-        },
-        inputCompressionType: "NONE",
-        inputFormat: "JSON",
-        inputFormatOptions: {
-          csv: {
-            delimiter: "test-delimiter",
-            headerList: ["test-header-list"],
-          },
-        },
-      },
-      streamEnabled: true,
-    },
-  );
+    );
 });

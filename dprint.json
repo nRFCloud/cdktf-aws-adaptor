@@ -1,5 +1,6 @@
 {
   "typescript": {
+    "indentWidth": 4
   },
   "json": {
   },

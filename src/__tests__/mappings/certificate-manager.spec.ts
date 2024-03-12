@@ -8,58 +8,58 @@ import { synthesizeElementAndTestStability } from "../helpers.js";
 setupJest();
 
 describe("CertificateManager mappings", () => {
-  it("should map AWS::CertificateManager::Certificate", () => {
-    const { synth } = synthesizeElementAndTestStability(
-      CfnCertificate,
-      {
-        domainName: "domain-name",
-        tags: [
-          {
-            key: "key",
-            value: "value",
-          },
-        ],
-        certificateAuthorityArn: "certificate-authority-arn",
-        certificateTransparencyLoggingPreference: "certificate-transparency-logging-preference",
-        keyAlgorithm: "key-algorithm",
-        validationMethod: "DNS",
-        subjectAlternativeNames: [
-          "subject-alternative-name",
-        ],
-        domainValidationOptions: [
-          {
-            domainName: "domain-name",
-            validationDomain: "validation-domain",
-            hostedZoneId: "hosted-zone-id",
-          },
-        ],
-      },
-      AcmCertificate,
-      {
-        domainName: "domain-name",
-        tags: {
-          key: "value",
-        },
-        keyAlgorithm: "key-algorithm",
-        validationMethod: "DNS",
-        subjectAlternativeNames: [
-          "subject-alternative-name",
-        ],
-        certificateAuthorityArn: "certificate-authority-arn",
-        validationOption: [
-          {
-            domainName: "domain-name",
-            validationDomain: "validation-domain",
-          },
-        ],
-        options: {
-          certificateTransparencyLoggingPreference: "certificate-transparency-logging-preference",
-        },
-      },
-    );
+    it("should map AWS::CertificateManager::Certificate", () => {
+        const { synth } = synthesizeElementAndTestStability(
+            CfnCertificate,
+            {
+                domainName: "domain-name",
+                tags: [
+                    {
+                        key: "key",
+                        value: "value",
+                    },
+                ],
+                certificateAuthorityArn: "certificate-authority-arn",
+                certificateTransparencyLoggingPreference: "certificate-transparency-logging-preference",
+                keyAlgorithm: "key-algorithm",
+                validationMethod: "DNS",
+                subjectAlternativeNames: [
+                    "subject-alternative-name",
+                ],
+                domainValidationOptions: [
+                    {
+                        domainName: "domain-name",
+                        validationDomain: "validation-domain",
+                        hostedZoneId: "hosted-zone-id",
+                    },
+                ],
+            },
+            AcmCertificate,
+            {
+                domainName: "domain-name",
+                tags: {
+                    key: "value",
+                },
+                keyAlgorithm: "key-algorithm",
+                validationMethod: "DNS",
+                subjectAlternativeNames: [
+                    "subject-alternative-name",
+                ],
+                certificateAuthorityArn: "certificate-authority-arn",
+                validationOption: [
+                    {
+                        domainName: "domain-name",
+                        validationDomain: "validation-domain",
+                    },
+                ],
+                options: {
+                    certificateTransparencyLoggingPreference: "certificate-transparency-logging-preference",
+                },
+            },
+        );
 
-    expect(synth).toHaveResource(AcmCertificateValidation);
-    expect(synth).toHaveResource(Route53Record);
-    // expect(Testing.fullSynth(stack)).toPlanSuccessfully()
-  });
+        expect(synth).toHaveResource(AcmCertificateValidation);
+        expect(synth).toHaveResource(Route53Record);
+        // expect(Testing.fullSynth(stack)).toPlanSuccessfully()
+    });
 });

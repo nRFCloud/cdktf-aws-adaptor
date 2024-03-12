@@ -17,29 +17,29 @@ import { registerStepFunctinMappings } from "./services/stepfunctions.js";
 import { registerMapping } from "./utils.js";
 
 export function registerMappings() {
-  registerMapping("AWS::CloudFormation::CustomResource", {
-    resource: (scope, id) => {
-      throw new Error(`Custom resource was attached to ${id}. Custom resources are not supported`);
-    },
-    attributes: {},
-  });
+    registerMapping("AWS::CloudFormation::CustomResource", {
+        resource: (scope, id) => {
+            throw new Error(`Custom resource was attached to ${id}. Custom resources are not supported`);
+        },
+        attributes: {},
+    });
 
-  registerCognitoMappings();
-  registerDynamoDBMappings();
-  registerLambdaMappings();
-  registerS3Mappings();
-  registerCertificateManagerMappings();
-  registerRoute53Mappings();
-  registerAppSyncMappings();
-  registerEC2VPCMappings();
-  registerEventsMappings();
-  registerIamMappings();
-  registerApiGatewayMappings();
-  registerLogMappings();
-  registerCloudfrontMappings();
-  registerSqsMappings();
-  registerSnsMappings();
-  registerStepFunctinMappings();
+    registerCognitoMappings();
+    registerDynamoDBMappings();
+    registerLambdaMappings();
+    registerS3Mappings();
+    registerCertificateManagerMappings();
+    registerRoute53Mappings();
+    registerAppSyncMappings();
+    registerEC2VPCMappings();
+    registerEventsMappings();
+    registerIamMappings();
+    registerApiGatewayMappings();
+    registerLogMappings();
+    registerCloudfrontMappings();
+    registerSqsMappings();
+    registerSnsMappings();
+    registerStepFunctinMappings();
 }
 
 registerMappings();
