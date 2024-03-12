@@ -8,7 +8,7 @@ import { Construct } from "constructs";
 import supportedAwsccResourceTypes from "../lib/core/awscc/supported-types.js";
 import supportedTypes from "../lib/core/awscc/supported-types.js";
 import { AdaptCfnProps, CfnAttributes } from "./cfn-mapper-types.js";
-import { mapperDebug, ResourceMapper } from "./helper.js";
+import { mapperDebug, mapperWarn, ResourceMapper } from "./helper.js";
 
 export function deleteUndefinedKeys<T>(obj: T): T {
     for (const key in obj) {
@@ -79,7 +79,7 @@ export function findMapping(
     // no mapping found, trying to use generic aws_cloudcontrolapi_resource
     // this can lead to inconsistent behavior as cloud control constantly runs into issues updating resources
     if (process.env.CLOUDCONTROL_FALLBACK === "true" || useCloudControlFallback) {
-        console.warn(
+        mapperWarn(
             `Attempting to fallback to AWS CloudControlApi resource for ${resourceType}. Cloud control mappings are actively discouraged as they are not stable and can lead to inconsistent behavior. This behaviour will be disabled by default in a future release`,
         );
         return createGenericCCApiMapping(resourceType) as unknown as Mapping<TerraformResource>; // TODO: fix type to allow this
