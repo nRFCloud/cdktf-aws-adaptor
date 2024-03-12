@@ -1,5 +1,15 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.6.0
+
+### Minor Changes
+
+- 70e507a: explicit mapping for iam role
+- 5d4f3a9: deprecate default on auto mappings
+- 95447f0: stepfunction mapping
+- 6e8992b: added lambda event source mapping
+- 0bf9118: update aws cdk and provider as well as associated constructs
+
 ## 0.5.0
 
 ### Minor Changes
