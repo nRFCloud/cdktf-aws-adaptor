@@ -5,43 +5,43 @@ import { resolve } from "cdktf/lib/_tokens.js";
 import { synthesizeElementAndTestStability } from "../helpers.js";
 
 describe("S3 mappings", () => {
-  it("Should map AWS::S3::BucketPolicy", () => {
-    synthesizeElementAndTestStability(
-      CfnBucketPolicy,
-      {
-        bucket: "test-bucket",
-        policyDocument: {
-          Version: "2012-10-17",
-          Statement: [
+    it("Should map AWS::S3::BucketPolicy", () => {
+        synthesizeElementAndTestStability(
+            CfnBucketPolicy,
             {
-              Sid: "test-sid",
-              Effect: "Allow",
-              Principal: "*",
-              Action: ["s3:GetObject"],
-              Resource: ["arn:aws:s3:::test-bucket/*"],
+                bucket: "test-bucket",
+                policyDocument: {
+                    Version: "2012-10-17",
+                    Statement: [
+                        {
+                            Sid: "test-sid",
+                            Effect: "Allow",
+                            Principal: "*",
+                            Action: ["s3:GetObject"],
+                            Resource: ["arn:aws:s3:::test-bucket/*"],
+                        },
+                    ],
+                },
             },
-          ],
-        },
-      },
-      S3BucketPolicy,
-      {
-        bucket: "test-bucket",
-        policy: resolve(
-          new App(),
-          Fn.jsonencode({
-            Version: "2012-10-17",
-            Statement: [
-              {
-                Sid: "test-sid",
-                Effect: "Allow",
-                Principal: "*",
-                Action: ["s3:GetObject"],
-                Resource: ["arn:aws:s3:::test-bucket/*"],
-              },
-            ],
-          }),
-        ),
-      },
-    );
-  });
+            S3BucketPolicy,
+            {
+                bucket: "test-bucket",
+                policy: resolve(
+                    new App(),
+                    Fn.jsonencode({
+                        Version: "2012-10-17",
+                        Statement: [
+                            {
+                                Sid: "test-sid",
+                                Effect: "Allow",
+                                Principal: "*",
+                                Action: ["s3:GetObject"],
+                                Resource: ["arn:aws:s3:::test-bucket/*"],
+                            },
+                        ],
+                    }),
+                ),
+            },
+        );
+    });
 });

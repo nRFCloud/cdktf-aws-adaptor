@@ -45,13 +45,69 @@ exports[`IAM Mappings > should map AWS::IAM::Policy 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.37.0\\"
+        \\"version\\": \\"5.40.0\\"
       }
     }
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
       \\"default\\": \\"\${aws_iam_policy.resource_22C949BF.id}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
+exports[`IAM Mappings > should map AWS::IAM::Role 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_iam_role\\": {
+      \\"resource_22C949BF\\": {
+        \\"assume_role_policy\\": \\"\${jsonencode({\\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\", \\\\\\"Statement\\\\\\" = [{\\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"ec2.amazonaws.com\\\\\\"}}]})}\\",
+        \\"description\\": \\"IamRole\\",
+        \\"inline_policy\\": [
+          {
+            \\"name\\": \\"test-policy\\",
+            \\"policy\\": \\"\${jsonencode({\\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\", \\\\\\"Statement\\\\\\" = [{\\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\"}]})}\\"
+          }
+        ],
+        \\"managed_policy_arns\\": [
+          \\"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\\"
+        ],
+        \\"max_session_duration\\": 3600,
+        \\"name\\": \\"test-role\\",
+        \\"path\\": \\"packages/cdktf-adaptor/src/mappings/services/iam.ts\\",
+        \\"permissions_boundary\\": \\"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\\",
+        \\"tags\\": {
+          \\"Name\\": \\"test-role\\"
+        }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.40.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_iam_role.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_iam_role.resource_22C949BF.id])}\\",
       \\"type\\": \\"string\\"
     }
   }
