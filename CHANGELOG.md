@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.6.1
+
+### Patch Changes
+
+- f9530e9: Map managed policy ARNs to policy attachments for roles
+
 ## 0.6.0
 
 ### Minor Changes
