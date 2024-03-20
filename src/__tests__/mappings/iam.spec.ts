@@ -67,7 +67,6 @@ describe("IAM Mappings", () => {
                             "$\{jsonencode(\{\"Version\" = \"2012-10-17\", \"Statement\" = [{\"Effect\" = \"Allow\"}]})\}",
                     },
                 ],
-                managedPolicyArns: ["arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role"],
                 permissionsBoundary: "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
                 tags: {
                     Name: "test-role",
