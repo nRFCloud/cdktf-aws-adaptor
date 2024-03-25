@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.6.2
+
+### Patch Changes
+
+- 146f3cd: workaround event source provider issue
+
 ## 0.6.1
 
 ### Patch Changes
