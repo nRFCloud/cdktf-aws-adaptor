@@ -11,7 +11,7 @@ import {
     CfnLayerVersionPermission,
     CfnPermission,
 } from "aws-cdk-lib/aws-lambda";
-import { Fn } from "cdktf";
+import { Fn, TerraformLocal } from "cdktf";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerLambdaMappings() {
@@ -185,6 +185,19 @@ export function registerLambdaMappings() {
 
     registerMappingTyped(CfnEventSourceMapping, LambdaEventSourceMapping, {
         resource(scope, id, props) {
+            let selfManagedEventSourceLocal: TerraformLocal | undefined = undefined;
+            if (props.SelfManagedEventSource?.Endpoints?.KafkaBootstrapServers != null) {
+                selfManagedEventSourceLocal = new TerraformLocal(
+                    scope,
+                    "selfmanaged-kafka-bootstrap-servers",
+                    Fn.jsonencode({
+                        KAFKA_BOOTSTRAP_SERVERS: (props.SelfManagedEventSource?.Endpoints?.KafkaBootstrapServers != null
+                            ? Fn.join(",", props.SelfManagedEventSource?.Endpoints?.KafkaBootstrapServers)
+                            : undefined) as string,
+                    }),
+                );
+            }
+
             return new LambdaEventSourceMapping(
                 scope,
                 id,
@@ -221,14 +234,11 @@ export function registerLambdaMappings() {
                         : undefined,
                     maximumBatchingWindowInSeconds: props.MaximumBatchingWindowInSeconds,
                     enabled: props.Enabled,
-                    selfManagedEventSource: {
-                        endpoints: {
-                            KAFKA_BOOTSTRAP_SERVERS:
-                                (props.SelfManagedEventSource?.Endpoints?.KafkaBootstrapServers != null
-                                    ? Fn.join(",", props.SelfManagedEventSource?.Endpoints?.KafkaBootstrapServers)
-                                    : undefined) as string,
-                        },
-                    },
+                    selfManagedEventSource: selfManagedEventSourceLocal != null
+                        ? {
+                            endpoints: Fn.jsondecode(selfManagedEventSourceLocal.asString),
+                        }
+                        : undefined,
                     queues: props.Queues,
                     sourceAccessConfiguration: props?.SourceAccessConfigurations?.map(config => ({
                         uri: config.URI as string,
