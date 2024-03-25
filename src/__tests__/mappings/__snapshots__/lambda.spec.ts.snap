@@ -2,6 +2,9 @@
 
 exports[`Lambda mappings > Should map AWS::Lambda::EventSourceMapping 1`] = `
 "{
+  \\"locals\\": {
+    \\"resource_selfmanaged-kafka-bootstrap-servers_C65ED52F\\": \\"\${jsonencode({\\\\\\"KAFKA_BOOTSTRAP_SERVERS\\\\\\" = join(\\\\\\",\\\\\\", [\\\\\\"kafkaBootstrapServers\\\\\\"])})}\\"
+  },
   \\"provider\\": {
     \\"aws\\": [
       {
@@ -52,9 +55,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::EventSourceMapping 1`] = `
           \\"maximum_concurrency\\": 1
         },
         \\"self_managed_event_source\\": {
-          \\"endpoints\\": {
-            \\"KAFKA_BOOTSTRAP_SERVERS\\": \\"\${join(\\\\\\",\\\\\\", [\\\\\\"kafkaBootstrapServers\\\\\\"])}\\"
-          }
+          \\"endpoints\\": \\"\${jsondecode(local.resource_selfmanaged-kafka-bootstrap-servers_C65ED52F)}\\"
         },
         \\"self_managed_kafka_event_source_config\\": {
           \\"consumer_group_id\\": \\"consumerGroupId\\"
