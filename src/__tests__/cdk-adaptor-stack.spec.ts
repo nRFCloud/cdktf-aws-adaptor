@@ -1,5 +1,6 @@
 import { AppsyncGraphqlApi } from "@cdktf/provider-aws/lib/appsync-graphql-api/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
+import { IamRole } from "@cdktf/provider-aws/lib/iam-role/index.js";
 import { S3BucketPolicy } from "@cdktf/provider-aws/lib/s3-bucket-policy/index.js";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket/index.js";
 import { S3Object } from "@cdktf/provider-aws/lib/s3-object/index.js";
@@ -13,6 +14,7 @@ import { readFileSync, statSync } from "node:fs";
 import * as path from "node:path";
 import * as url from "node:url";
 import { AwsTerraformAdaptorStack } from "../lib/core/cdk-adaptor-stack.js";
+import { ImplicitDependencyAspect } from "../mappings/implicit-dependency-aspect.js";
 import { registerMappings } from "../mappings/index.js";
 import { resourceMappings } from "../mappings/utils.js";
 
@@ -81,6 +83,42 @@ describe("Stack synthesis", () => {
 
         testStack.prepareStack();
         expect(Testing.fullSynth(testStack)).toBeValidTerraform();
+    });
+
+    describe("Should handle implicit dependencies", () => {
+        it("Should add implicit dependencies to resources", () => {
+            class TestStack extends AwsTerraformAdaptorStack {
+                public readonly role = new IamRole(this, "role", {
+                    assumeRolePolicy:
+                        "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"}}]}",
+                });
+                public readonly bucket = new S3Bucket(this, "bucket", {
+                    bucket: "cool",
+                });
+                public readonly otherBucket = new S3Bucket(this, "other-bucket", {
+                    bucket: this.bucket.bucket,
+                });
+                public readonly implicitDependency = ImplicitDependencyAspect.of(this.bucket, [this.role]);
+            }
+
+            const testApp = Testing.app();
+            const testStack = new TestStack(testApp, "test-stack", {
+                region: "us-east-1",
+                useCloudControlFallback: false,
+            });
+
+            testStack.prepareStack();
+            const synthed = Testing.synth(testStack);
+
+            expect(synthed).toHaveResourceWithProperties(S3Bucket, {
+                depends_on: ["aws_iam_role.role"],
+            });
+
+            expect(testStack.role).not.toHaveProperty("dependsOn");
+            expect(testStack.role.node.dependencies).toHaveLength(0);
+
+            expect(Testing.fullSynth(testStack)).toBeValidTerraform();
+        });
     });
 
     describe("Should synthesize native terraform resources", () => {

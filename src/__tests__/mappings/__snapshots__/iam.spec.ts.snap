@@ -60,21 +60,15 @@ exports[`IAM Mappings > should map AWS::IAM::Policy 1`] = `
 
 exports[`IAM Mappings > should map AWS::IAM::Role 1`] = `
 "{
-  \\"data\\": {
-    \\"aws_iam_role\\": {
-      \\"resource_resource-data_E9A5FDBC\\": {
-        \\"depends_on\\": [
-          \\"aws_iam_role_policy_attachment.resource_resource-managed-policy-0_D5E0A017\\"
-        ],
-        \\"name\\": \\"\${aws_iam_role.resource_22C949BF.name}\\"
-      }
-    }
-  },
   \\"provider\\": {
     \\"aws\\": [
       {
         \\"alias\\": \\"us_east_1\\",
         \\"region\\": \\"us-east-1\\"
+      }
+    ],
+    \\"time\\": [
+      {
       }
     ]
   },
@@ -100,8 +94,20 @@ exports[`IAM Mappings > should map AWS::IAM::Role 1`] = `
     },
     \\"aws_iam_role_policy_attachment\\": {
       \\"resource_resource-managed-policy-0_D5E0A017\\": {
+        \\"depends_on\\": [
+          \\"time_sleep.resource_resource-wait_D049D385\\"
+        ],
         \\"policy_arn\\": \\"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\\",
         \\"role\\": \\"\${aws_iam_role.resource_22C949BF.name}\\"
+      }
+    },
+    \\"time_sleep\\": {
+      \\"resource_resource-wait_D049D385\\": {
+        \\"create_duration\\": \\"15s\\",
+        \\"depends_on\\": [
+          \\"aws_iam_role.resource_22C949BF\\"
+        ],
+        \\"provider\\": \\"time\\"
       }
     }
   },
@@ -115,12 +121,16 @@ exports[`IAM Mappings > should map AWS::IAM::Role 1`] = `
       \\"aws\\": {
         \\"source\\": \\"aws\\",
         \\"version\\": \\"5.40.0\\"
+      },
+      \\"time\\": {
+        \\"source\\": \\"time\\",
+        \\"version\\": \\"0.7.2\\"
       }
     }
   },
   \\"variable\\": {
     \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [data.aws_iam_role.resource_resource-data_E9A5FDBC.arn, \\\\\\",\\\\\\", data.aws_iam_role.resource_resource-data_E9A5FDBC.id])}\\",
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_iam_role.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_iam_role.resource_22C949BF.id])}\\",
       \\"type\\": \\"string\\"
     }
   }

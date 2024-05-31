@@ -12,7 +12,7 @@ import { mapperDebug, mapperWarn, ResourceMapper } from "./helper.js";
 
 export function deleteUndefinedKeys<T>(obj: T): T {
     for (const key in obj) {
-        if (obj[key] && typeof obj[key] === "object") {
+        if (obj[key] && typeof obj[key] === "object" && !(obj[key] instanceof TerraformResource)) {
             deleteUndefinedKeys(obj[key]);
             if (Object.keys(obj[key] as object).length === 0) {
                 delete obj[key];
