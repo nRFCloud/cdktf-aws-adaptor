@@ -300,9 +300,7 @@ describe("Lambda mappings", () => {
                 consumerGroupId: "consumerGroupId",
             },
             selfManagedEventSource: {
-                endpoints: {
-                    KAFKA_BOOTSTRAP_SERVERS: `\${join(",", ["kafkaBootstrapServers"])}`,
-                },
+                endpoints: "${jsondecode(local.resource_selfmanaged-kafka-bootstrap-servers_C65ED52F)}" as any,
             },
             sourceAccessConfiguration: [{
                 type: "type",

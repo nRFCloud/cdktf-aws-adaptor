@@ -3,7 +3,9 @@ import { IamPolicy } from "@cdktf/provider-aws/lib/iam-policy/index.js";
 import { IamRolePolicyAttachment } from "@cdktf/provider-aws/lib/iam-role-policy-attachment/index.js";
 import { IamRole } from "@cdktf/provider-aws/lib/iam-role/index.js";
 import { IamUserPolicyAttachment } from "@cdktf/provider-aws/lib/iam-user-policy-attachment/index.js";
+import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket/index.js";
 import { CfnPolicy, CfnRole } from "aws-cdk-lib/aws-iam";
+import { Testing } from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
 import { synthesizeElementAndTestStability } from "../helpers.js";
@@ -11,7 +13,10 @@ import { synthesizeElementAndTestStability } from "../helpers.js";
 setupJest();
 describe("IAM Mappings", () => {
     it("should map AWS::IAM::Role", () => {
-        synthesizeElementAndTestStability(
+        const {
+            stack: testStack,
+            resource: iamRole,
+        } = synthesizeElementAndTestStability(
             CfnRole,
             {
                 path: "packages/cdktf-adaptor/src/mappings/services/iam.ts",
@@ -74,6 +79,19 @@ describe("IAM Mappings", () => {
                 maxSessionDuration: 3600,
             },
         );
+
+        new S3Bucket(testStack, "test-bucket", {
+            bucket: iamRole.arn,
+        });
+
+        const synth = Testing.synth(testStack);
+
+        expect(synth).toHaveResourceWithProperties(S3Bucket, {
+            depends_on: [
+                "time_sleep.resource_resource-wait_D049D385",
+                "aws_iam_role_policy_attachment.resource_resource-managed-policy-0_D5E0A017",
+            ],
+        });
     });
 
     it("should map AWS::IAM::Policy", () => {

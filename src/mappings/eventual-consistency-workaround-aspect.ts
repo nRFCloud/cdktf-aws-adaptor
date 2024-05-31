@@ -42,7 +42,7 @@ export class EventualConsistencyWorkaroundAspect implements IAspect {
     visit(node: IConstruct) {
         if (
             node instanceof TerraformResource
-            && node instanceof CloudcontrolapiResource
+            // && node instanceof CloudcontrolapiResource
             && dependsOn(node, this.eventualConsistentTarget)
         ) {
             if (!node.dependsOn) {
