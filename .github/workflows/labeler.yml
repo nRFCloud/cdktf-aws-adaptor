@@ -1,5 +1,5 @@
 name: Automatic labeler
-
+permissions: write-all
 on:
   pull_request:
     branches: [main]
