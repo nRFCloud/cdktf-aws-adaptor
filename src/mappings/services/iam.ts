@@ -52,16 +52,7 @@ export function registerIamMappings() {
             });
 
             ImplicitDependencyAspect.of(role, [eventualConsistentWait, ...managedPolicies || []]);
-            // if (managedPolicies?.length) {
-            //     const dataSource = new DataAwsIamRole(scope, `${id}-data`, {
-            //         name: role.name,
-            //         dependsOn: managedPolicies,
-            //     });
-            //     eslint-disable-next-line @typescript-eslint/no-explicit-any
-            // (role as any)[LAST_MANAGED_POLICY_DATA_SYMBOL] = dataSource;
-            // }
-            //
-            // Aspects.of(scope).add(new EventualConsistencyWorkaroundAspect(role));
+
             return role;
         },
         attributes: {

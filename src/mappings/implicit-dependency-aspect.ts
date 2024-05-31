@@ -4,15 +4,12 @@ import { findTokens } from "cdktf/lib/tokens/private/resolve.js";
 import { IConstruct } from "constructs";
 
 export class ImplicitDependencyAspect implements IAspect {
-    public readonly target: TerraformResource;
     public readonly dependables: string[];
 
     constructor(
-        target: TerraformResource,
+        public readonly target: TerraformResource,
         public readonly implicitDependencies: TerraformResource[],
     ) {
-        this.target = target;
-        this.implicitDependencies = implicitDependencies;
         this.dependables = this.implicitDependencies.map(dependable);
     }
 
