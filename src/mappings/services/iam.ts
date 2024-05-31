@@ -1,16 +1,14 @@
-import { DataAwsIamRole } from "@cdktf/provider-aws/lib/data-aws-iam-role/index.js";
 import { IamGroupPolicyAttachment } from "@cdktf/provider-aws/lib/iam-group-policy-attachment/index.js";
 import { IamPolicy } from "@cdktf/provider-aws/lib/iam-policy/index.js";
 import { IamRolePolicyAttachment } from "@cdktf/provider-aws/lib/iam-role-policy-attachment/index.js";
 import { IamRole, IamRoleConfig } from "@cdktf/provider-aws/lib/iam-role/index.js";
 import { IamUserPolicyAttachment } from "@cdktf/provider-aws/lib/iam-user-policy-attachment/index.js";
 import { CfnPolicy, CfnRole } from "aws-cdk-lib/aws-iam";
-import {Sleep} from "../../lib/core/time/sleep/index.js"
-import {Aspects, Fn, TerraformResource} from "cdktf";
+import { Fn, TerraformResource } from "cdktf";
+import { Sleep } from "../../lib/core/time/sleep/index.js";
+import { getSingletonTimeProvider } from "../../lib/stack-provider-singletons.js";
+import { ImplicitDependencyAspect } from "../implicit-dependency-aspect.js";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
-import {ImplicitDependencyAspect} from "../implicit-dependency-aspect.js";
-import {getSingletonTimeProvider} from "../../lib/stack-provider-singletons.js";
-
 
 export function registerIamMappings() {
     registerMappingTyped(CfnRole, IamRole, {
@@ -39,7 +37,7 @@ export function registerIamMappings() {
                 createDuration: "15s",
                 provider: getSingletonTimeProvider(scope),
                 dependsOn: [role],
-            })
+            });
 
             const managedPolicies = props.ManagedPolicyArns?.map((managedPolicy, index) => {
                 return new IamRolePolicyAttachment(
@@ -60,7 +58,7 @@ export function registerIamMappings() {
             //         dependsOn: managedPolicies,
             //     });
             //     eslint-disable-next-line @typescript-eslint/no-explicit-any
-                // (role as any)[LAST_MANAGED_POLICY_DATA_SYMBOL] = dataSource;
+            // (role as any)[LAST_MANAGED_POLICY_DATA_SYMBOL] = dataSource;
             // }
             //
             // Aspects.of(scope).add(new EventualConsistencyWorkaroundAspect(role));
@@ -94,36 +92,42 @@ export function registerIamMappings() {
             const implicitDependencies: TerraformResource[] = [];
 
             for (const [idx, roleArn] of roleAttachments.entries()) {
-                implicitDependencies.push(new IamRolePolicyAttachment(
-                    policy,
-                    `${id}_role${idx}`,
-                    deleteUndefinedKeys({
-                        policyArn: policy!.arn,
-                        role: roleArn,
-                    }),
-                ));
+                implicitDependencies.push(
+                    new IamRolePolicyAttachment(
+                        policy,
+                        `${id}_role${idx}`,
+                        deleteUndefinedKeys({
+                            policyArn: policy!.arn,
+                            role: roleArn,
+                        }),
+                    ),
+                );
             }
 
             for (const [idx, userArn] of userAttachments.entries()) {
-                implicitDependencies.push(new IamUserPolicyAttachment(
-                    policy,
-                    `${id}_user${idx}`,
-                    deleteUndefinedKeys({
-                        policyArn: policy!.arn,
-                        user: userArn,
-                    }),
-                ));
+                implicitDependencies.push(
+                    new IamUserPolicyAttachment(
+                        policy,
+                        `${id}_user${idx}`,
+                        deleteUndefinedKeys({
+                            policyArn: policy!.arn,
+                            user: userArn,
+                        }),
+                    ),
+                );
             }
 
             for (const [idx, groupArn] of groupAttachments.entries()) {
-                implicitDependencies.push(new IamGroupPolicyAttachment(
-                    policy,
-                    `${id}_group${idx}`,
-                    deleteUndefinedKeys({
-                        policyArn: policy!.arn,
-                        group: groupArn,
-                    }),
-                ));
+                implicitDependencies.push(
+                    new IamGroupPolicyAttachment(
+                        policy,
+                        `${id}_group${idx}`,
+                        deleteUndefinedKeys({
+                            policyArn: policy!.arn,
+                            group: groupArn,
+                        }),
+                    ),
+                );
             }
 
             if (implicitDependencies.length > 0) {

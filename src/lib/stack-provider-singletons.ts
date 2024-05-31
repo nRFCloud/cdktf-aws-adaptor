@@ -1,8 +1,10 @@
-import {TerraformProvider, TerraformStack} from "cdktf";
-import {Construct} from "constructs";
-import {TimeProvider} from "./core/time/provider/index.js";
+import { TerraformProvider, TerraformStack } from "cdktf";
+import { Construct } from "constructs";
+import { TimeProvider } from "./core/time/provider/index.js";
 
-function createStackProviderSingleton<Provider extends {new(scope: Construct, id: string, config: any): TerraformProvider}>(providerClass: Provider, config: ConstructorParameters<Provider>[2]) {
+function createStackProviderSingleton<
+    Provider extends { new(scope: Construct, id: string, config: never): TerraformProvider },
+>(providerClass: Provider, config: ConstructorParameters<Provider>[2]) {
     const providerId = `cdktf-aws-adaptor-provider-singleton-${providerClass.prototype.name}`;
     return (scope: Construct) => {
         const stack = TerraformStack.of(scope);
@@ -13,8 +15,7 @@ function createStackProviderSingleton<Provider extends {new(scope: Construct, id
         }
 
         return existingProvider;
-    }
+    };
 }
 
-
-export const getSingletonTimeProvider = createStackProviderSingleton(TimeProvider, {})
+export const getSingletonTimeProvider = createStackProviderSingleton(TimeProvider, {});

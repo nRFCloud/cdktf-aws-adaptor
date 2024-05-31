@@ -1,7 +1,7 @@
-import {Aspects, dependable, IAspect, TerraformResource, TerraformStack, Token} from "cdktf";
-import {findTokens} from "cdktf/lib/tokens/private/resolve.js";
-import {resolve} from "cdktf/lib/_tokens.js";
-import {IConstruct} from "constructs";
+import { Aspects, dependable, IAspect, TerraformResource, TerraformStack, Token } from "cdktf";
+import { resolve } from "cdktf/lib/_tokens.js";
+import { findTokens } from "cdktf/lib/tokens/private/resolve.js";
+import { IConstruct } from "constructs";
 
 export class ImplicitDependencyAspect implements IAspect {
     public readonly target: TerraformResource;
