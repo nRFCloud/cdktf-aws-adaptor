@@ -312,14 +312,18 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
         }
     }
 
-    private resolveTerraformElement(element: TerraformElement) {
+    private resolveTerraformElement(element: TerraformResource) {
         for (const [key, value] of Object.entries(element)) {
-            const tKey = key as keyof TerraformElement;
+            const tKey = key as keyof TerraformResource;
             if (
                 tKey === "cdktfStack"
                 || tKey === "node"
                 || tKey === "fqn"
                 || tKey === "friendlyUniqueId"
+                || tKey === "provider"
+                || tKey === "terraformResourceType"
+                || tKey === "terraformGeneratorMetadata"
+                || tKey === "terraformMetaArguments"
             ) continue;
 
             if (typeof value === "function" || isConstruct(value) || value == null) continue;
