@@ -1,6 +1,7 @@
 import { AppsyncGraphqlApi } from "@cdktf/provider-aws/lib/appsync-graphql-api/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { IamRole } from "@cdktf/provider-aws/lib/iam-role/index.js";
+import { AwsProvider } from "@cdktf/provider-aws/lib/provider/index.js";
 import { S3BucketPolicy } from "@cdktf/provider-aws/lib/s3-bucket-policy/index.js";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket/index.js";
 import { S3Object } from "@cdktf/provider-aws/lib/s3-object/index.js";
@@ -246,6 +247,20 @@ describe("Stack synthesis", () => {
             expect(synthesized).toHaveResourceWithProperties(S3Bucket, {
                 bucket: "cdktf-test-bucket",
             });
+        });
+
+        it("Should synthesize explicit provider specification", () => {
+            const testApp = Testing.app();
+            class TestStackWithCustomProvider extends AwsTerraformAdaptorStack {
+                public readonly testProvider = new AwsProvider(this, "test-provider");
+                public readonly bucket = new S3Bucket(this, "bucket", {
+                    bucket: "cool-bucket",
+                    provider: this.testProvider,
+                });
+            }
+            const testStack = new TestStackWithCustomProvider(testApp, "test-stack-3", {});
+            testStack.prepareStack();
+            expect(Testing.synth.bind(Testing, testStack)).not.toThrow();
         });
     });
 
