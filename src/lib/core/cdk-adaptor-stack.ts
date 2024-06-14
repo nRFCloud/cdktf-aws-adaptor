@@ -22,6 +22,7 @@ import {
     TerraformElement,
     TerraformLocal,
     TerraformOutput,
+    TerraformProvider,
     TerraformResource,
     TerraformStack,
     TerraformVariable,
@@ -320,13 +321,15 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
                 || tKey === "node"
                 || tKey === "fqn"
                 || tKey === "friendlyUniqueId"
-                || tKey === "provider"
                 || tKey === "terraformResourceType"
                 || tKey === "terraformGeneratorMetadata"
                 || tKey === "terraformMetaArguments"
             ) continue;
 
-            if (typeof value === "function" || isConstruct(value) || value == null) continue;
+            if (
+                typeof value === "function" || isConstruct(value) || value == null || value instanceof TerraformResource
+                || value instanceof TerraformProvider
+            ) continue;
             if (value["internalValue"] == null) {
                 const resolvedValue = this.host.resolve(value);
                 const intrinsicsProcessedValue = this.processIntrinsics(resolvedValue);
