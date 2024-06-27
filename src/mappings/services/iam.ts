@@ -1,9 +1,10 @@
+import { IamAccessKey } from "@cdktf/provider-aws/lib/iam-access-key/index.js";
 import { IamGroupPolicyAttachment } from "@cdktf/provider-aws/lib/iam-group-policy-attachment/index.js";
 import { IamPolicy } from "@cdktf/provider-aws/lib/iam-policy/index.js";
 import { IamRolePolicyAttachment } from "@cdktf/provider-aws/lib/iam-role-policy-attachment/index.js";
 import { IamRole, IamRoleConfig } from "@cdktf/provider-aws/lib/iam-role/index.js";
 import { IamUserPolicyAttachment } from "@cdktf/provider-aws/lib/iam-user-policy-attachment/index.js";
-import { CfnPolicy, CfnRole } from "aws-cdk-lib/aws-iam";
+import { CfnAccessKey, CfnPolicy, CfnRole } from "aws-cdk-lib/aws-iam";
 import { Fn, TerraformResource } from "cdktf";
 import { Sleep } from "../../lib/core/time/sleep/index.js";
 import { getSingletonTimeProvider } from "../../lib/stack-provider-singletons.js";
@@ -130,6 +131,21 @@ export function registerIamMappings() {
         attributes: {
             Ref: (policy: IamPolicy) => policy.id,
             Id: (policy: IamPolicy) => policy.id,
+        },
+    });
+
+    registerMappingTyped(CfnAccessKey, IamAccessKey, {
+        resource(scope, id, props) {
+            return new IamAccessKey(scope, id, {
+                user: props.UserName,
+                status: props.Status,
+            });
+        },
+        unsupportedProps: ["Serial"],
+        attributes: {
+            Ref: (accessKey: IamAccessKey) => accessKey.id,
+            Id: (accessKey: IamAccessKey) => accessKey.id,
+            SecretAccessKey: (accessKey: IamAccessKey) => accessKey.secret,
         },
     });
 }
