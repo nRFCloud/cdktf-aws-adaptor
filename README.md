@@ -82,3 +82,4 @@ registerMappingTyped(CfnBucketPolicy, S3BucketPolicy, {
 ### Cloudcontrol Wonkiness
 The Cloudcontrol api is theoretically a stable crud API 1-1 with cloudformation, but it in practice it has some quirks.
 Update operations in particular seems to break with alarming regularity, so explicit mappings are preferred, especially for complex resources.
+
