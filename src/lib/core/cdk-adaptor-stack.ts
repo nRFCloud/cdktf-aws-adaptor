@@ -161,8 +161,6 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
         this.awsStage = awsStage;
         this.host = awsCdkStack;
 
-        // this.injectAppHook(App.of(this))
-
         addCustomSynthesis(this, {
             onSynthesize: (session) => {
                 const manifest = session.manifest.forStack(this);
