@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.7.1
+
+### Patch Changes
+
+- 8a6b195: fix issue with inverted dependency synthesis
+
 ## 0.7.0
 
 ### Minor Changes
