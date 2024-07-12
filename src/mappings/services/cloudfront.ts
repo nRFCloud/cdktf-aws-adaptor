@@ -106,8 +106,8 @@ export function registerCloudfrontMappings() {
                     connectionAttempts: origin.ConnectionAttempts,
                     connectionTimeout: origin.ConnectionTimeout,
                     customOriginConfig: {
-                        httpPort: origin.CustomOriginConfig?.HTTPPort as number,
-                        httpsPort: origin.CustomOriginConfig?.HTTPSPort as number,
+                        httpPort: origin.CustomOriginConfig?.HTTPPort as number || 80,
+                        httpsPort: origin.CustomOriginConfig?.HTTPSPort as number || 443,
                         originKeepaliveTimeout: origin.CustomOriginConfig?.OriginKeepaliveTimeout,
                         originProtocolPolicy: origin.CustomOriginConfig?.OriginProtocolPolicy as string,
                         originReadTimeout: origin.CustomOriginConfig?.OriginReadTimeout,
@@ -136,7 +136,7 @@ export function registerCloudfrontMappings() {
                 restrictions: {
                     geoRestriction: {
                         restrictionType: props.DistributionConfig.Restrictions?.GeoRestriction
-                            ?.RestrictionType as string,
+                            ?.RestrictionType as string || "none",
                         locations: props.DistributionConfig.Restrictions?.GeoRestriction?.Locations,
                     },
                 },
