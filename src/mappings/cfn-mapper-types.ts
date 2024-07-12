@@ -114,6 +114,7 @@ type ConvertScriptKeySuffix<T extends string> = T extends `${infer U}Arns` ? `${
 type ConvertAnnoyingSpecialCases<T extends string> = T extends "DefaultRedirectUri" ? "DefaultRedirectURI"
     : T extends "ManagedPolicyARNs" ? "ManagedPolicyArns"
     : T extends "ProviderUrl" ? "ProviderURL"
+    : T extends "WebsiteUrl" ? "WebsiteURL"
     : T extends "" ? never
     : T;
 

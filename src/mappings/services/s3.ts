@@ -424,7 +424,7 @@ export function registerS3Mappings() {
                 const region = bucket.region;
                 return `${bucket.bucket}.s3.dualstack.${region}.amazonaws.com`;
             },
-            WebsiteUrl: (bucket: S3Bucket) => {
+            WebsiteURL: (bucket: S3Bucket) => {
                 const website =
                     (bucket as unknown as { [BUCKET_WEB_SITE]: S3BucketWebsiteConfiguration })[BUCKET_WEB_SITE];
                 return website ? website.websiteEndpoint : "";
