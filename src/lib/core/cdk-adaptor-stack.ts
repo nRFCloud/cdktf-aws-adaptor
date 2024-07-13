@@ -14,6 +14,7 @@ import {
     Token as AWSToken,
 } from "aws-cdk-lib";
 import {
+    App,
     Aspects,
     dependable,
     Fn,
@@ -69,8 +70,11 @@ function getConditionConstructId(conditionId: string) {
     return `condition_${conditionId}`;
 }
 
+const IS_APP_CONVERTED = Symbol("IS_APP_SYNTH_HOOKED");
+
 export abstract class AwsTerraformAdaptorStack extends TerraformStack {
     public readonly useCloudControlFallback: boolean;
+    private isConverted = false;
     private readonly awsStage: AWSStage;
     private readonly host: AWSStack;
     private _awsPartition?: DataAwsPartition;
@@ -238,10 +242,30 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
         cdkTokenResolutionCompat.enableUnresolvedTfTokens();
     }
 
+    private convertOnce() {
+        if (!this.isConverted) {
+            cdkTokenResolutionCompat.disableUnresolvedTfTokens();
+            this.convert();
+            cdkTokenResolutionCompat.enableUnresolvedTfTokens();
+            this.isConverted = true;
+        }
+    }
+
+    private convertAllSiblingStacks() {
+        const app = App.of(this);
+        if ((app as any)[IS_APP_CONVERTED] !== true) {
+            const stacks = app.node.findAll().filter((child) =>
+                child instanceof AwsTerraformAdaptorStack
+            ) as AwsTerraformAdaptorStack[];
+            for (const stack of stacks) {
+                stack.convertOnce();
+            }
+            (app as any)[IS_APP_CONVERTED] = true;
+        }
+    }
+
     prepareStack() {
-        cdkTokenResolutionCompat.disableUnresolvedTfTokens();
-        this.convert();
-        cdkTokenResolutionCompat.enableUnresolvedTfTokens();
+        this.convertAllSiblingStacks();
         super.prepareStack();
         this.resolveCfnInTokenMap();
     }
@@ -325,6 +349,7 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
 
             if (
                 typeof value === "function" || isConstruct(value) || value == null
+                || value.crossStackIdentifier != null
                 || TerraformResource.isTerraformResource(value)
                 || TerraformProvider.isTerraformProvider(value)
             ) continue;
@@ -584,6 +609,9 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
         if (!mapping) {
             // Don't be infinitely lazy
             if (isLazy) {
+                // if the reference can't be resolved at this point, it almost certainly a reference to a resource in another stack that hasn't been converted yet
+                //
+
                 throw new Error(
                     `unable to resolve a "Ref" to a resource with the logical ID ${logicalId}`,
                 );
@@ -808,8 +836,6 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
 
             case "Fn::ImportValue": {
                 // TODO: support cross cfn stack references?
-                // This is related to the Export Name from outputs https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html
-                // We might revisit this once the CDKTF supports cross stack references
                 throw new Error(`Fn::ImportValue is not yet supported.`);
             }
 

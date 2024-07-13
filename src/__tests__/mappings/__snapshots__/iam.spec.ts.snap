@@ -1,5 +1,45 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`IAM Mappings > Should map AWS::IAM::AccessKey 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_iam_access_key\\": {
+      \\"resource_22C949BF\\": {
+        \\"status\\": \\"Active\\",
+        \\"user\\": \\"test-user\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.40.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_iam_access_key.resource_22C949BF.id, \\\\\\",\\\\\\", aws_iam_access_key.resource_22C949BF.secret])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
+
 exports[`IAM Mappings > should map AWS::IAM::Policy 1`] = `
 "{
   \\"provider\\": {

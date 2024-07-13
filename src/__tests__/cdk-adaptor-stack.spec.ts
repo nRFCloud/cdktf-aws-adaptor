@@ -512,6 +512,46 @@ describe("Stack synthesis", () => {
                     `$\{data.terraform_remote_state.cross-stack-reference-input-test-stack-12-aws-stage--test-stack-12-aws-stack--test-stack-12.outputs.cross-stack-output-${bucketNameOutputRef}}`,
             });
         });
+
+        it("Should support inter-stack references with inverted constructor order", () => {
+            const testApp = Testing.app({
+                outdir: dirname,
+            });
+            class TestStack1 extends AwsTerraformAdaptorStack {
+                public lambda = new Function(this, "lambda", {
+                    code: Code.fromInline("console.log('yay')"),
+                    handler: "index.handler",
+                    runtime: Runtime.NODEJS_LATEST,
+                });
+
+                constructor() {
+                    super(testApp, "test-stack-14", {});
+                }
+            }
+            const testStack1 = new TestStack1();
+
+            class TestStack2 extends AwsTerraformAdaptorStack {
+                public readonly role = new IamRole(this, "role", {
+                    name: testStack1.lambda.functionName + "2",
+                    assumeRolePolicy: "",
+                });
+                constructor() {
+                    super(testApp, "test-stack-15", {});
+                }
+            }
+            const testStack2 = new TestStack2();
+
+            testStack2.prepareStack();
+            testStack1.prepareStack();
+
+            const synthesized2 = Testing.synth(testStack2);
+            Testing.synth(testStack1);
+
+            expect(synthesized2).toHaveResourceWithProperties(IamRole, {
+                name:
+                    "${join(\"\", [data.terraform_remote_state.cross-stack-reference-input-test-stack-14-aws-stage--test-stack-14-aws-stack--test-stack-14.outputs.cross-stack-output-aws_lambda_functionlambda_8B5974B5id, \"2\"])}",
+            });
+        });
     });
 
     describe("File assets", () => {

@@ -1,14 +1,15 @@
+import { IamAccessKey } from "@cdktf/provider-aws/lib/iam-access-key/index.js";
 import { IamGroupPolicyAttachment } from "@cdktf/provider-aws/lib/iam-group-policy-attachment/index.js";
 import { IamPolicy } from "@cdktf/provider-aws/lib/iam-policy/index.js";
 import { IamRolePolicyAttachment } from "@cdktf/provider-aws/lib/iam-role-policy-attachment/index.js";
 import { IamRole } from "@cdktf/provider-aws/lib/iam-role/index.js";
 import { IamUserPolicyAttachment } from "@cdktf/provider-aws/lib/iam-user-policy-attachment/index.js";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket/index.js";
-import { CfnPolicy, CfnRole } from "aws-cdk-lib/aws-iam";
+import { CfnAccessKey, CfnPolicy, CfnRole } from "aws-cdk-lib/aws-iam";
 import { Testing } from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
-import { synthesizeElementAndTestStability } from "../helpers.js";
+import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
 
 setupJest();
 describe("IAM Mappings", () => {
@@ -137,4 +138,17 @@ describe("IAM Mappings", () => {
             user: "test-user",
         });
     });
+
+    itShouldMapCfnElementToTerraformResource(
+        CfnAccessKey,
+        {
+            status: "Active",
+            userName: "test-user",
+        },
+        IamAccessKey,
+        {
+            status: "Active",
+            user: "test-user",
+        },
+    );
 });

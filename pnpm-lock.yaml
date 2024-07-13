@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   camel-case:
     specifier: ^4.1.2
@@ -20,7 +24,7 @@ devDependencies:
     version: 3.515.0
   '@cdktf/provider-aws':
     specifier: ^19.9.0
-    version: 19.9.0(cdktf@0.20.4)(constructs@10.3.0)
+    version: 19.9.0(cdktf@0.20.8)(constructs@10.3.0)
   '@changesets/cli':
     specifier: ^2.27.1
     version: 2.27.1
@@ -46,8 +50,8 @@ devDependencies:
     specifier: ^2.132.0
     version: 2.132.0(constructs@10.3.0)
   cdktf:
-    specifier: ^0.20.4
-    version: 0.20.4(constructs@10.3.0)
+    specifier: ^0.20.8
+    version: 0.20.8(constructs@10.3.0)
   cdktf-cli:
     specifier: ^0.18.2
     version: 0.18.2(debug@4.3.4)(ink@3.2.0)(react@17.0.2)
@@ -778,14 +782,14 @@ packages:
       prebuild-install: 7.1.1
     dev: true
 
-  /@cdktf/provider-aws@19.9.0(cdktf@0.20.4)(constructs@10.3.0):
+  /@cdktf/provider-aws@19.9.0(cdktf@0.20.8)(constructs@10.3.0):
     resolution: {integrity: sha512-6dv48W08rINuf4L2VE25h9Ya48RO34QjERshM9rF+xArUWK43ED0eofRg52jftsJKFxf01zEsX6UGw35AysciQ==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       cdktf: ^0.20.0
       constructs: ^10.3.0
     dependencies:
-      cdktf: 0.20.4(constructs@10.3.0)
+      cdktf: 0.20.8(constructs@10.3.0)
       constructs: 10.3.0
     dev: true
 
@@ -2767,10 +2771,10 @@ packages:
       - json-stable-stringify
       - semver
 
-  /cdktf@0.20.4(constructs@10.3.0):
-    resolution: {integrity: sha512-4vgJ8TLik1xse5B8gMcWoE2DkdnkhiTVVyvE+j7dNoCpDApqkINY8MpiZjgCQ4HQ2H/wjRrVAD80bV9JaHixRQ==}
+  /cdktf@0.20.8(constructs@10.3.0):
+    resolution: {integrity: sha512-O4O5h0b1E6scc/tqq9EUIQGDbPmdrCQpdkPdbDtUHHzhZGtmFpIMc5MgP1SgB+EzAutnG2oUDefjCqWMnhDe9A==}
     peerDependencies:
-      constructs: ^10.0.25
+      constructs: ^10.3.0
     dependencies:
       constructs: 10.3.0
     dev: true
@@ -3227,7 +3231,7 @@ packages:
     dependencies:
       semver: 7.6.0
       shelljs: 0.8.5
-      typescript: 5.5.0-dev.20240311
+      typescript: 5.6.0-dev.20240702
     dev: true
 
   /dprint@0.35.4:
@@ -6245,8 +6249,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.5.0-dev.20240311:
-    resolution: {integrity: sha512-Cdp0eYgn/19lkcrq7WCqQxmnvCqvuJrd/jGhm1HyPMSYVTGzjxVP0NfXr2A4YVS12IAipt1uO4zgAJeLlYG2JA==}
+  /typescript@5.6.0-dev.20240702:
+    resolution: {integrity: sha512-hbRazJD/2++Y7fBv6NZtCyoMfoVYmuDlGs+jqdWicZfXP6Fp8q9FDFnuvYpKNq1fXwBrGIUXEZlXssvXIWy/FQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
@@ -6704,7 +6708,3 @@ packages:
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: true
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
