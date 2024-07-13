@@ -23,6 +23,7 @@ import {
     TerraformElement,
     TerraformLocal,
     TerraformOutput,
+    TerraformProvider,
     TerraformResource,
     TerraformStack,
     TerraformVariable,
@@ -347,10 +348,10 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             ) continue;
 
             if (
-                typeof value === "function"
-                || isConstruct(value)
-                || value == null
+                typeof value === "function" || isConstruct(value) || value == null
                 || value.crossStackIdentifier != null
+                || TerraformResource.isTerraformResource(value)
+                || TerraformProvider.isTerraformProvider(value)
             ) continue;
             if (value["internalValue"] == null) {
                 const resolvedValue = this.host.resolve(value);
