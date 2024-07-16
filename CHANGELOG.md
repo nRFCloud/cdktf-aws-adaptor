@@ -1,5 +1,12 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.7.2
+
+### Patch Changes
+
+- 2aaa19b: Fix case inconsistency for S3 Bucket `WebsiteUrl` param, add defaults for some CloudFront Distribution params
+- e845d06: fix for trying to resolve provider field
+
 ## 0.7.1
 
 ### Patch Changes
