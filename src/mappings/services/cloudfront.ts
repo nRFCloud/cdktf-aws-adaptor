@@ -105,14 +105,16 @@ export function registerCloudfrontMappings() {
                     })),
                     connectionAttempts: origin.ConnectionAttempts,
                     connectionTimeout: origin.ConnectionTimeout,
-                    customOriginConfig: {
-                        httpPort: origin.CustomOriginConfig?.HTTPPort as number || 80,
-                        httpsPort: origin.CustomOriginConfig?.HTTPSPort as number || 443,
-                        originKeepaliveTimeout: origin.CustomOriginConfig?.OriginKeepaliveTimeout,
-                        originProtocolPolicy: origin.CustomOriginConfig?.OriginProtocolPolicy as string,
-                        originReadTimeout: origin.CustomOriginConfig?.OriginReadTimeout,
-                        originSslProtocols: origin.CustomOriginConfig?.OriginSSLProtocols as string[],
-                    },
+                    customOriginConfig: origin.CustomOriginConfig
+                        ? {
+                            httpPort: origin.CustomOriginConfig.HTTPPort ?? 80,
+                            httpsPort: origin.CustomOriginConfig.HTTPSPort ?? 443,
+                            originKeepaliveTimeout: origin.CustomOriginConfig.OriginKeepaliveTimeout,
+                            originProtocolPolicy: origin.CustomOriginConfig.OriginProtocolPolicy,
+                            originReadTimeout: origin.CustomOriginConfig.OriginReadTimeout,
+                            originSslProtocols: origin.CustomOriginConfig.OriginSSLProtocols as string[],
+                        }
+                        : undefined,
                     originPath: origin.OriginPath,
                     originAccessControlId: origin.OriginAccessControlId,
                     originShield: {
