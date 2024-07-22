@@ -356,4 +356,159 @@ describe("CloudFront", () => {
             staging: true,
         },
     );
+
+    itShouldMapCfnElementToTerraformResource(
+        CfnDistribution,
+        {
+            distributionConfig: {
+                defaultCacheBehavior: {
+                    allowedMethods: ["GET", "HEAD"],
+                    cachedMethods: ["GET", "HEAD"],
+                    compress: true,
+                    defaultTtl: 3600,
+                    forwardedValues: {
+                        cookies: {
+                            forward: "none",
+                        },
+                        queryString: false,
+                        headers: ["*"],
+                        queryStringCacheKeys: ["*"],
+                    },
+                    cachePolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    lambdaFunctionAssociations: [
+                        {
+                            eventType: "origin-request",
+                            lambdaFunctionArn: "arn:aws:lambda:us-east-1:111111111111:function:my-function",
+                            includeBody: true,
+                        },
+                    ],
+                    fieldLevelEncryptionId: "1234567890abcdef1234567890abcdef",
+                    maxTtl: 86400,
+                    minTtl: 0,
+                    originRequestPolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    realtimeLogConfigArn: "arn:aws:logs:us-east-1:111111111111:realtime-log-config/my-distribution",
+                    responseHeadersPolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                    smoothStreaming: true,
+                    targetOriginId: "my-target-origin",
+                    trustedKeyGroups: ["1234567890abcdef1234567890abcdef"],
+                    functionAssociations: [
+                        {
+                            eventType: "viewer-request",
+                            functionArn: "arn:aws:lambda:us-east-1:111111111111:function:my-function",
+                        },
+                    ],
+                    trustedSigners: ["1234567890abcdef1234567890abcdef"],
+                    viewerProtocolPolicy: "redirect-to-https",
+                },
+                enabled: true,
+                restrictions: {
+                    geoRestriction: {
+                        restrictionType: "whitelist",
+                        locations: ["US", "CA", "GB"],
+                    },
+                },
+                viewerCertificate: {
+                    acmCertificateArn:
+                        "arn:aws:acm:us-east-1:111111111111:certificate/12345678-1234-1234-1234-123456789012",
+                    minimumProtocolVersion: "TLSv1.2_2019",
+                    sslSupportMethod: "sni-only",
+                },
+                origins: [{
+                    domainName: "example.com",
+                    id: "my-origin",
+                    connectionAttempts: 3,
+                    connectionTimeout: 10,
+                    originAccessControlId: "1234567890abcdef1234567890abcdef",
+                    originPath: "/mypath",
+                    originShield: {
+                        enabled: true,
+                    },
+                    originCustomHeaders: [{
+                        headerName: "MyCustomHeader",
+                        headerValue: "MyCustomValue",
+                    }],
+                    s3OriginConfig: {
+                        originAccessIdentity: "origin-access-identity/cloudfront/E127EXAMPLE51Z",
+                    },
+                }],
+            },
+        },
+        CloudfrontDistribution,
+        {
+            defaultCacheBehavior: {
+                allowedMethods: ["GET", "HEAD"],
+                cachedMethods: ["GET", "HEAD"],
+                compress: true,
+                defaultTtl: 3600,
+                forwardedValues: {
+                    cookies: {
+                        forward: "none",
+                    },
+                    queryString: false,
+                    headers: ["*"],
+                    queryStringCacheKeys: ["*"],
+                },
+                cachePolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                lambdaFunctionAssociation: [
+                    {
+                        eventType: "origin-request",
+                        lambdaArn: "arn:aws:lambda:us-east-1:111111111111:function:my-function",
+                        includeBody: true,
+                    },
+                ],
+                fieldLevelEncryptionId: "1234567890abcdef1234567890abcdef",
+                maxTtl: 86400,
+                minTtl: 0,
+                originRequestPolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                realtimeLogConfigArn: "arn:aws:logs:us-east-1:111111111111:realtime-log-config/my-distribution",
+                responseHeadersPolicyId: "658327ea-f89d-4fab-a63d-7e88639e58f6",
+                smoothStreaming: true,
+                targetOriginId: "my-target-origin",
+                trustedKeyGroups: ["1234567890abcdef1234567890abcdef"],
+                functionAssociation: [
+                    {
+                        eventType: "viewer-request",
+                        functionArn: "arn:aws:lambda:us-east-1:111111111111:function:my-function",
+                    },
+                ],
+                trustedSigners: ["1234567890abcdef1234567890abcdef"],
+                viewerProtocolPolicy: "redirect-to-https",
+            },
+            enabled: true,
+            restrictions: {
+                geoRestriction: {
+                    restrictionType: "whitelist",
+                    locations: ["US", "CA", "GB"],
+                },
+            },
+            viewerCertificate: {
+                acmCertificateArn:
+                    "arn:aws:acm:us-east-1:111111111111:certificate/12345678-1234-1234-1234-123456789012",
+                minimumProtocolVersion: "TLSv1.2_2019",
+                sslSupportMethod: "sni-only",
+            },
+            origin: [
+                {
+                    connectionAttempts: 3,
+                    connectionTimeout: 10,
+                    customHeader: [
+                        {
+                            name: "MyCustomHeader",
+                            value: "MyCustomValue",
+                        },
+                    ],
+                    domainName: "example.com",
+                    originAccessControlId: "1234567890abcdef1234567890abcdef",
+                    originId: "my-origin",
+                    originPath: "/mypath",
+                    originShield: {
+                        enabled: true,
+                    },
+                    s3OriginConfig: {
+                        originAccessIdentity: "origin-access-identity/cloudfront/E127EXAMPLE51Z",
+                    },
+                },
+            ],
+        },
+    );
 });
