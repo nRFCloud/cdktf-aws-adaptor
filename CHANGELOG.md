@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.7.3
+
+### Patch Changes
+
+- 9ab664a: Fix default property for Cloudfront distribution always setting custom origin config
+
 ## 0.7.2
 
 ### Patch Changes
