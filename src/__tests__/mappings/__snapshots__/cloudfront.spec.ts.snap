@@ -277,3 +277,132 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 1`] = `
   }
 }"
 `;
+
+exports[`CloudFront > Should map AWS::CloudFront::Distribution 2`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_cloudfront_distribution\\": {
+      \\"resource_22C949BF\\": {
+        \\"default_cache_behavior\\": {
+          \\"allowed_methods\\": [
+            \\"GET\\",
+            \\"HEAD\\"
+          ],
+          \\"cache_policy_id\\": \\"658327ea-f89d-4fab-a63d-7e88639e58f6\\",
+          \\"cached_methods\\": [
+            \\"GET\\",
+            \\"HEAD\\"
+          ],
+          \\"compress\\": true,
+          \\"default_ttl\\": 3600,
+          \\"field_level_encryption_id\\": \\"1234567890abcdef1234567890abcdef\\",
+          \\"forwarded_values\\": {
+            \\"cookies\\": {
+              \\"forward\\": \\"none\\"
+            },
+            \\"headers\\": [
+              \\"*\\"
+            ],
+            \\"query_string\\": false,
+            \\"query_string_cache_keys\\": [
+              \\"*\\"
+            ]
+          },
+          \\"function_association\\": [
+            {
+              \\"event_type\\": \\"viewer-request\\",
+              \\"function_arn\\": \\"arn:aws:lambda:us-east-1:111111111111:function:my-function\\"
+            }
+          ],
+          \\"lambda_function_association\\": [
+            {
+              \\"event_type\\": \\"origin-request\\",
+              \\"include_body\\": true,
+              \\"lambda_arn\\": \\"arn:aws:lambda:us-east-1:111111111111:function:my-function\\"
+            }
+          ],
+          \\"max_ttl\\": 86400,
+          \\"min_ttl\\": 0,
+          \\"origin_request_policy_id\\": \\"658327ea-f89d-4fab-a63d-7e88639e58f6\\",
+          \\"realtime_log_config_arn\\": \\"arn:aws:logs:us-east-1:111111111111:realtime-log-config/my-distribution\\",
+          \\"response_headers_policy_id\\": \\"658327ea-f89d-4fab-a63d-7e88639e58f6\\",
+          \\"smooth_streaming\\": true,
+          \\"target_origin_id\\": \\"my-target-origin\\",
+          \\"trusted_key_groups\\": [
+            \\"1234567890abcdef1234567890abcdef\\"
+          ],
+          \\"trusted_signers\\": [
+            \\"1234567890abcdef1234567890abcdef\\"
+          ],
+          \\"viewer_protocol_policy\\": \\"redirect-to-https\\"
+        },
+        \\"enabled\\": true,
+        \\"origin\\": [
+          {
+            \\"connection_attempts\\": 3,
+            \\"connection_timeout\\": 10,
+            \\"custom_header\\": [
+              {
+                \\"name\\": \\"MyCustomHeader\\",
+                \\"value\\": \\"MyCustomValue\\"
+              }
+            ],
+            \\"domain_name\\": \\"example.com\\",
+            \\"origin_access_control_id\\": \\"1234567890abcdef1234567890abcdef\\",
+            \\"origin_id\\": \\"my-origin\\",
+            \\"origin_path\\": \\"/mypath\\",
+            \\"origin_shield\\": {
+              \\"enabled\\": true
+            },
+            \\"s3_origin_config\\": {
+              \\"origin_access_identity\\": \\"origin-access-identity/cloudfront/E127EXAMPLE51Z\\"
+            }
+          }
+        ],
+        \\"restrictions\\": {
+          \\"geo_restriction\\": {
+            \\"locations\\": [
+              \\"US\\",
+              \\"CA\\",
+              \\"GB\\"
+            ],
+            \\"restriction_type\\": \\"whitelist\\"
+          }
+        },
+        \\"viewer_certificate\\": {
+          \\"acm_certificate_arn\\": \\"arn:aws:acm:us-east-1:111111111111:certificate/12345678-1234-1234-1234-123456789012\\",
+          \\"minimum_protocol_version\\": \\"TLSv1.2_2019\\",
+          \\"ssl_support_method\\": \\"sni-only\\"
+        }
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.40.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_cloudfront_distribution.resource_22C949BF.domain_name, \\\\\\",\\\\\\", aws_cloudfront_distribution.resource_22C949BF.id])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
