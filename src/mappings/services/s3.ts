@@ -51,7 +51,6 @@ export function registerS3Mappings() {
                     bucket: props?.BucketName,
                     acl: props?.AccessControl,
                     accelerationStatus: props?.AccelerateConfiguration?.AccelerationStatus,
-                    name: props?.BucketName,
                     objectLockEnabled: props?.ObjectLockEnabled,
                     tags: Object.fromEntries(
                         props?.Tags?.map(({
