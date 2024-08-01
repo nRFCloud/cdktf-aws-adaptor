@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.8.1
+
+### Patch Changes
+
+- 3358b0b: fix bad import
+
 ## 0.8.0
 
 ### Minor Changes
