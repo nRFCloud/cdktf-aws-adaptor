@@ -11,7 +11,6 @@ import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 export function registerDynamoDBMappings() {
     registerMappingTyped(CfnTable, DynamodbTable, {
         resource(scope, id, tableProps) {
-            tableProps.O;
             const globalIndexInsights: string[] = [];
             const mapped: DynamodbTableConfig = {
                 name: tableProps.TableName!,
