@@ -45,7 +45,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::IdentityPool 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.40.0\\"
+        \\"version\\": \\"5.60.0\\"
       }
     }
   },
@@ -103,7 +103,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::IdentityPoolRoleAttachment 
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.40.0\\"
+        \\"version\\": \\"5.60.0\\"
       }
     }
   },
@@ -257,7 +257,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.40.0\\"
+        \\"version\\": \\"5.60.0\\"
       }
     }
   },
@@ -347,7 +347,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPoolClient 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.40.0\\"
+        \\"version\\": \\"5.60.0\\"
       }
     }
   },

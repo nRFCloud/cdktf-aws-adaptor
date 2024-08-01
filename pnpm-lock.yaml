@@ -23,8 +23,8 @@ devDependencies:
     specifier: ^3.515.0
     version: 3.515.0
   '@cdktf/provider-aws':
-    specifier: ^19.9.0
-    version: 19.9.0(cdktf@0.20.8)(constructs@10.3.0)
+    specifier: ^19.28.0
+    version: 19.28.0(cdktf@0.20.8)(constructs@10.3.0)
   '@changesets/cli':
     specifier: ^2.27.1
     version: 2.27.1
@@ -47,8 +47,8 @@ devDependencies:
     specifier: ^0.34.6
     version: 0.34.6(vitest@0.34.6)
   aws-cdk-lib:
-    specifier: ^2.132.0
-    version: 2.132.0(constructs@10.3.0)
+    specifier: ^2.150.0
+    version: 2.150.0(constructs@10.3.0)
   cdktf:
     specifier: ^0.20.8
     version: 0.20.8(constructs@10.3.0)
@@ -100,8 +100,8 @@ packages:
     resolution: {integrity: sha512-3M2tELJOxQv0apCIiuKQ4pAbncz9GuLwnKFqxifWfe77wuMxyTRPmxssYHs42ePqzap1LT6GDcPygGs+hHstLg==}
     dev: true
 
-  /@aws-cdk/asset-node-proxy-agent-v6@2.0.1:
-    resolution: {integrity: sha512-DDt4SLdLOwWCjGtltH4VCST7hpOI5DzieuhGZsBpZ+AgJdSI2GCjklCXm0GCTwJG/SolkL5dtQXyUKgg9luBDg==}
+  /@aws-cdk/asset-node-proxy-agent-v6@2.0.3:
+    resolution: {integrity: sha512-twhuEG+JPOYCYPx/xy5uH2+VUsIEhPTzDY0F1KuB+ocjWWB/KEDiOVL19nHvbPCB6fhWnkykXEMJ4HHcKvjtvg==}
     dev: true
 
   /@aws-crypto/crc32@3.0.0:
@@ -782,8 +782,8 @@ packages:
       prebuild-install: 7.1.1
     dev: true
 
-  /@cdktf/provider-aws@19.9.0(cdktf@0.20.8)(constructs@10.3.0):
-    resolution: {integrity: sha512-6dv48W08rINuf4L2VE25h9Ya48RO34QjERshM9rF+xArUWK43ED0eofRg52jftsJKFxf01zEsX6UGw35AysciQ==}
+  /@cdktf/provider-aws@19.28.0(cdktf@0.20.8)(constructs@10.3.0):
+    resolution: {integrity: sha512-7VNR/KOUtRySdDw/pIT1ZAHI+fdWZvmHO5XI5GmejmKR3UAt+kvQIFzsKcBkyYzmJUkmwoyVnG/RykUS99nqUg==}
     engines: {node: '>= 18.12.0'}
     peerDependencies:
       cdktf: ^0.20.0
@@ -2575,15 +2575,15 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /aws-cdk-lib@2.132.0(constructs@10.3.0):
-    resolution: {integrity: sha512-auztTTYy8j62MmRZNdM7Vd8eQ5eP3xLMhrrILhDZf3DiSDD0lyYL0hv98VD4XPkWGMQ8yOmo5nZ3s/zD7cnKlw==}
+  /aws-cdk-lib@2.150.0(constructs@10.3.0):
+    resolution: {integrity: sha512-A5dJ6iIAXlkSgUIKhhSd5slEjvDBiREv6/xw8CgrXU+puoFULu5bC0SOQARjTzcsAgAVtxdlaZ7qy7u9It7nHQ==}
     engines: {node: '>= 14.15.0'}
     peerDependencies:
       constructs: ^10.0.0
     dependencies:
       '@aws-cdk/asset-awscli-v1': 2.2.202
       '@aws-cdk/asset-kubectl-v20': 2.1.2
-      '@aws-cdk/asset-node-proxy-agent-v6': 2.0.1
+      '@aws-cdk/asset-node-proxy-agent-v6': 2.0.3
       constructs: 10.3.0
     dev: true
     bundledDependencies:
@@ -3231,7 +3231,7 @@ packages:
     dependencies:
       semver: 7.6.0
       shelljs: 0.8.5
-      typescript: 5.6.0-dev.20240702
+      typescript: 5.6.0-dev.20240731
     dev: true
 
   /dprint@0.35.4:
@@ -6249,8 +6249,8 @@ packages:
     hasBin: true
     dev: true
 
-  /typescript@5.6.0-dev.20240702:
-    resolution: {integrity: sha512-hbRazJD/2++Y7fBv6NZtCyoMfoVYmuDlGs+jqdWicZfXP6Fp8q9FDFnuvYpKNq1fXwBrGIUXEZlXssvXIWy/FQ==}
+  /typescript@5.6.0-dev.20240731:
+    resolution: {integrity: sha512-XNueWVxo4buZCEMor0GB/x7ZpzbPzowRNc42fznRinFzGipR+v+Dgelpd6cJvdkN7/TSFASN2M2jQxDeZnk95A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true

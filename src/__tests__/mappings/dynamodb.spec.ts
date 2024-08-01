@@ -47,6 +47,21 @@ describe("DynamoDB mappings", () => {
                     },
                 },
             ],
+            resourcePolicy: {
+                policyDocument: {
+                    Version: "2012-10-17",
+                    Statement: [
+                        {
+                            Effect: "Allow",
+                            Principal: {
+                                Service: "dynamodb.amazonaws.com",
+                            },
+                            Action: "dynamodb:DescribeTable",
+                            Resource: "*",
+                        },
+                    ],
+                },
+            },
             keySchema: [
                 {
                     attributeName: "test-attribute-name",
