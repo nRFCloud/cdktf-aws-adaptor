@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.8.0
+
+### Minor Changes
+
+- d197c26: add support for dynamodb resource policies
+
 ## 0.7.3
 
 ### Patch Changes
