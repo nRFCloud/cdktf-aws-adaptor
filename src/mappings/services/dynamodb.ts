@@ -1,6 +1,6 @@
 import { DynamodbContributorInsights } from "@cdktf/provider-aws/lib/dynamodb-contributor-insights/index.js";
 import { DynamodbKinesisStreamingDestination } from "@cdktf/provider-aws/lib/dynamodb-kinesis-streaming-destination/index.js";
-import { DynamodbResourcePolicy } from "@cdktf/provider-aws/lib/dynamodb-resource-policy";
+import { DynamodbResourcePolicy } from "@cdktf/provider-aws/lib/dynamodb-resource-policy/index.js";
 import { DynamodbTable, DynamodbTableConfig } from "@cdktf/provider-aws/lib/dynamodb-table/index.js";
 import { Names } from "aws-cdk-lib";
 import { CfnTable } from "aws-cdk-lib/aws-dynamodb";
