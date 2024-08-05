@@ -359,3 +359,44 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPoolClient 1`] = `
   }
 }"
 `;
+
+exports[`Cognito mappings > Should map AWS::Cognito::UserPoolDomain 1`] = `
+"{
+  \\"provider\\": {
+    \\"aws\\": [
+      {
+        \\"alias\\": \\"us_east_1\\",
+        \\"region\\": \\"us-east-1\\"
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"aws_cognito_user_pool_domain\\": {
+      \\"resource_22C949BF\\": {
+        \\"certificate_arn\\": \\"certificate-arn\\",
+        \\"domain\\": \\"domain\\",
+        \\"user_pool_id\\": \\"user-pool-id\\"
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"backend\\": {
+      \\"local\\": {
+        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+      }
+    },
+    \\"required_providers\\": {
+      \\"aws\\": {
+        \\"source\\": \\"aws\\",
+        \\"version\\": \\"5.60.0\\"
+      }
+    }
+  },
+  \\"variable\\": {
+    \\"resource_refs_CDA17697\\": {
+      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_cognito_user_pool_domain.resource_22C949BF.cloudfront_distribution, \\\\\\",\\\\\\", aws_cognito_user_pool_domain.resource_22C949BF.id])}\\",
+      \\"type\\": \\"string\\"
+    }
+  }
+}"
+`;
