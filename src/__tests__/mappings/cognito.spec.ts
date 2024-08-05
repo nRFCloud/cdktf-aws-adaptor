@@ -3,12 +3,14 @@ import {
 } from "@cdktf/provider-aws/lib/cognito-identity-pool-roles-attachment/index.js";
 import { CognitoIdentityPool } from "@cdktf/provider-aws/lib/cognito-identity-pool/index.js";
 import { CognitoUserPoolClient } from "@cdktf/provider-aws/lib/cognito-user-pool-client/index.js";
+import { CognitoUserPoolDomain } from "@cdktf/provider-aws/lib/cognito-user-pool-domain/index.js";
 import { CognitoUserPool } from "@cdktf/provider-aws/lib/cognito-user-pool/index.js";
 import {
     CfnIdentityPool,
     CfnIdentityPoolRoleAttachment,
     CfnUserPool,
     CfnUserPoolClient,
+    CfnUserPoolDomain,
 } from "aws-cdk-lib/aws-cognito";
 import { synthesizeElementAndTestStability } from "../helpers.js";
 
@@ -427,6 +429,25 @@ describe("Cognito mappings", () => {
                 userPoolAddOns: {
                     advancedSecurityMode: "OFF",
                 },
+            },
+        );
+    });
+
+    it("Should map AWS::Cognito::UserPoolDomain", () => {
+        synthesizeElementAndTestStability(
+            CfnUserPoolDomain,
+            {
+                domain: "domain",
+                userPoolId: "user-pool-id",
+                customDomainConfig: {
+                    certificateArn: "certificate-arn",
+                },
+            },
+            CognitoUserPoolDomain,
+            {
+                domain: "domain",
+                userPoolId: "user-pool-id",
+                certificateArn: "certificate-arn",
             },
         );
     });

@@ -7,6 +7,10 @@ import {
     CognitoUserPoolClient,
     CognitoUserPoolClientConfig,
 } from "@cdktf/provider-aws/lib/cognito-user-pool-client/index.js";
+import {
+    CognitoUserPoolDomain,
+    CognitoUserPoolDomainConfig,
+} from "@cdktf/provider-aws/lib/cognito-user-pool-domain/index.js";
 import { CognitoUserPool, CognitoUserPoolConfig } from "@cdktf/provider-aws/lib/cognito-user-pool/index.js";
 import { Names } from "aws-cdk-lib";
 import {
@@ -14,6 +18,7 @@ import {
     CfnIdentityPoolRoleAttachment,
     CfnUserPool,
     CfnUserPoolClient,
+    CfnUserPoolDomain,
 } from "aws-cdk-lib/aws-cognito";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
@@ -269,6 +274,30 @@ export function registerCognitoMappings() {
             Arn: resource => resource.arn,
             ProviderName: resource => resource.endpoint,
             ProviderURL: resource => `https://${resource.endpoint}`,
+        },
+    });
+
+    registerMappingTyped(CfnUserPoolDomain, CognitoUserPoolDomain, {
+        resource(scope, id, domainConfig) {
+            const mapped: CognitoUserPoolDomainConfig = {
+                domain: domainConfig.Domain,
+                userPoolId: domainConfig.UserPoolId,
+                certificateArn: domainConfig.CustomDomainConfig?.CertificateArn,
+            };
+
+            const cleaned = deleteUndefinedKeys(mapped);
+
+            const userPoolDomain = new CognitoUserPoolDomain(
+                scope,
+                id,
+                cleaned,
+            );
+            return userPoolDomain;
+        },
+        attributes: {
+            Id: resource => resource.id,
+            Ref: resource => resource.id,
+            CloudFrontDistribution: resource => resource.cloudfrontDistribution,
         },
     });
 }
