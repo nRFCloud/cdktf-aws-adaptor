@@ -163,6 +163,7 @@ describe("Cognito mappings", () => {
                     "login-provider": "login-provider",
                 },
                 openIdConnectProviderArns: ["open-id-connect-provider-arn"],
+                identityPoolTags: [{ key: "hello", value: "hi" }, { key: "world", value: "universe" }],
                 // FIXME: this is not supported by the provider yet
                 // cognitoEvents: {
                 //     "event": "event",
@@ -193,6 +194,10 @@ describe("Cognito mappings", () => {
                 samlProviderArns: ["saml-provider-arn"],
                 supportedLoginProviders: {
                     "login-provider": "login-provider",
+                },
+                tags: {
+                    hello: "hi",
+                    world: "universe",
                 },
             },
         );

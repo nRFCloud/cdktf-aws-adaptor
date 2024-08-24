@@ -8,6 +8,7 @@ export function registerStepFunctinMappings() {
     registerMappingTyped(CfnStateMachine, SfnStateMachine, {
         resource(scope, id, props) {
             let definitionString: string | undefined = undefined;
+            props.EncryptionConfiguration;
             if (props?.DefinitionString) {
                 definitionString = props.DefinitionString;
             } else if (props?.DefinitionS3Location) {
@@ -53,6 +54,11 @@ export function registerStepFunctinMappings() {
                 tags: props?.Tags && Object.fromEntries(props.Tags.map(({ Key, Value }) => [Key, Value])),
                 tracingConfiguration: {
                     enabled: props?.TracingConfiguration?.Enabled,
+                },
+                encryptionConfiguration: {
+                    kmsDataKeyReusePeriodSeconds: props.EncryptionConfiguration?.KmsDataKeyReusePeriodSeconds,
+                    kmsKeyId: props.EncryptionConfiguration?.KmsKeyId,
+                    type: props.EncryptionConfiguration?.Type,
                 },
             };
 

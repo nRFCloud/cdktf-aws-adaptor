@@ -40,7 +40,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -75,6 +75,11 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     \\"aws_sfn_state_machine\\": {
       \\"resource_22C949BF\\": {
         \\"definition\\": \\"\${data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body}\\",
+        \\"encryption_configuration\\": {
+          \\"kms_data_key_reuse_period_seconds\\": 600,
+          \\"kms_key_id\\": \\"123\\",
+          \\"type\\": \\"Test\\"
+        },
         \\"logging_configuration\\": {
           \\"include_execution_data\\": true,
           \\"level\\": \\"ALL\\",
@@ -101,7 +106,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -154,7 +159,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -215,7 +220,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
