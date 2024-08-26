@@ -1,6 +1,6 @@
 {
   "name": "@nrfcloud/cdktf-aws-adaptor",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "A compatibility layer for using the CDK for Terraform with AWS CDK constructs",
   "type": "module",
   "main": "dist/index.js",
