@@ -235,7 +235,7 @@ export function registerApiGatewayMappings() {
             return new Apigatewayv2Integration(scope, id, deleteUndefinedKeys(config));
         },
         attributes: {
-            Id: res => res.id,
+            IntegrationId: res => res.id,
             Ref: res => res.id,
         },
     });

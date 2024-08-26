@@ -81,6 +81,11 @@ describe("Step Functions mappings", () => {
                     tracingConfiguration: {
                         enabled: true,
                     },
+                    encryptionConfiguration: {
+                        kmsDataKeyReusePeriodSeconds: 600,
+                        kmsKeyId: "123",
+                        type: "Test",
+                    },
                 },
                 SfnStateMachine,
                 {
@@ -98,6 +103,11 @@ describe("Step Functions mappings", () => {
                     },
                     tracingConfiguration: {
                         enabled: true,
+                    },
+                    encryptionConfiguration: {
+                        kmsDataKeyReusePeriodSeconds: 600,
+                        kmsKeyId: "123",
+                        type: "Test",
                     },
                 },
             );

@@ -84,7 +84,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::EventSourceMapping 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -135,7 +135,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersion 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -180,7 +180,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersionPermission 1`] = 
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -226,7 +226,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::Permission 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -327,7 +327,7 @@ exports[`Lambda mappings > should map CfnFunction to LambdaFunction 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },

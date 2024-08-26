@@ -25,7 +25,7 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::InternetGateway 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -77,7 +77,7 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::Route 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -144,7 +144,7 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroup 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -191,7 +191,7 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroupEgress 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -238,7 +238,7 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroupIngress 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -278,7 +278,7 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::SubnetRouteTableAssociation 1`]
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -325,7 +325,7 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::VPC 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   },
@@ -458,7 +458,7 @@ exports[`EC2 VPC mappings > Should provision all the components of a VPC 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+        \\"version\\": \\"5.64.0\\"
       }
     }
   }
