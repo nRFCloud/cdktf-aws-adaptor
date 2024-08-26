@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.9.0
+
+### Minor Changes
+
+- 5e77ecc: Update AWS CDK lib to ^2.153.0 and update mappings
+
 ## 0.8.1
 
 ### Patch Changes
