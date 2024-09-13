@@ -13,7 +13,10 @@ import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerIamMappings() {
     registerMappingTyped(CfnRole, IamRole, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
+    
+            proxy.touchPath("AssumeRolePolicyDocument");
+            proxy.touchPath("Policies.*.PolicyDocument");
             const roleProps: IamRoleConfig = {
                 name: props.RoleName,
                 assumeRolePolicy: Fn.jsonencode(props.AssumeRolePolicyDocument),
@@ -67,11 +70,12 @@ export function registerIamMappings() {
     });
 
     registerMappingTyped(CfnPolicy, IamPolicy, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
             const roleAttachments = props.Roles || [];
             const userAttachments = props.Users || [];
             const groupAttachments = props.Groups || [];
 
+            proxy.touchPath("PolicyDocument");
             const policy = new IamPolicy(
                 scope,
                 id,

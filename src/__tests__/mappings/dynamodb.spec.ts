@@ -111,7 +111,9 @@ describe("DynamoDB mappings", () => {
             sseSpecification: {
                 sseEnabled: true,
                 kmsMasterKeyId: "test-kms-master-key-id",
-                sseType: "KMS",
+                // TODO: Uncomment when KMS is supported
+                sseType: undefined
+                // sseType: "KMS",
             },
             contributorInsightsSpecification: {
                 enabled: true,

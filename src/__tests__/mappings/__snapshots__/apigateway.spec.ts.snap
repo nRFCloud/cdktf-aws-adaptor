@@ -2,54 +2,54 @@
 
 exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Authorizer 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_apigatewayv2_authorizer\\": {
-      \\"resource_22C949BF\\": {
-        \\"api_id\\": \\"api-id\\",
-        \\"authorizer_credentials_arn\\": \\"authorizer-credentials-arn\\",
-        \\"authorizer_payload_format_version\\": \\"authorizer-payload-format-version\\",
-        \\"authorizer_result_ttl_in_seconds\\": 60,
-        \\"authorizer_type\\": \\"authorizer-type\\",
-        \\"authorizer_uri\\": \\"authorizer-uri\\",
-        \\"enable_simple_responses\\": true,
-        \\"identity_sources\\": [
-          \\"identity-source\\"
+  "resource": {
+    "aws_apigatewayv2_authorizer": {
+      "resource_22C949BF": {
+        "api_id": "api-id",
+        "authorizer_credentials_arn": "authorizer-credentials-arn",
+        "authorizer_payload_format_version": "authorizer-payload-format-version",
+        "authorizer_result_ttl_in_seconds": 60,
+        "authorizer_type": "authorizer-type",
+        "authorizer_uri": "authorizer-uri",
+        "enable_simple_responses": true,
+        "identity_sources": [
+          "identity-source"
         ],
-        \\"jwt_configuration\\": {
-          \\"audience\\": [
-            \\"audience\\"
+        "jwt_configuration": {
+          "audience": [
+            "audience"
           ],
-          \\"issuer\\": \\"issuer\\"
+          "issuer": "issuer"
         },
-        \\"name\\": \\"name\\"
+        "name": "name"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_apigatewayv2_authorizer.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_apigatewayv2_authorizer.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"
@@ -57,51 +57,51 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Authorizer 1`] = `
 
 exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::DomainName 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_apigatewayv2_domain_name\\": {
-      \\"resource_22C949BF\\": {
-        \\"domain_name\\": \\"domain-name\\",
-        \\"domain_name_configuration\\": {
-          \\"certificate_arn\\": \\"certificate-arn\\",
-          \\"endpoint_type\\": \\"REGIONAL\\",
-          \\"ownership_verification_certificate_arn\\": \\"ownership-verification-certificate-arn\\",
-          \\"security_policy\\": \\"TLS_1_2\\"
+  "resource": {
+    "aws_apigatewayv2_domain_name": {
+      "resource_22C949BF": {
+        "domain_name": "domain-name",
+        "domain_name_configuration": {
+          "certificate_arn": "certificate-arn",
+          "endpoint_type": "REGIONAL",
+          "ownership_verification_certificate_arn": "ownership-verification-certificate-arn",
+          "security_policy": "TLS_1_2"
         },
-        \\"mutual_tls_authentication\\": {
-          \\"truststore_uri\\": \\"truststore-uri\\",
-          \\"truststore_version\\": \\"truststore-version\\"
+        "mutual_tls_authentication": {
+          "truststore_uri": "truststore-uri",
+          "truststore_version": "truststore-version"
         },
-        \\"tags\\": {
-          \\"tag\\": \\"tag-value\\"
+        "tags": {
+          "tag": "tag-value"
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_apigatewayv2_domain_name.resource_22C949BF.domain_name_configuration[0].target_domain_name, \\\\\\",\\\\\\", aws_apigatewayv2_domain_name.resource_22C949BF.domain_name_configuration[0].hosted_zone_id])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_apigatewayv2_domain_name.resource_22C949BF.domain_name_configuration[0].target_domain_name, \\",\\", aws_apigatewayv2_domain_name.resource_22C949BF.domain_name_configuration[0].hosted_zone_id])}",
+      "type": "string"
     }
   }
 }"
@@ -109,68 +109,68 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::DomainName 1`] = `
 
 exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Integration 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_apigatewayv2_integration\\": {
-      \\"resource_22C949BF\\": {
-        \\"api_id\\": \\"api-id\\",
-        \\"connection_id\\": \\"connection-id\\",
-        \\"connection_type\\": \\"connection-type\\",
-        \\"content_handling_strategy\\": \\"content-handling-strategy\\",
-        \\"credentials_arn\\": \\"credentials-arn\\",
-        \\"description\\": \\"description\\",
-        \\"integration_method\\": \\"integration-method\\",
-        \\"integration_subtype\\": \\"integration-subtype\\",
-        \\"integration_type\\": \\"integration-type\\",
-        \\"integration_uri\\": \\"integration-uri\\",
-        \\"passthrough_behavior\\": \\"passthrough-behavior\\",
-        \\"payload_format_version\\": \\"payload-format-version\\",
-        \\"request_parameters\\": {
-          \\"request-parameter\\": \\"request-parameter-value\\"
+  "resource": {
+    "aws_apigatewayv2_integration": {
+      "resource_22C949BF": {
+        "api_id": "api-id",
+        "connection_id": "connection-id",
+        "connection_type": "connection-type",
+        "content_handling_strategy": "content-handling-strategy",
+        "credentials_arn": "credentials-arn",
+        "description": "description",
+        "integration_method": "integration-method",
+        "integration_subtype": "integration-subtype",
+        "integration_type": "integration-type",
+        "integration_uri": "integration-uri",
+        "passthrough_behavior": "passthrough-behavior",
+        "payload_format_version": "payload-format-version",
+        "request_parameters": {
+          "request-parameter": "request-parameter-value"
         },
-        \\"request_templates\\": {
-          \\"request-template\\": \\"request-template-value\\"
+        "request_templates": {
+          "request-template": "request-template-value"
         },
-        \\"response_parameters\\": [
+        "response_parameters": [
           {
-            \\"mappings\\": {
-              \\"source\\": \\"destination\\"
+            "mappings": {
+              "source": "destination"
             },
-            \\"status_code\\": \\"200\\"
+            "status_code": "200"
           }
         ],
-        \\"template_selection_expression\\": \\"template-selection-expression\\",
-        \\"timeout_milliseconds\\": 60,
-        \\"tls_config\\": {
-          \\"server_name_to_verify\\": \\"server-name-to-verify\\"
+        "template_selection_expression": "template-selection-expression",
+        "timeout_milliseconds": 60,
+        "tls_config": {
+          "server_name_to_verify": "server-name-to-verify"
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_apigatewayv2_integration.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_apigatewayv2_integration.resource_22C949BF.id, \\",\\", aws_apigatewayv2_integration.resource_22C949BF.id])}",
+      "type": "string"
     }
   }
 }"
@@ -178,58 +178,58 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Integration 1`] = `
 
 exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Route 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_apigatewayv2_route\\": {
-      \\"resource_22C949BF\\": {
-        \\"api_id\\": \\"api-id\\",
-        \\"api_key_required\\": true,
-        \\"authorization_scopes\\": [
-          \\"authorization-scope\\"
+  "resource": {
+    "aws_apigatewayv2_route": {
+      "resource_22C949BF": {
+        "api_id": "api-id",
+        "api_key_required": true,
+        "authorization_scopes": [
+          "authorization-scope"
         ],
-        \\"authorization_type\\": \\"authorization-type\\",
-        \\"authorizer_id\\": \\"authorizer-id\\",
-        \\"model_selection_expression\\": \\"model-selection-expression\\",
-        \\"operation_name\\": \\"operation-name\\",
-        \\"request_models\\": {
-          \\"request-model\\": \\"request-model-value\\"
+        "authorization_type": "authorization-type",
+        "authorizer_id": "authorizer-id",
+        "model_selection_expression": "model-selection-expression",
+        "operation_name": "operation-name",
+        "request_models": {
+          "request-model": "request-model-value"
         },
-        \\"request_parameter\\": [
+        "request_parameter": [
           {
-            \\"request_parameter_key\\": \\"request-parameter\\",
-            \\"required\\": false
+            "request_parameter_key": "request-parameter",
+            "required": false
           }
         ],
-        \\"route_key\\": \\"route-key\\",
-        \\"route_response_selection_expression\\": \\"route-response-selection-expression\\",
-        \\"target\\": \\"target\\"
+        "route_key": "route-key",
+        "route_response_selection_expression": "route-response-selection-expression",
+        "target": "target"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_apigatewayv2_route.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_apigatewayv2_route.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"
@@ -237,66 +237,66 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Route 1`] = `
 
 exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Stage 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_apigatewayv2_stage\\": {
-      \\"resource_22C949BF\\": {
-        \\"access_log_settings\\": {
-          \\"destination_arn\\": \\"destination-arn\\",
-          \\"format\\": \\"format\\"
+  "resource": {
+    "aws_apigatewayv2_stage": {
+      "resource_22C949BF": {
+        "access_log_settings": {
+          "destination_arn": "destination-arn",
+          "format": "format"
         },
-        \\"api_id\\": \\"api-id\\",
-        \\"auto_deploy\\": true,
-        \\"client_certificate_id\\": \\"client-certificate-id\\",
-        \\"default_route_settings\\": {
-          \\"data_trace_enabled\\": true,
-          \\"detailed_metrics_enabled\\": true,
-          \\"logging_level\\": \\"logging-level\\",
-          \\"throttling_burst_limit\\": 60,
-          \\"throttling_rate_limit\\": 60
+        "api_id": "api-id",
+        "auto_deploy": true,
+        "client_certificate_id": "client-certificate-id",
+        "default_route_settings": {
+          "data_trace_enabled": true,
+          "detailed_metrics_enabled": true,
+          "logging_level": "logging-level",
+          "throttling_burst_limit": 60,
+          "throttling_rate_limit": 60
         },
-        \\"deployment_id\\": \\"deployment-id\\",
-        \\"description\\": \\"description\\",
-        \\"name\\": \\"stage-name\\",
-        \\"route_settings\\": [
+        "deployment_id": "deployment-id",
+        "description": "description",
+        "name": "stage-name",
+        "route_settings": [
           {
-            \\"data_trace_enabled\\": true,
-            \\"route_key\\": \\"route-key\\"
+            "data_trace_enabled": true,
+            "route_key": "route-key"
           }
         ],
-        \\"stage_variables\\": {
-          \\"stage-variable\\": \\"stage-variable-value\\"
+        "stage_variables": {
+          "stage-variable": "stage-variable-value"
         },
-        \\"tags\\": {
-          \\"tag\\": \\"tag-value\\"
+        "tags": {
+          "tag": "tag-value"
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_apigatewayv2_stage.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_apigatewayv2_stage.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"
@@ -304,38 +304,38 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Stage 1`] = `
 
 exports[`Apigateway mappings > should map AWS::ApiGateway::Account 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_api_gateway_account\\": {
-      \\"resource_22C949BF\\": {
-        \\"cloudwatch_role_arn\\": \\"cw-role-arn\\"
+  "resource": {
+    "aws_api_gateway_account": {
+      "resource_22C949BF": {
+        "cloudwatch_role_arn": "cw-role-arn"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_api_gateway_account.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_api_gateway_account.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"
@@ -343,42 +343,42 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::Account 1`] = `
 
 exports[`Apigateway mappings > should map AWS::ApiGateway::BasePathMapping 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_api_gateway_base_path_mapping\\": {
-      \\"resource_22C949BF\\": {
-        \\"api_id\\": \\"rest-api-id\\",
-        \\"base_path\\": \\"base-path\\",
-        \\"domain_name\\": \\"domain-name\\",
-        \\"id\\": \\"id\\",
-        \\"stage_name\\": \\"stage\\"
+  "resource": {
+    "aws_api_gateway_base_path_mapping": {
+      "resource_22C949BF": {
+        "api_id": "rest-api-id",
+        "base_path": "base-path",
+        "domain_name": "domain-name",
+        "id": "id",
+        "stage_name": "stage"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "",
+      "type": "string"
     }
   }
 }"
@@ -386,39 +386,39 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::BasePathMapping 1`] =
 
 exports[`Apigateway mappings > should map AWS::ApiGateway::Deployment 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_cloudcontrolapi_resource\\": {
-      \\"resource_22C949BF\\": {
-        \\"desired_state\\": \\"{\\\\\\"DeploymentCanarySettings\\\\\\":{\\\\\\"PercentTraffic\\\\\\":50,\\\\\\"StageVariableOverrides\\\\\\":{\\\\\\"stage-variable\\\\\\":\\\\\\"stage-variable-value\\\\\\"},\\\\\\"UseStageCache\\\\\\":true},\\\\\\"Description\\\\\\":\\\\\\"description\\\\\\",\\\\\\"RestApiId\\\\\\":\\\\\\"rest-api-id\\\\\\",\\\\\\"StageDescription\\\\\\":{\\\\\\"AccessLogSetting\\\\\\":{\\\\\\"DestinationArn\\\\\\":\\\\\\"destination-arn\\\\\\"},\\\\\\"CacheClusterEnabled\\\\\\":true,\\\\\\"CacheClusterSize\\\\\\":\\\\\\"cache-cluster-size\\\\\\",\\\\\\"CacheDataEncrypted\\\\\\":true,\\\\\\"CacheTtlInSeconds\\\\\\":60,\\\\\\"CachingEnabled\\\\\\":true,\\\\\\"CanarySetting\\\\\\":{\\\\\\"PercentTraffic\\\\\\":50,\\\\\\"StageVariableOverrides\\\\\\":{\\\\\\"stage-variable\\\\\\":\\\\\\"stage-variable-value\\\\\\"}},\\\\\\"ClientCertificateId\\\\\\":\\\\\\"client-certificate-id\\\\\\",\\\\\\"DataTraceEnabled\\\\\\":true,\\\\\\"DocumentationVersion\\\\\\":\\\\\\"documentation-version\\\\\\",\\\\\\"LoggingLevel\\\\\\":\\\\\\"logging-level\\\\\\",\\\\\\"MethodSettings\\\\\\":[{\\\\\\"CacheDataEncrypted\\\\\\":true,\\\\\\"CacheTtlInSeconds\\\\\\":60,\\\\\\"CachingEnabled\\\\\\":true,\\\\\\"DataTraceEnabled\\\\\\":true,\\\\\\"HttpMethod\\\\\\":\\\\\\"http-method\\\\\\",\\\\\\"LoggingLevel\\\\\\":\\\\\\"logging-level\\\\\\",\\\\\\"MetricsEnabled\\\\\\":true,\\\\\\"ResourcePath\\\\\\":\\\\\\"resource-path\\\\\\",\\\\\\"ThrottlingBurstLimit\\\\\\":60,\\\\\\"ThrottlingRateLimit\\\\\\":60}],\\\\\\"MetricsEnabled\\\\\\":true,\\\\\\"ThrottlingBurstLimit\\\\\\":60,\\\\\\"ThrottlingRateLimit\\\\\\":60,\\\\\\"TracingEnabled\\\\\\":true},\\\\\\"StageName\\\\\\":\\\\\\"stage-name\\\\\\"}\\",
-        \\"type_name\\": \\"AWS::ApiGateway::Deployment\\"
+  "resource": {
+    "aws_cloudcontrolapi_resource": {
+      "resource_22C949BF": {
+        "desired_state": "{\\"DeploymentCanarySettings\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"},\\"UseStageCache\\":true},\\"Description\\":\\"description\\",\\"RestApiId\\":\\"rest-api-id\\",\\"StageDescription\\":{\\"AccessLogSetting\\":{\\"DestinationArn\\":\\"destination-arn\\"},\\"CacheClusterEnabled\\":true,\\"CacheClusterSize\\":\\"cache-cluster-size\\",\\"CacheDataEncrypted\\":true,\\"CacheTtlInSeconds\\":60,\\"CachingEnabled\\":true,\\"CanarySetting\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"}},\\"ClientCertificateId\\":\\"client-certificate-id\\",\\"DataTraceEnabled\\":true,\\"DocumentationVersion\\":\\"documentation-version\\",\\"LoggingLevel\\":\\"logging-level\\",\\"MethodSettings\\":[{\\"CacheDataEncrypted\\":true,\\"CacheTtlInSeconds\\":60,\\"CachingEnabled\\":true,\\"DataTraceEnabled\\":true,\\"HttpMethod\\":\\"http-method\\",\\"LoggingLevel\\":\\"logging-level\\",\\"MetricsEnabled\\":true,\\"ResourcePath\\":\\"resource-path\\",\\"ThrottlingBurstLimit\\":60,\\"ThrottlingRateLimit\\":60}],\\"MetricsEnabled\\":true,\\"ThrottlingBurstLimit\\":60,\\"ThrottlingRateLimit\\":60,\\"TracingEnabled\\":true},\\"StageName\\":\\"stage-name\\"}",
+        "type_name": "AWS::ApiGateway::Deployment"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${jsondecode(aws_cloudcontrolapi_resource.resource_22C949BF.properties).DeploymentId}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${jsondecode(aws_cloudcontrolapi_resource.resource_22C949BF.properties).DeploymentId}",
+      "type": "string"
     }
   }
 }"
@@ -426,39 +426,39 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::Deployment 1`] = `
 
 exports[`Apigateway mappings > should map AWS::ApiGateway::Stage 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_cloudcontrolapi_resource\\": {
-      \\"resource_22C949BF\\": {
-        \\"desired_state\\": \\"{\\\\\\"AccessLogSetting\\\\\\":{\\\\\\"DestinationArn\\\\\\":\\\\\\"destination-arn\\\\\\"},\\\\\\"CacheClusterEnabled\\\\\\":true,\\\\\\"CacheClusterSize\\\\\\":\\\\\\"cache-cluster-size\\\\\\",\\\\\\"CanarySetting\\\\\\":{\\\\\\"PercentTraffic\\\\\\":50,\\\\\\"StageVariableOverrides\\\\\\":{\\\\\\"stage-variable\\\\\\":\\\\\\"stage-variable-value\\\\\\"}},\\\\\\"ClientCertificateId\\\\\\":\\\\\\"client-certificate-id\\\\\\",\\\\\\"DeploymentId\\\\\\":\\\\\\"deployment-id\\\\\\",\\\\\\"Description\\\\\\":\\\\\\"description\\\\\\",\\\\\\"DocumentationVersion\\\\\\":\\\\\\"documentation-version\\\\\\",\\\\\\"MethodSettings\\\\\\":[],\\\\\\"RestApiId\\\\\\":\\\\\\"rest-api-id\\\\\\",\\\\\\"StageName\\\\\\":\\\\\\"stage-name\\\\\\",\\\\\\"TracingEnabled\\\\\\":true}\\",
-        \\"type_name\\": \\"AWS::ApiGateway::Stage\\"
+  "resource": {
+    "aws_cloudcontrolapi_resource": {
+      "resource_22C949BF": {
+        "desired_state": "{\\"AccessLogSetting\\":{\\"DestinationArn\\":\\"destination-arn\\"},\\"CacheClusterEnabled\\":true,\\"CacheClusterSize\\":\\"cache-cluster-size\\",\\"CanarySetting\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"}},\\"ClientCertificateId\\":\\"client-certificate-id\\",\\"DeploymentId\\":\\"deployment-id\\",\\"Description\\":\\"description\\",\\"DocumentationVersion\\":\\"documentation-version\\",\\"MethodSettings\\":[],\\"RestApiId\\":\\"rest-api-id\\",\\"StageName\\":\\"stage-name\\",\\"TracingEnabled\\":true}",
+        "type_name": "AWS::ApiGateway::Stage"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "",
+      "type": "string"
     }
   }
 }"

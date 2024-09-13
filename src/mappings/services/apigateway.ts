@@ -177,6 +177,9 @@ export function registerApiGatewayMappings() {
 
             return new Apigatewayv2DomainName(scope, id, deleteUndefinedKeys(config));
         },
+        unsupportedProps: [
+            "DomainNameConfigurations.*.CertificateName",
+        ],
         attributes: {
             Ref: res => res.id,
             RegionalHostedZoneId: res => res.domainNameConfiguration?.hostedZoneId,
@@ -235,6 +238,7 @@ export function registerApiGatewayMappings() {
             return new Apigatewayv2Integration(scope, id, deleteUndefinedKeys(config));
         },
         attributes: {
+            IntegrationId: res => res.id,
             Id: res => res.id,
             Ref: res => res.id,
         },

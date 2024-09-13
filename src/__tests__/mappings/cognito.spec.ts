@@ -149,6 +149,12 @@ describe("Cognito mappings", () => {
             {
                 allowClassicFlow: true,
                 allowUnauthenticatedIdentities: true,
+                identityPoolTags: [
+                    {
+                        value: "value",
+                        key: "key",
+                    }
+                ],
                 cognitoIdentityProviders: [
                     {
                         providerName: "provider-name",
@@ -164,6 +170,9 @@ describe("Cognito mappings", () => {
                 },
                 openIdConnectProviderArns: ["open-id-connect-provider-arn"],
                 // FIXME: this is not supported by the provider yet
+                cognitoEvents: undefined,
+                pushSync: undefined,
+                cognitoStreams: undefined,
                 // cognitoEvents: {
                 //     "event": "event",
                 // },
@@ -216,6 +225,7 @@ describe("Cognito mappings", () => {
                             maxLength: "max-length",
                             minLength: "min-length",
                         },
+                        developerOnlyAttribute: false,
                     },
                 ],
                 enabledMfas: ["SMS"],
@@ -226,10 +236,16 @@ describe("Cognito mappings", () => {
                         emailSubject: "email-subject",
                         smsMessage: "sms-message",
                     },
-                    unusedAccountValidityDays: 60,
+                    // This is not supported by the provider yet
+                    unusedAccountValidityDays: undefined,
                 },
                 mfaConfiguration: "ON",
                 userPoolAddOns: {
+                    // This is not supported by the provider yet
+                    advancedSecurityAdditionalFlows: undefined,
+                    // advancedSecurityAdditionalFlows: {
+                    //     customAuthMode: "custom-auth-mode",
+                    // },
                     advancedSecurityMode: "OFF",
                 },
                 accountRecoverySetting: {

@@ -222,7 +222,8 @@ describe("Apigateway mappings", () => {
                 certificateArn: "certificate-arn",
                 endpointType: "REGIONAL",
                 securityPolicy: "TLS_1_2",
-                certificateName: "certificate-name",
+                // This property is not supported by terraform
+                // certificateName: "certificate-name",
                 ownershipVerificationCertificateArn: "ownership-verification-certificate-arn",
             }],
             mutualTlsAuthentication: {

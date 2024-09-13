@@ -4,6 +4,7 @@ import { resolve } from "cdktf/lib/_tokens.js";
 import { Construct } from "constructs";
 import { Class } from "type-fest";
 import { AwsTerraformAdaptorStack } from "../index.js";
+import {IfEquals} from "../lib/core/type-utils.js";
 
 export function synthesizeConstructAndTestStability<T extends Construct, C extends Class<T>>(
     constructClass: C,
@@ -34,6 +35,10 @@ export function synthesizeConstructAndTestStability<T extends Construct, C exten
     };
 }
 
+type DeepRequired<T> = {
+    [K in keyof T]-?: IfEquals<DeepRequired<T[K]>, any, DeepRequired<T[K]>, any>;
+}
+
 export function synthesizeElementAndTestStability<
     C extends CfnElement,
     CC extends Class<C>,
@@ -41,9 +46,9 @@ export function synthesizeElementAndTestStability<
     TC extends Class<T>,
 >(
     constructClass: CC,
-    props: ConstructorParameters<CC>[2],
+    props: DeepRequired<ConstructorParameters<CC>[2]>,
     terraformClass: TC,
-    terraformProps: ConstructorParameters<TC>[2],
+    terraformProps: DeepRequired<ConstructorParameters<TC>[2]>,
 ) {
     class ConstructWrapper extends Construct {
         public readonly resource: C;

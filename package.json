@@ -54,15 +54,15 @@
   "license": "MIT",
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "^3.515.0",
-    "@cdktf/provider-aws": "^19.28.0",
+    "@cdktf/provider-aws": "^19.33.0",
     "@changesets/cli": "^2.27.1",
     "@eslint/js": "^8.56.0",
     "@types/debug": "^4.1.12",
     "@types/node": "^18.19.17",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
-    "@vitest/coverage-v8": "^0.34.6",
-    "aws-cdk-lib": "^2.150.0",
+    "@vitest/coverage-v8": "^2.1.0",
+    "aws-cdk-lib": "^2.158.0",
     "cdktf": "^0.20.8",
     "cdktf-cli": "^0.18.2",
     "constructs": "^10.3.0",
@@ -71,7 +71,7 @@
     "husky": "^8.0.3",
     "type-fest": "^4.10.2",
     "typescript": "^5.3.3",
-    "vitest": "^0.34.6"
+    "vitest": "^2.1.0"
   },
   "peerDependencies": {
     "@cdktf/provider-aws": ">=19.28.0",
@@ -83,6 +83,7 @@
     "camel-case": "^4.1.2",
     "codemaker": "^1.94.0",
     "debug": "^4.3.4",
+    "minimatch": "^10.0.1",
     "yargs": "^17.7.2"
   }
 }

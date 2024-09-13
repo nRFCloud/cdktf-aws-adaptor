@@ -21,7 +21,7 @@ export function registerCloudfrontMappings() {
     });
 
     registerMappingTyped(CfnDistribution, CloudfrontDistribution, {
-        resource: (scope, id, props) => {
+        resource: (scope, id, props, proxy) => {
             if (props.DistributionConfig.S3Origin != null) {
                 throw new Error("Legacy S3Origin is not supported");
             }
@@ -66,6 +66,9 @@ export function registerCloudfrontMappings() {
                 viewerProtocolPolicy: behavior.ViewerProtocolPolicy!,
             });
             const aliases = [...(props.DistributionConfig.Aliases || []), ...(props.DistributionConfig.CNAMEs || [])];
+            proxy.touchPath("DistributionConfig.OriginGroups.Quantity");
+            proxy.touchPath("DistributionConfig.OriginGroups.Items.*.FailoverCriteria.StatusCodes.Quantity");
+            proxy.touchPath("DistributionConfig.OriginGroups.Items.*.Members.Quantity");
             const config: CloudfrontDistributionConfig = {
                 aliases,
                 tags: Object.fromEntries(

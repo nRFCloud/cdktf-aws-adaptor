@@ -128,6 +128,10 @@ describe("EC2 VPC mappings", () => {
                 groupName: "test-security-group",
                 groupDescription: "test-security-group-description",
                 vpcId: "test-vpc-id",
+                tags: [{
+                    key: "Name",
+                    value: "test-security-group",
+                }],
                 securityGroupEgress: [
                     {
                         destinationSecurityGroupId: "destination-security-group-id",

@@ -10,6 +10,7 @@ import { Testing } from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
 import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
+import { describe, it } from "vitest";
 
 setupJest();
 describe("IAM Mappings", () => {

@@ -119,8 +119,8 @@ export function registerEC2VPCMappings() {
             // This has no resource representation in TF, see also: https://github.com/hashicorp/terraform-provider-aws/issues/5465#issuecomment-415575387
             // so we add an aspect to simulate the behaviour it has
             const vpcId = props.VpcId;
-            delete props.VpcId;
-            delete props.InternetGatewayId;
+            props.VpcId;
+            props.InternetGatewayId;
 
             Aspects.of(scope).add({
                 visit: (node) => {
@@ -166,7 +166,7 @@ export function registerEC2VPCMappings() {
     });
 
     registerMappingTyped(CfnSecurityGroup, SecurityGroup, {
-        resource: (scope, id, cfnProps) => {
+        resource: (scope, id, cfnProps, proxy) => {
             const props: SecurityGroupConfig = {
                 name: cfnProps.GroupName,
                 vpcId: cfnProps.VpcId,
@@ -182,6 +182,7 @@ export function registerEC2VPCMappings() {
             const securityGroup = new SecurityGroup(scope, id, deleteUndefinedKeys(props));
 
             cfnProps.SecurityGroupIngress?.forEach((ingress, idx) => {
+
                 new VpcSecurityGroupIngressRule(
                     securityGroup,
                     `${idx}-ingress`,

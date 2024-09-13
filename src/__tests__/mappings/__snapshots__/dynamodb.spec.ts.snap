@@ -2,128 +2,128 @@
 
 exports[`DynamoDB mappings > Should map AWS::DynamoDB::Table 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_dynamodb_contributor_insights\\": {
-      \\"resource_resource-contributor-insights_7BDF7CB7\\": {
-        \\"table_name\\": \\"test-table\\"
+  "resource": {
+    "aws_dynamodb_contributor_insights": {
+      "resource_resource-contributor-insights_7BDF7CB7": {
+        "table_name": "test-table"
       },
-      \\"resource_resource-test-index-contributor-insights_DBE949D6\\": {
-        \\"index_name\\": \\"test-index\\",
-        \\"table_name\\": \\"test-table\\"
+      "resource_resource-test-index-contributor-insights_DBE949D6": {
+        "index_name": "test-index",
+        "table_name": "test-table"
       }
     },
-    \\"aws_dynamodb_kinesis_streaming_destination\\": {
-      \\"resource_resource-kinesis-streaming-destination_F8137B68\\": {
-        \\"stream_arn\\": \\"test-stream-arn\\",
-        \\"table_name\\": \\"test-table\\"
+    "aws_dynamodb_kinesis_streaming_destination": {
+      "resource_resource-kinesis-streaming-destination_F8137B68": {
+        "stream_arn": "test-stream-arn",
+        "table_name": "test-table"
       }
     },
-    \\"aws_dynamodb_resource_policy\\": {
-      \\"resource_resource-resource-policy_BB2DAEEF\\": {
-        \\"policy\\": \\"\${jsonencode({\\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\", \\\\\\"Statement\\\\\\" = [{\\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"dynamodb.amazonaws.com\\\\\\"}, \\\\\\"Action\\\\\\" = \\\\\\"dynamodb:DescribeTable\\\\\\", \\\\\\"Resource\\\\\\" = \\\\\\"*\\\\\\"}]})}\\",
-        \\"resource_arn\\": \\"\${aws_dynamodb_table.resource_22C949BF.arn}\\"
+    "aws_dynamodb_resource_policy": {
+      "resource_resource-resource-policy_BB2DAEEF": {
+        "policy": "\${jsonencode({\\"Version\\" = \\"2012-10-17\\", \\"Statement\\" = [{\\"Effect\\" = \\"Allow\\", \\"Principal\\" = {\\"Service\\" = \\"dynamodb.amazonaws.com\\"}, \\"Action\\" = \\"dynamodb:DescribeTable\\", \\"Resource\\" = \\"*\\"}]})}",
+        "resource_arn": "\${aws_dynamodb_table.resource_22C949BF.arn}"
       }
     },
-    \\"aws_dynamodb_table\\": {
-      \\"resource_22C949BF\\": {
-        \\"attribute\\": [
+    "aws_dynamodb_table": {
+      "resource_22C949BF": {
+        "attribute": [
           {
-            \\"name\\": \\"test-attribute-name\\",
-            \\"type\\": \\"S\\"
+            "name": "test-attribute-name",
+            "type": "S"
           }
         ],
-        \\"billing_mode\\": \\"PROVISIONED\\",
-        \\"deletion_protection_enabled\\": true,
-        \\"global_secondary_index\\": [
+        "billing_mode": "PROVISIONED",
+        "deletion_protection_enabled": true,
+        "global_secondary_index": [
           {
-            \\"hash_key\\": \\"test-attribute-name\\",
-            \\"name\\": \\"test-index\\",
-            \\"non_key_attributes\\": [
-              \\"test\\"
+            "hash_key": "test-attribute-name",
+            "name": "test-index",
+            "non_key_attributes": [
+              "test"
             ],
-            \\"projection_type\\": \\"ALL\\",
-            \\"range_key\\": \\"test-attribute-name-range\\",
-            \\"read_capacity\\": 1,
-            \\"write_capacity\\": 1
+            "projection_type": "ALL",
+            "range_key": "test-attribute-name-range",
+            "read_capacity": 1,
+            "write_capacity": 1
           }
         ],
-        \\"hash_key\\": \\"test-attribute-name\\",
-        \\"import_table\\": {
-          \\"input_compression_type\\": \\"NONE\\",
-          \\"input_format\\": \\"JSON\\",
-          \\"input_format_options\\": {
-            \\"csv\\": {
-              \\"delimiter\\": \\"test-delimiter\\",
-              \\"header_list\\": [
-                \\"test-header-list\\"
+        "hash_key": "test-attribute-name",
+        "import_table": {
+          "input_compression_type": "NONE",
+          "input_format": "JSON",
+          "input_format_options": {
+            "csv": {
+              "delimiter": "test-delimiter",
+              "header_list": [
+                "test-header-list"
               ]
             }
           },
-          \\"s3_bucket_source\\": {
-            \\"bucket\\": \\"test-s3-bucket\\",
-            \\"bucket_owner\\": \\"test-s3-bucket-owner\\",
-            \\"key_prefix\\": \\"test-s3\\"
+          "s3_bucket_source": {
+            "bucket": "test-s3-bucket",
+            "bucket_owner": "test-s3-bucket-owner",
+            "key_prefix": "test-s3"
           }
         },
-        \\"local_secondary_index\\": [
+        "local_secondary_index": [
           {
-            \\"name\\": \\"test-index\\",
-            \\"non_key_attributes\\": [
-              \\"test\\"
+            "name": "test-index",
+            "non_key_attributes": [
+              "test"
             ],
-            \\"projection_type\\": \\"ALL\\",
-            \\"range_key\\": \\"test-attribute-name-range\\"
+            "projection_type": "ALL",
+            "range_key": "test-attribute-name-range"
           }
         ],
-        \\"name\\": \\"test-table\\",
-        \\"point_in_time_recovery\\": {
-          \\"enabled\\": true
+        "name": "test-table",
+        "point_in_time_recovery": {
+          "enabled": true
         },
-        \\"range_key\\": \\"test-attribute-name-range\\",
-        \\"read_capacity\\": 1,
-        \\"server_side_encryption\\": {
-          \\"enabled\\": true,
-          \\"kms_key_arn\\": \\"test-kms-master-key-id\\"
+        "range_key": "test-attribute-name-range",
+        "read_capacity": 1,
+        "server_side_encryption": {
+          "enabled": true,
+          "kms_key_arn": "test-kms-master-key-id"
         },
-        \\"stream_enabled\\": true,
-        \\"stream_view_type\\": \\"NEW_IMAGE\\",
-        \\"table_class\\": \\"test-table-class\\",
-        \\"tags\\": {
-          \\"Name\\": \\"test-table\\"
+        "stream_enabled": true,
+        "stream_view_type": "NEW_IMAGE",
+        "table_class": "test-table-class",
+        "tags": {
+          "Name": "test-table"
         },
-        \\"ttl\\": {
-          \\"attribute_name\\": \\"test-attribute-name\\",
-          \\"enabled\\": true
+        "ttl": {
+          "attribute_name": "test-attribute-name",
+          "enabled": true
         },
-        \\"write_capacity\\": 1
+        "write_capacity": 1
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.60.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_dynamodb_table.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_dynamodb_table.resource_22C949BF.stream_arn, \\\\\\",\\\\\\", {\\\\\\"attributeName\\\\\\" = \\\\\\"test-attribute-name\\\\\\", \\\\\\"attributeType\\\\\\" = \\\\\\"S\\\\\\"}])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_dynamodb_table.resource_22C949BF.arn, \\",\\", aws_dynamodb_table.resource_22C949BF.stream_arn, \\",\\", {\\"attributeName\\" = \\"test-attribute-name\\", \\"attributeType\\" = \\"S\\"}])}",
+      "type": "string"
     }
   }
 }"

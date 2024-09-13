@@ -10,8 +10,9 @@ import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerDynamoDBMappings() {
     registerMappingTyped(CfnTable, DynamodbTable, {
-        resource(scope, id, tableProps) {
+        resource(scope, id, tableProps, proxy) {
             const globalIndexInsights: string[] = [];
+            proxy.touchPath("LocalSecondaryIndexes.*.KeySchema.*.AttributeName");
             const mapped: DynamodbTableConfig = {
                 name: tableProps.TableName!,
                 // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -46,7 +47,6 @@ export function registerDynamoDBMappings() {
                     name: attr.AttributeName,
                     type: attr.AttributeType,
                 })),
-
                 localSecondaryIndex: tableProps.LocalSecondaryIndexes?.map(index => ({
                     name: index.IndexName,
                     rangeKey: index.KeySchema.find(key => key.KeyType === "RANGE")?.AttributeName as string,
@@ -102,7 +102,7 @@ export function registerDynamoDBMappings() {
                 );
             }
 
-            if (tableProps.ContributorInsightsSpecification) {
+            if (tableProps.ContributorInsightsSpecification?.Enabled === true) {
                 implicitDependencies.push(
                     new DynamodbContributorInsights(scope, `${id}-contributor-insights`, {
                         tableName: mapped.name,
@@ -111,6 +111,7 @@ export function registerDynamoDBMappings() {
             }
 
             if (tableProps.ResourcePolicy) {
+                proxy.touchPath("ResourcePolicy.PolicyDocument");
                 implicitDependencies.push(
                     new DynamodbResourcePolicy(scope, `${id}-resource-policy`, {
                         policy: Fn.jsonencode(tableProps.ResourcePolicy.PolicyDocument),
@@ -128,6 +129,7 @@ export function registerDynamoDBMappings() {
             // Support for this property is tracked by this issue
             // https://github.com/hashicorp/terraform-provider-aws/issues/37256
             "OnDemandThroughput",
+            "SSESpecification.SSEType",
         ],
         attributes: {
             Arn: resource => resource.arn,

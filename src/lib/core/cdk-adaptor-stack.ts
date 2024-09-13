@@ -35,7 +35,7 @@ import { conditional, propertyAccess } from "cdktf/lib/tfExpression.js";
 import { TokenMap } from "cdktf/lib/tokens/private/token-map.js";
 import { toSnakeCase } from "codemaker";
 import { Construct, ConstructOrder, IConstruct } from "constructs";
-import { findMapping, Mapping } from "../../mappings/utils.js";
+import {AccessTracker, findMapping, Mapping} from "../../mappings/utils.js";
 import { CloudFormationOutput, CloudFormationResource, CloudFormationTemplate } from "./cfn.js";
 import { reparentConstruct } from "./construct-helpers.js";
 import { TerraformSynthesizer } from "./terraform-synthesizer.js";
@@ -430,7 +430,18 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
 
         const newScope = (terraformStack == undefined ? this : currentElement.node.scope) as Construct;
 
-        const res = m.resource(newScope, currentElement.node.id, props);
+        const proxy = new AccessTracker(props);
+
+        if (m.unsupportedProps != null) {
+            for (const prop of m.unsupportedProps) {
+                if (proxy.hasProperty(prop)) {
+                    throw new Error(`Unsupported property ${prop} for resource ${resource.Type}`);
+                }
+                proxy.removePropertiesUnderPath(prop);
+            }
+        }
+
+        const res = m.resource(newScope, currentElement.node.id, proxy.proxy, proxy);
         if (currentElement instanceof CfnResource && res) {
             res.node.addDependency(...currentElement.obtainDependencies());
             res.node.addDependency(...currentElement.node.dependencies);
@@ -454,14 +465,9 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             );
         }
 
-        const keys = Object.keys(props).filter((k) => props[k] !== undefined);
-        if (keys.length > 0) {
+        if (!proxy.isAllPropertiesAccessed()) {
             throw new Error(
-                `cannot map some properties of ${resource.Type}: ${
-                    JSON.stringify(
-                        props,
-                    )
-                }`,
+                `The following props were not mapped for ${resource.Type}: ${proxy.getUnaccessedProperties().join(", ")}`,
             );
         }
 
@@ -656,6 +662,10 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
 
             case "AWS::NoValue": {
                 return;
+            }
+
+            case "AWS::StackName": {
+                return this.node.id;
             }
 
             case "AWS::URLSuffix": {

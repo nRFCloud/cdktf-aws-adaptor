@@ -32,7 +32,7 @@ export function registerLogMappings() {
                 ServiceToken,
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 SdkRetry,
-            } = getDeletableObject(props) as LogRetentionProps;
+            } = props as LogRetentionProps;
 
             // There is no such thing as a "LogRetention" resource and there never was
             // Instead, we try to create it before whatever it is that wants it

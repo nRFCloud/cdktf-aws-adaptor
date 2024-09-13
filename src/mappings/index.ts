@@ -15,6 +15,7 @@ import { registerSnsMappings } from "./services/sns.js";
 import { registerSqsMappings } from "./services/sqs.js";
 import { registerStepFunctinMappings } from "./services/stepfunctions.js";
 import { registerMapping } from "./utils.js";
+import {registerEcsMappings} from "./services/eks.js";
 
 export function registerMappings() {
     registerMapping("AWS::CloudFormation::CustomResource", {
@@ -40,6 +41,7 @@ export function registerMappings() {
     registerSqsMappings();
     registerSnsMappings();
     registerStepFunctinMappings();
+    registerEcsMappings();
 }
 
 registerMappings();
