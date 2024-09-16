@@ -121,10 +121,6 @@ export function registerCognitoMappings() {
                 openidConnectProviderArns: identityPool.OpenIdConnectProviderARNs,
                 samlProviderArns: identityPool.SamlProviderARNs,
                 supportedLoginProviders: identityPool.SupportedLoginProviders,
-                tags: identityPool.IdentityPoolTags?.reduce((tags, cfnTags) => {
-                    tags[cfnTags.Key] = cfnTags.Value;
-                    return tags;
-                }, {} as { [key: string]: string }),
             };
 
             const pool = new CognitoIdentityPool(
