@@ -203,10 +203,6 @@ describe("Cognito mappings", () => {
                 supportedLoginProviders: {
                     "login-provider": "login-provider",
                 },
-                tags: {
-                    hello: "hi",
-                    world: "universe",
-                },
             },
             ["cognitoEvents", "pushSync", "cognitoStreams"],
         );

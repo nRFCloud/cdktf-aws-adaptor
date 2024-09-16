@@ -312,7 +312,6 @@ export function registerLambdaMappings() {
                 }),
             );
         },
-        unsupportedProps: ["KmsKeyArn"],
         attributes: {
             Ref: (resource: LambdaEventSourceMapping) => resource.id,
             Id: (resource: LambdaEventSourceMapping) => resource.id,
