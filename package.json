@@ -1,6 +1,6 @@
 {
   "name": "@nrfcloud/cdktf-aws-adaptor",
-  "version": "0.8.0",
+  "version": "0.9.0",
   "description": "A compatibility layer for using the CDK for Terraform with AWS CDK constructs",
   "type": "module",
   "main": "dist/index.js",
@@ -70,8 +70,8 @@
     "vitest": "^2.1.0"
   },
   "peerDependencies": {
-    "@cdktf/provider-aws": ">=19.28.0",
-    "aws-cdk-lib": ">=2.150.0",
+    "@cdktf/provider-aws": ">=19.32.0",
+    "aws-cdk-lib": ">=2.153.0",
     "cdktf": "^0.20.4",
     "constructs": "^10.2.69"
   },

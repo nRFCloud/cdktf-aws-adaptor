@@ -8,6 +8,7 @@ export function registerStepFunctinMappings() {
     registerMappingTyped(CfnStateMachine, SfnStateMachine, {
         resource(scope, id, props, proxy) {
             let definitionString: string | undefined = undefined;
+            props.EncryptionConfiguration;
             if (props?.DefinitionString) {
                 definitionString = props.DefinitionString;
             } else if (props?.DefinitionS3Location) {
