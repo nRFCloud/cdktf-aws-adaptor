@@ -6,7 +6,7 @@ import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerStepFunctinMappings() {
     registerMappingTyped(CfnStateMachine, SfnStateMachine, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
             let definitionString: string | undefined = undefined;
             props.EncryptionConfiguration;
             if (props?.DefinitionString) {
@@ -15,9 +15,11 @@ export function registerStepFunctinMappings() {
                 const s3Obj = new DataAwsS3BucketObject(scope, `${id}-definition`, {
                     bucket: props.DefinitionS3Location.Bucket as string,
                     key: props.DefinitionS3Location.Key as string,
+                    versionId: props.DefinitionS3Location.Version as string,
                 });
                 definitionString = s3Obj.body as string;
             } else if (props?.Definition) {
+                proxy.touchPath("Definition");
                 definitionString = Fn.jsonencode(props.Definition);
             }
             if (!definitionString) {
@@ -56,9 +58,9 @@ export function registerStepFunctinMappings() {
                     enabled: props?.TracingConfiguration?.Enabled,
                 },
                 encryptionConfiguration: {
-                    kmsDataKeyReusePeriodSeconds: props.EncryptionConfiguration?.KmsDataKeyReusePeriodSeconds,
-                    kmsKeyId: props.EncryptionConfiguration?.KmsKeyId,
-                    type: props.EncryptionConfiguration?.Type,
+                    kmsKeyId: props?.EncryptionConfiguration?.KmsKeyId,
+                    type: props?.EncryptionConfiguration?.Type,
+                    kmsDataKeyReusePeriodSeconds: props?.EncryptionConfiguration?.KmsDataKeyReusePeriodSeconds,
                 },
             };
 

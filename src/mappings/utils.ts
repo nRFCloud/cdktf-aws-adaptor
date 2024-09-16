@@ -7,6 +7,7 @@ import { propertyAccess } from "cdktf/lib/tfExpression.js";
 import { Construct } from "constructs";
 import supportedAwsccResourceTypes from "../lib/core/awscc/supported-types.js";
 import supportedTypes from "../lib/core/awscc/supported-types.js";
+import { AccessTracker } from "./access-tracker.js";
 import { AdaptCfnProps, CfnAttributes } from "./cfn-mapper-types.js";
 import { mapperDebug, mapperWarn, ResourceMapper } from "./helper.js";
 
@@ -29,6 +30,7 @@ type AnyAttributeMapper<T extends TerraformResource> = (attribute: string, resou
 
 export type Mapping<T extends TerraformResource> = {
     resource: ResourceMapper<T>;
+    unsupportedProps?: string[];
     attributes: {
         [name: string]: AttributeMapper<T>;
     } | AnyAttributeMapper<T>;
@@ -109,9 +111,13 @@ export interface CfnMapper<
         new(...args: never): TerraformResource;
     },
 > {
-    resource(scope: Construct, id: string, props: CfnPropsForResourceClass<CfClass>): InstanceType<TfClass>;
-
-    unsupportedProps?: (keyof Exclude<CfnPropsForResourceClass<CfClass>, null | undefined>)[];
+    resource(
+        scope: Construct,
+        id: string,
+        props: CfnPropsForResourceClass<CfClass>,
+        propProxy: AccessTracker<CfnPropsForResourceClass<CfClass>>,
+    ): InstanceType<TfClass>;
+    unsupportedProps?: string[];
     attributes: {
         [key in keyof CfnAttributes<InstanceType<CfClass>>]: (
             resource: InstanceType<TfClass>,
@@ -137,38 +143,12 @@ export function registerMappingTyped<
     const resourceType = (cfClass as unknown as { CFN_RESOURCE_TYPE_NAME: string }).CFN_RESOURCE_TYPE_NAME;
     mapperDebug("registering mapping for", resourceType);
     registerMapping(resourceType, {
-        resource: (scope, id, props) => {
-            if (mapper.unsupportedProps) {
-                for (const prop of mapper.unsupportedProps) {
-                    if (props[prop as string] != undefined) {
-                        throw new Error(`The following prop is not supported for ${resourceType}: ${prop as string}`);
-                    }
-                    delete props[prop as string];
-                }
-            }
-            const cfnProps = getDeletableObject(props) as CfnPropsForResourceClass<CfClass>;
-            const tfResource = mapper.resource(scope, id, cfnProps);
-            if (Object.keys(props).length > 0) {
-                throw new Error(
-                    `The following props were not mapped for ${resourceType}: ${Object.keys(props).join(", ")}`,
-                );
-            }
+        resource: (scope, id, _, proxy) => {
+            const tracker = proxy as AccessTracker<CfnPropsForResourceClass<CfClass>>;
+            const tfResource = mapper.resource(scope, id, tracker.proxy, tracker);
             return tfResource as Tf;
         },
+        unsupportedProps: mapper.unsupportedProps as string[],
         attributes: mapper.attributes as unknown as Mapping<TerraformResource>["attributes"],
-    });
-}
-
-export function getDeletableObject<
-    T extends {
-        [key: string]: unknown;
-    },
->(originalObj: T): T {
-    const obj = JSON.parse(JSON.stringify(originalObj));
-    return new Proxy(obj, {
-        get: (target, prop) => {
-            delete originalObj[prop as keyof T];
-            return obj[prop as keyof T];
-        },
     });
 }

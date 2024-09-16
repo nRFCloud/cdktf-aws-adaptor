@@ -5,7 +5,7 @@ import {
 } from "@cdktf/provider-aws/lib/cloudwatch-log-resource-policy/index.js";
 import { CfnLogGroup, CfnResourcePolicy } from "aws-cdk-lib/aws-logs";
 import { TerraformStack } from "cdktf";
-import { deleteUndefinedKeys, getDeletableObject, registerMapping, registerMappingTyped } from "../utils.js";
+import { deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 interface LogRetentionProps {
     ServiceToken: string;
@@ -32,7 +32,7 @@ export function registerLogMappings() {
                 ServiceToken,
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 SdkRetry,
-            } = getDeletableObject(props) as LogRetentionProps;
+            } = props as LogRetentionProps;
 
             // There is no such thing as a "LogRetention" resource and there never was
             // Instead, we try to create it before whatever it is that wants it

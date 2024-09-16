@@ -10,15 +10,13 @@ import {
     CfnDomainNameApiAssociation,
     CfnFunctionConfiguration,
     CfnGraphQLApi,
-    CfnGraphQLSchemaProps,
     CfnResolver,
 } from "aws-cdk-lib/aws-appsync";
 import { Fn, TerraformStack } from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
 import { Construct } from "constructs";
 import { AwsTerraformAdaptorStack } from "../../lib/core/cdk-adaptor-stack.js";
-import { AdaptCfnProps } from "../cfn-mapper-types.js";
-import { deleteUndefinedKeys, getDeletableObject, registerMapping, registerMappingTyped } from "../utils.js";
+import { deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 const appsyncApiMapping = new Map<string, AppsyncGraphqlApi>();
 
@@ -87,6 +85,13 @@ export function registerAppSyncMappings() {
                         iatTtl: props.OpenIDConnectConfig?.IatTTL,
                         issuer: props.OpenIDConnectConfig?.Issuer as string,
                     },
+                    enhancedMetricsConfig: {
+                        operationLevelMetricsConfig: props.EnhancedMetricsConfig?.OperationLevelMetricsConfig as string,
+                        resolverLevelMetricsBehavior: props.EnhancedMetricsConfig
+                            ?.ResolverLevelMetricsBehavior as string,
+                        dataSourceLevelMetricsBehavior: props.EnhancedMetricsConfig
+                            ?.DataSourceLevelMetricsBehavior as string,
+                    },
                     tags: Object.fromEntries(
                         props.Tags?.map(({
                             Key: key,
@@ -104,7 +109,6 @@ export function registerAppSyncMappings() {
             "ApiType",
             "MergedApiExecutionRoleArn",
             "EnvironmentVariables",
-            "EnhancedMetricsConfig",
         ],
         attributes: {
             Ref: (resource) => resource.id,
@@ -152,14 +156,13 @@ export function registerAppSyncMappings() {
      */
     registerMapping("AWS::AppSync::GraphQLSchema", {
         resource(scope, id, props) {
-            const schemaProps = getDeletableObject(props) as AdaptCfnProps<CfnGraphQLSchemaProps>;
-            const api = getAppsyncMapping(scope, schemaProps.ApiId);
+            const api = getAppsyncMapping(scope, props.ApiId);
             if (!api) {
                 throw new Error("Unable to find GraphQLApi for GraphQLSchema.");
             }
 
-            if (schemaProps.Definition) {
-                api.schema = schemaProps.Definition;
+            if (props.Definition) {
+                api.schema = props.Definition;
             }
         },
         attributes: {},

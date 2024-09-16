@@ -2,52 +2,57 @@
 
 exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should translate with Object definition 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_sfn_state_machine\\": {
-      \\"resource_22C949BF\\": {
-        \\"definition\\": \\"\${jsonencode({\\\\\\"StartAt\\\\\\" = \\\\\\"HelloWorld\\\\\\", \\\\\\"States\\\\\\" = {}})}\\",
-        \\"logging_configuration\\": {
-          \\"include_execution_data\\": true,
-          \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn:*\\"
+  "resource": {
+    "aws_sfn_state_machine": {
+      "resource_22C949BF": {
+        "definition": "\${replace(replace(jsonencode({\\"StartAt\\" = \\"HelloWorld\\"}), \\"$\${MyFunction}\\", \\"arn:aws:lambda:us-east-1:123456789012:function:my-function:1\\"), \\"$\${Task}\\", \\"TaskType\\")}",
+        "encryption_configuration": {
+          "kms_data_key_reuse_period_seconds": 123,
+          "kms_key_id": "kmsKeyId",
+          "type": "KMS"
         },
-        \\"name\\": \\"name\\",
-        \\"role_arn\\": \\"roleArn\\",
-        \\"tags\\": {
-          \\"key\\": \\"value\\"
+        "logging_configuration": {
+          "include_execution_data": true,
+          "level": "ALL",
+          "log_destination": "logGroupArn:*"
         },
-        \\"tracing_configuration\\": {
-          \\"enabled\\": true
+        "name": "name",
+        "role_arn": "roleArn",
+        "tags": {
+          "key": "value"
         },
-        \\"type\\": \\"STANDARD\\"
+        "tracing_configuration": {
+          "enabled": true
+        },
+        "type": "STANDARD"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.name, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\",\\", aws_sfn_state_machine.resource_22C949BF.name, \\",\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}",
+      "type": "string"
     }
   }
 }"
@@ -55,65 +60,66 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
 
 exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should translate with S3 definition 1`] = `
 "{
-  \\"data\\": {
-    \\"aws_s3_bucket_object\\": {
-      \\"resource_resource-definition_AA6652B4\\": {
-        \\"bucket\\": \\"bucket\\",
-        \\"key\\": \\"key\\"
+  "data": {
+    "aws_s3_bucket_object": {
+      "resource_resource-definition_AA6652B4": {
+        "bucket": "bucket",
+        "key": "key",
+        "version_id": "version"
       }
     }
   },
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_sfn_state_machine\\": {
-      \\"resource_22C949BF\\": {
-        \\"definition\\": \\"\${data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body}\\",
-        \\"encryption_configuration\\": {
-          \\"kms_data_key_reuse_period_seconds\\": 600,
-          \\"kms_key_id\\": \\"123\\",
-          \\"type\\": \\"Test\\"
+  "resource": {
+    "aws_sfn_state_machine": {
+      "resource_22C949BF": {
+        "definition": "\${replace(replace(data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body, \\"$\${MyFunction}\\", \\"arn:aws:lambda:us-east-1:123456789012:function:my-function:1\\"), \\"$\${Task}\\", \\"TaskType\\")}",
+        "encryption_configuration": {
+          "kms_data_key_reuse_period_seconds": 123,
+          "kms_key_id": "kmsKeyId",
+          "type": "KMS"
         },
-        \\"logging_configuration\\": {
-          \\"include_execution_data\\": true,
-          \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn:*\\"
+        "logging_configuration": {
+          "include_execution_data": true,
+          "level": "ALL",
+          "log_destination": "logGroupArn:*"
         },
-        \\"name\\": \\"name\\",
-        \\"role_arn\\": \\"roleArn\\",
-        \\"tags\\": {
-          \\"key\\": \\"value\\"
+        "name": "name",
+        "role_arn": "roleArn",
+        "tags": {
+          "key": "value"
         },
-        \\"tracing_configuration\\": {
-          \\"enabled\\": true
+        "tracing_configuration": {
+          "enabled": true
         },
-        \\"type\\": \\"STANDARD\\"
+        "type": "STANDARD"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.name, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\",\\", aws_sfn_state_machine.resource_22C949BF.name, \\",\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}",
+      "type": "string"
     }
   }
 }"
@@ -121,52 +127,57 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
 
 exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should translate with String definition 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_sfn_state_machine\\": {
-      \\"resource_22C949BF\\": {
-        \\"definition\\": \\"\${join(\\\\\\"\\\\\\", [\\\\\\"{\\\\\\\\\\\\\\"StartAt\\\\\\\\\\\\\\": \\\\\\\\\\\\\\"HelloWorld\\\\\\\\\\\\\\", \\\\\\\\\\\\\\"States\\\\\\\\\\\\\\": {}}\\\\\\"])}\\",
-        \\"logging_configuration\\": {
-          \\"include_execution_data\\": true,
-          \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn:*\\"
+  "resource": {
+    "aws_sfn_state_machine": {
+      "resource_22C949BF": {
+        "definition": "\${replace(replace(join(\\"\\", [\\"{\\\\\\"StartAt\\\\\\": \\\\\\"HelloWorld\\\\\\", \\\\\\"States\\\\\\": {}}\\"]), \\"$\${MyFunction}\\", \\"arn:aws:lambda:us-east-1:123456789012:function:my-function:1\\"), \\"$\${Task}\\", \\"TaskType\\")}",
+        "encryption_configuration": {
+          "kms_data_key_reuse_period_seconds": 123,
+          "kms_key_id": "kmsKeyId",
+          "type": "KMS"
         },
-        \\"name\\": \\"name\\",
-        \\"role_arn\\": \\"roleArn\\",
-        \\"tags\\": {
-          \\"key\\": \\"value\\"
+        "logging_configuration": {
+          "include_execution_data": true,
+          "level": "ALL",
+          "log_destination": "logGroupArn:*"
         },
-        \\"tracing_configuration\\": {
-          \\"enabled\\": true
+        "name": "name",
+        "role_arn": "roleArn",
+        "tags": {
+          "key": "value"
         },
-        \\"type\\": \\"STANDARD\\"
+        "tracing_configuration": {
+          "enabled": true
+        },
+        "type": "STANDARD"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.name, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\",\\", aws_sfn_state_machine.resource_22C949BF.name, \\",\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}",
+      "type": "string"
     }
   }
 }"
@@ -174,60 +185,57 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
 
 exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should translate with definition substitutions 1`] = `
 "{
-  \\"data\\": {
-    \\"aws_s3_bucket_object\\": {
-      \\"resource_resource-definition_AA6652B4\\": {
-        \\"bucket\\": \\"bucket\\",
-        \\"key\\": \\"key\\"
-      }
-    }
-  },
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_sfn_state_machine\\": {
-      \\"resource_22C949BF\\": {
-        \\"definition\\": \\"\${replace(replace(data.aws_s3_bucket_object.resource_resource-definition_AA6652B4.body, \\\\\\"$\${MyFunction}\\\\\\", \\\\\\"arn:aws:lambda:us-east-1:123456789012:function:my-function:1\\\\\\"), \\\\\\"$\${Task}\\\\\\", \\\\\\"TaskType\\\\\\")}\\",
-        \\"logging_configuration\\": {
-          \\"include_execution_data\\": true,
-          \\"level\\": \\"ALL\\",
-          \\"log_destination\\": \\"logGroupArn:*\\"
+  "resource": {
+    "aws_sfn_state_machine": {
+      "resource_22C949BF": {
+        "definition": "\${replace(replace(jsonencode({\\"StartAt\\" = \\"HelloWorld\\"}), \\"$\${MyFunction}\\", \\"arn:aws:lambda:us-east-1:123456789012:function:my-function:1\\"), \\"$\${Task}\\", \\"TaskType\\")}",
+        "encryption_configuration": {
+          "kms_data_key_reuse_period_seconds": 123,
+          "kms_key_id": "kmsKeyId",
+          "type": "KMS"
         },
-        \\"name\\": \\"name\\",
-        \\"role_arn\\": \\"roleArn\\",
-        \\"tags\\": {
-          \\"key\\": \\"value\\"
+        "logging_configuration": {
+          "include_execution_data": true,
+          "level": "ALL",
+          "log_destination": "logGroupArn:*"
         },
-        \\"tracing_configuration\\": {
-          \\"enabled\\": true
+        "name": "name",
+        "role_arn": "roleArn",
+        "tags": {
+          "key": "value"
         },
-        \\"type\\": \\"STANDARD\\"
+        "tracing_configuration": {
+          "enabled": true
+        },
+        "type": "STANDARD"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.name, \\\\\\",\\\\\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_sfn_state_machine.resource_22C949BF.arn, \\",\\", aws_sfn_state_machine.resource_22C949BF.name, \\",\\", aws_sfn_state_machine.resource_22C949BF.revision_id])}",
+      "type": "string"
     }
   }
 }"

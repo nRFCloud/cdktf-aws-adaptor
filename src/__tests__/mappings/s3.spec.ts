@@ -2,7 +2,12 @@ import { S3BucketPolicy } from "@cdktf/provider-aws/lib/s3-bucket-policy/index.j
 import { CfnBucketPolicy } from "aws-cdk-lib/aws-s3";
 import { App, Fn } from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
+import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
+import { registerMappings } from "../../mappings/index.js";
 import { synthesizeElementAndTestStability } from "../helpers.js";
+
+registerMappings();
+setupJest();
 
 describe("S3 mappings", () => {
     it("Should map AWS::S3::BucketPolicy", () => {

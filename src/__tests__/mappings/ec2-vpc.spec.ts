@@ -37,7 +37,19 @@ describe("EC2 VPC mappings", () => {
         });
     });
 
-    itShouldMapCfnElementToTerraformResource(CfnInternetGateway, {}, InternetGateway, {});
+    itShouldMapCfnElementToTerraformResource(
+        CfnInternetGateway,
+        {
+            tags: [
+                {
+                    key: "Name",
+                    value: "test-internet-gateway",
+                },
+            ],
+        },
+        InternetGateway,
+        {},
+    );
 
     itShouldMapCfnElementToTerraformResource(
         CfnSubnetRouteTableAssociation,
@@ -49,6 +61,8 @@ describe("EC2 VPC mappings", () => {
         {
             subnetId: "subnet-id",
             routeTableId: "route-table-id",
+            gatewayId: undefined,
+            timeouts: undefined,
         },
     );
 
@@ -114,6 +128,8 @@ describe("EC2 VPC mappings", () => {
             coreNetworkArn: "core-network-arn",
             localGatewayId: "local-gateway-id",
             vpcEndpointId: "vpc-endpoint-id",
+            egressOnlyGatewayId: "egress-only-internet-gateway-id",
+            timeouts: undefined,
         },
     );
 
@@ -128,6 +144,10 @@ describe("EC2 VPC mappings", () => {
                 groupName: "test-security-group",
                 groupDescription: "test-security-group-description",
                 vpcId: "test-vpc-id",
+                tags: [{
+                    key: "Name",
+                    value: "test-security-group",
+                }],
                 securityGroupEgress: [
                     {
                         destinationSecurityGroupId: "destination-security-group-id",
@@ -149,9 +169,9 @@ describe("EC2 VPC mappings", () => {
                         cidrIp: "10.0.0.0/16",
                         cidrIpv6: "2001:db8:1234:1a00::/64",
                         sourceSecurityGroupId: "source-security-group-id",
+                        sourcePrefixListId: "source-prefix-list-id",
                         sourceSecurityGroupName: "source-security-group-name",
                         sourceSecurityGroupOwnerId: "source-security-group-owner-id",
-                        sourcePrefixListId: "source-prefix-list-id",
                     },
                 ],
             },
@@ -161,6 +181,7 @@ describe("EC2 VPC mappings", () => {
                 description: "test-security-group-description",
                 vpcId: "test-vpc-id",
             },
+            ["securityGroupIngress.*.sourceSecurityGroupName", "securityGroupIngress.*.sourceSecurityGroupOwnerId"],
         );
 
         expect(synth).toHaveResourceWithProperties(VpcSecurityGroupEgressRule, {
@@ -212,6 +233,7 @@ describe("EC2 VPC mappings", () => {
             securityGroupId: "group-id",
             referencedSecurityGroupId: "destination-security-group-id",
             description: "test-security-group-egress-description",
+            tags: undefined,
         },
     );
 
@@ -227,6 +249,9 @@ describe("EC2 VPC mappings", () => {
             sourceSecurityGroupId: "source-security-group-id",
             sourcePrefixListId: "source-prefix-list-id",
             groupId: "group-id",
+            groupName: "source-security-group-name",
+            sourceSecurityGroupOwnerId: "source-security-group-owner-id",
+            sourceSecurityGroupName: "source-security-group-name",
         },
         VpcSecurityGroupIngressRule,
         {
@@ -239,6 +264,8 @@ describe("EC2 VPC mappings", () => {
             prefixListId: "source-prefix-list-id",
             securityGroupId: "group-id",
             description: "test-security-group-ingress-description",
+            tags: undefined,
         },
+        ["sourceSecurityGroupName", "sourceSecurityGroupOwnerId", "groupName"],
     );
 });

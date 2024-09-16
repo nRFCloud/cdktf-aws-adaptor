@@ -61,7 +61,7 @@ export class TerraformSynthesizer extends DefaultStackSynthesizer {
         throw new Error("Cannot sythesize CDK stack from terraform synthesizer");
     }
 
-    private getAssetBucket(): S3Bucket {
+    public getAssetBucket(): S3Bucket {
         let assetBucket = this.terraformStack.node.tryFindChild("AssetBucket") as S3Bucket;
         if (!assetBucket) {
             assetBucket = new S3Bucket(this.terraformStack, "AssetBucket");

@@ -2,39 +2,39 @@
 
 exports[`IAM Mappings > Should map AWS::IAM::AccessKey 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_iam_access_key\\": {
-      \\"resource_22C949BF\\": {
-        \\"status\\": \\"Active\\",
-        \\"user\\": \\"test-user\\"
+  "resource": {
+    "aws_iam_access_key": {
+      "resource_22C949BF": {
+        "status": "Active",
+        "user": "test-user"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_iam_access_key.resource_22C949BF.id, \\\\\\",\\\\\\", aws_iam_access_key.resource_22C949BF.secret])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_iam_access_key.resource_22C949BF.id, \\",\\", aws_iam_access_key.resource_22C949BF.secret])}",
+      "type": "string"
     }
   }
 }"
@@ -42,57 +42,57 @@ exports[`IAM Mappings > Should map AWS::IAM::AccessKey 1`] = `
 
 exports[`IAM Mappings > should map AWS::IAM::Policy 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_iam_group_policy_attachment\\": {
-      \\"resource_resource_group0_AB0AE204\\": {
-        \\"group\\": \\"test-group\\",
-        \\"policy_arn\\": \\"\${aws_iam_policy.resource_22C949BF.arn}\\"
+  "resource": {
+    "aws_iam_group_policy_attachment": {
+      "resource_resource_group0_AB0AE204": {
+        "group": "test-group",
+        "policy_arn": "\${aws_iam_policy.resource_22C949BF.arn}"
       }
     },
-    \\"aws_iam_policy\\": {
-      \\"resource_22C949BF\\": {
-        \\"name\\": \\"test-policy\\",
-        \\"policy\\": \\"\${jsonencode({\\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\", \\\\\\"Statement\\\\\\" = [{\\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\"}]})}\\"
+    "aws_iam_policy": {
+      "resource_22C949BF": {
+        "name": "test-policy",
+        "policy": "\${jsonencode({\\"Version\\" = \\"2012-10-17\\", \\"Statement\\" = [{\\"Effect\\" = \\"Allow\\"}]})}"
       }
     },
-    \\"aws_iam_role_policy_attachment\\": {
-      \\"resource_resource_role0_CD7751A8\\": {
-        \\"policy_arn\\": \\"\${aws_iam_policy.resource_22C949BF.arn}\\",
-        \\"role\\": \\"test-role\\"
+    "aws_iam_role_policy_attachment": {
+      "resource_resource_role0_CD7751A8": {
+        "policy_arn": "\${aws_iam_policy.resource_22C949BF.arn}",
+        "role": "test-role"
       }
     },
-    \\"aws_iam_user_policy_attachment\\": {
-      \\"resource_resource_user0_1355940A\\": {
-        \\"policy_arn\\": \\"\${aws_iam_policy.resource_22C949BF.arn}\\",
-        \\"user\\": \\"test-user\\"
+    "aws_iam_user_policy_attachment": {
+      "resource_resource_user0_1355940A": {
+        "policy_arn": "\${aws_iam_policy.resource_22C949BF.arn}",
+        "user": "test-user"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_iam_policy.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_iam_policy.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"
@@ -100,78 +100,78 @@ exports[`IAM Mappings > should map AWS::IAM::Policy 1`] = `
 
 exports[`IAM Mappings > should map AWS::IAM::Role 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ],
-    \\"time\\": [
+    "time": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_iam_role\\": {
-      \\"resource_22C949BF\\": {
-        \\"assume_role_policy\\": \\"\${jsonencode({\\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\", \\\\\\"Statement\\\\\\" = [{\\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"ec2.amazonaws.com\\\\\\"}}]})}\\",
-        \\"description\\": \\"IamRole\\",
-        \\"inline_policy\\": [
+  "resource": {
+    "aws_iam_role": {
+      "resource_22C949BF": {
+        "assume_role_policy": "\${jsonencode({\\"Version\\" = \\"2012-10-17\\", \\"Statement\\" = [{\\"Effect\\" = \\"Allow\\", \\"Principal\\" = {\\"Service\\" = \\"ec2.amazonaws.com\\"}}]})}",
+        "description": "IamRole",
+        "inline_policy": [
           {
-            \\"name\\": \\"test-policy\\",
-            \\"policy\\": \\"\${jsonencode({\\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\", \\\\\\"Statement\\\\\\" = [{\\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\"}]})}\\"
+            "name": "test-policy",
+            "policy": "\${jsonencode({\\"Version\\" = \\"2012-10-17\\", \\"Statement\\" = [{\\"Effect\\" = \\"Allow\\"}]})}"
           }
         ],
-        \\"max_session_duration\\": 3600,
-        \\"name\\": \\"test-role\\",
-        \\"path\\": \\"packages/cdktf-adaptor/src/mappings/services/iam.ts\\",
-        \\"permissions_boundary\\": \\"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\\",
-        \\"tags\\": {
-          \\"Name\\": \\"test-role\\"
+        "max_session_duration": 3600,
+        "name": "test-role",
+        "path": "packages/cdktf-adaptor/src/mappings/services/iam.ts",
+        "permissions_boundary": "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+        "tags": {
+          "Name": "test-role"
         }
       }
     },
-    \\"aws_iam_role_policy_attachment\\": {
-      \\"resource_resource-managed-policy-0_D5E0A017\\": {
-        \\"depends_on\\": [
-          \\"time_sleep.resource_resource-wait_D049D385\\"
+    "aws_iam_role_policy_attachment": {
+      "resource_resource-managed-policy-0_D5E0A017": {
+        "depends_on": [
+          "time_sleep.resource_resource-wait_D049D385"
         ],
-        \\"policy_arn\\": \\"arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role\\",
-        \\"role\\": \\"\${aws_iam_role.resource_22C949BF.name}\\"
+        "policy_arn": "arn:aws:iam::aws:policy/service-role/AmazonEC2ContainerServiceforEC2Role",
+        "role": "\${aws_iam_role.resource_22C949BF.name}"
       }
     },
-    \\"time_sleep\\": {
-      \\"resource_resource-wait_D049D385\\": {
-        \\"create_duration\\": \\"15s\\",
-        \\"depends_on\\": [
-          \\"aws_iam_role.resource_22C949BF\\"
+    "time_sleep": {
+      "resource_resource-wait_D049D385": {
+        "create_duration": "15s",
+        "depends_on": [
+          "aws_iam_role.resource_22C949BF"
         ],
-        \\"provider\\": \\"time\\"
+        "provider": "time"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       },
-      \\"time\\": {
-        \\"source\\": \\"time\\",
-        \\"version\\": \\"0.7.2\\"
+      "time": {
+        "source": "time",
+        "version": "0.7.2"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${join(\\\\\\"\\\\\\", [aws_iam_role.resource_22C949BF.arn, \\\\\\",\\\\\\", aws_iam_role.resource_22C949BF.id])}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_iam_role.resource_22C949BF.arn, \\",\\", aws_iam_role.resource_22C949BF.id])}",
+      "type": "string"
     }
   }
 }"

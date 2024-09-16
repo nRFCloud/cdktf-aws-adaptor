@@ -2,81 +2,81 @@
 
 exports[`Route53 mappings > Should map AWS::Route53::RecordSet 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_route53_record\\": {
-      \\"resource_22C949BF\\": {
-        \\"alias\\": {
-          \\"evaluate_target_health\\": true,
-          \\"name\\": \\"test-dns-name\\",
-          \\"zone_id\\": \\"test-hosted-zone-id\\"
+  "resource": {
+    "aws_route53_record": {
+      "resource_22C949BF": {
+        "alias": {
+          "evaluate_target_health": true,
+          "name": "test-dns-name",
+          "zone_id": "test-hosted-zone-id"
         },
-        \\"cidr_routing_policy\\": {
-          \\"collection_id\\": \\"test-collection-id\\",
-          \\"location_name\\": \\"test-location-name\\"
+        "cidr_routing_policy": {
+          "collection_id": "test-collection-id",
+          "location_name": "test-location-name"
         },
-        \\"failover_routing_policy\\": {
-          \\"type\\": \\"test-failover\\"
+        "failover_routing_policy": {
+          "type": "test-failover"
         },
-        \\"geolocation_routing_policy\\": {
-          \\"continent\\": \\"test-continent-code\\",
-          \\"country\\": \\"test-country\\",
-          \\"subdivision\\": \\"test-subdivision-code\\"
+        "geolocation_routing_policy": {
+          "continent": "test-continent-code",
+          "country": "test-country",
+          "subdivision": "test-subdivision-code"
         },
-        \\"geoproximity_routing_policy\\": {
-          \\"aws_region\\": \\"test-region\\",
-          \\"bias\\": 60,
-          \\"coordinates\\": [
+        "geoproximity_routing_policy": {
+          "aws_region": "test-region",
+          "bias": 60,
+          "coordinates": [
             {
-              \\"latitude\\": \\"test-latitude\\",
-              \\"longitude\\": \\"test-longitude\\"
+              "latitude": "test-latitude",
+              "longitude": "test-longitude"
             }
           ],
-          \\"local_zone_group\\": \\"test-local-zone-group\\"
+          "local_zone_group": "test-local-zone-group"
         },
-        \\"health_check_id\\": \\"test-health-check-id\\",
-        \\"latency_routing_policy\\": {
-          \\"region\\": \\"test-region\\"
+        "health_check_id": "test-health-check-id",
+        "latency_routing_policy": {
+          "region": "test-region"
         },
-        \\"multivalue_answer_routing_policy\\": true,
-        \\"name\\": \\"test-record-set\\",
-        \\"records\\": [
-          \\"test-resource-record\\"
+        "multivalue_answer_routing_policy": true,
+        "name": "test-record-set",
+        "records": [
+          "test-resource-record"
         ],
-        \\"set_identifier\\": \\"test-set-identifier\\",
-        \\"ttl\\": 60,
-        \\"type\\": \\"test-type\\",
-        \\"weighted_routing_policy\\": {
-          \\"weight\\": 60
+        "set_identifier": "test-set-identifier",
+        "ttl": 60,
+        "type": "test-type",
+        "weighted_routing_policy": {
+          "weight": 60
         },
-        \\"zone_id\\": \\"test-hosted-zone-id\\"
+        "zone_id": "test-hosted-zone-id"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_route53_record.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_route53_record.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"

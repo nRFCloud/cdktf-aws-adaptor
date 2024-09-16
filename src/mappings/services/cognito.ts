@@ -109,7 +109,12 @@ export function registerCognitoMappings() {
                     providerName: provider.ProviderName!,
                     serverSideTokenCheck: provider.ServerSideTokenCheck,
                 })),
-
+                tags: Object.fromEntries(
+                    identityPool?.IdentityPoolTags?.map(({
+                        Key: key,
+                        Value: value,
+                    }) => [key, value]) || [],
+                ),
                 allowUnauthenticatedIdentities: identityPool.AllowUnauthenticatedIdentities,
                 developerProviderName: identityPool.DeveloperProviderName,
                 allowClassicFlow: identityPool.AllowClassicFlow,
@@ -196,6 +201,10 @@ export function registerCognitoMappings() {
                         lambdaArn: userPool?.LambdaConfig?.CustomSMSSender?.LambdaArn as string,
                         lambdaVersion: userPool?.LambdaConfig?.CustomSMSSender?.LambdaVersion as string,
                     },
+                    preTokenGenerationConfig: {
+                        lambdaArn: userPool?.LambdaConfig?.PreTokenGenerationConfig?.LambdaArn as string,
+                        lambdaVersion: userPool?.LambdaConfig?.PreTokenGenerationConfig?.LambdaVersion as string,
+                    },
                 },
                 mfaConfiguration: userPool?.MfaConfiguration,
                 schema: userPool?.Schema?.map(schema => ({
@@ -230,6 +239,7 @@ export function registerCognitoMappings() {
                     requireSymbols: userPool?.Policies?.PasswordPolicy?.RequireSymbols,
                     requireUppercase: userPool?.Policies?.PasswordPolicy?.RequireUppercase,
                     minimumLength: userPool?.Policies?.PasswordPolicy?.MinimumLength,
+                    passwordHistorySize: userPool?.Policies?.PasswordPolicy?.PasswordHistorySize,
                 },
                 usernameAttributes: userPool?.UsernameAttributes,
                 usernameConfiguration: {
@@ -267,6 +277,10 @@ export function registerCognitoMappings() {
             pool.name = mapped.name || Names.uniqueResourceName(pool, { maxLength: 64 });
             return pool;
         },
+        unsupportedProps: [
+            "AdminCreateUserConfig.UnusedAccountValidityDays",
+            "UserPoolAddOns.AdvancedSecurityAdditionalFlows",
+        ],
         attributes: {
             Ref: resource => resource.id,
             UserPoolId: resource => resource.id,

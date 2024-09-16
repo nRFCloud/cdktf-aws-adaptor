@@ -8,7 +8,8 @@ const config = {
         coverage: {
             enabled: true,
             reporter: ["json", "html", "json-summary", "lcov"],
-        }
+        },
+        include: ["src/**/*.spec.ts"],
     }
 }
 

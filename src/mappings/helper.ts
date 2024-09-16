@@ -3,6 +3,8 @@ import { TerraformResource } from "cdktf";
 import { Construct } from "constructs";
 import createDebug from "debug";
 
+import { AccessTracker } from "./access-tracker.js";
+
 export const mapperDebug = createDebug("cdktf-aws-adaptor:mapper:debug");
 export const mapperTrace = createDebug("cdktf-aws-adaptor:mapper:trace");
 export const mapperWarn = createDebug("cdktf-aws-adaptor:mapper:warn");
@@ -64,6 +66,8 @@ export type ResourceMapper<T extends TerraformResource> = (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         [key: string]: any;
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    proxy: AccessTracker<{ [key: string]: any }>,
 ) => T | void;
 
 export function createGuessingResourceMapper<T extends TerraformResource>(

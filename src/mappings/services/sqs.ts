@@ -5,7 +5,8 @@ import { registerMappingTyped } from "../utils.js";
 
 export function registerSqsMappings() {
     registerMappingTyped(CfnQueuePolicy, SqsQueuePolicy, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
+            proxy.touchPath("PolicyDocument");
             const policiesEncoded = Fn.jsonencode(props.PolicyDocument);
             const sqsQueuePolicies = props.Queues.map((queue): SqsQueuePolicyConfig => ({
                 policy: policiesEncoded,

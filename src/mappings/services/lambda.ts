@@ -1,9 +1,11 @@
+import { file as tf_file } from "@cdktf/provider-archive";
 import { LambdaEventSourceMapping } from "@cdktf/provider-aws/lib/lambda-event-source-mapping/index.js";
 import { LambdaFunction, LambdaFunctionConfig } from "@cdktf/provider-aws/lib/lambda-function/index.js";
 import { LambdaLayerVersionPermission } from "@cdktf/provider-aws/lib/lambda-layer-version-permission/index.js";
 import { LambdaLayerVersion } from "@cdktf/provider-aws/lib/lambda-layer-version/index.js";
 import { LambdaPermission } from "@cdktf/provider-aws/lib/lambda-permission/index.js";
-import { IResolvable, Names } from "aws-cdk-lib";
+import { S3Object } from "@cdktf/provider-aws/lib/s3-object/index.js";
+import { IResolvable, Names, Stack as AWSStack } from "aws-cdk-lib";
 import {
     CfnEventSourceMapping,
     CfnFunction,
@@ -12,6 +14,10 @@ import {
     CfnPermission,
 } from "aws-cdk-lib/aws-lambda";
 import { Fn, TerraformLocal } from "cdktf";
+import { join } from "node:path";
+import { tmpdir } from "os";
+import { TerraformSynthesizer } from "../../lib/core/terraform-synthesizer.js";
+import { getSingletonArchiveProvider } from "../../lib/stack-provider-singletons.js";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerLambdaMappings() {
@@ -52,7 +58,6 @@ export function registerLambdaMappings() {
                     s3Bucket: props.Content.S3Bucket,
                     s3Key: props.Content.S3Key,
                     s3ObjectVersion: props.Content.S3ObjectVersion,
-                    skipDestroy: true,
                 }),
             );
 
@@ -78,7 +83,6 @@ export function registerLambdaMappings() {
                 deleteUndefinedKeys({
                     action: props.Action,
                     principal: props.Principal,
-                    skipDestroy: true,
                     layerName: props.LayerVersionArn,
                     organizationId: props.OrganizationId,
                     statementId: "",
@@ -102,7 +106,57 @@ export function registerLambdaMappings() {
     // });
     //
     registerMappingTyped(CfnFunction, LambdaFunction, {
-        resource(scope, id, lambdaProps): LambdaFunction {
+        resource(scope, id, lambdaProps, proxy): LambdaFunction {
+            proxy.touchPath("Environment.Variables");
+            proxy.touchPath("VpcConfig.SecurityGroupIds");
+            proxy.touchPath("VpcConfig.SubnetIds");
+            proxy.touchPath("Layers");
+            proxy.touchPath("Architectures");
+            proxy.touchPath("ImageConfig.Command");
+            proxy.touchPath("ImageConfig.EntryPoint");
+
+            let codeConfig: {
+                s3Bucket?: string;
+                s3Key?: string;
+                s3ObjectVersion?: string;
+                filename?: string;
+            } = {};
+
+            if (lambdaProps.Code.ZipFile) {
+                // Use the archive provider to create a zip file from the inline source
+                const archiveProvider = getSingletonArchiveProvider(scope);
+                const tempPath = join(tmpdir(), `${scope.node.addr}.zip`);
+                const archive = new tf_file.File(scope, `inline-zip-archive`, {
+                    type: "zip",
+                    outputPath: tempPath,
+                    provider: archiveProvider,
+                    source: [{
+                        content: lambdaProps.Code.ZipFile,
+                        filename: "index.js",
+                    }],
+                });
+
+                // Use the stack synthesizer to create a file asset
+                const synthesizer = AWSStack.of(scope).synthesizer as TerraformSynthesizer;
+                const s3Object = new S3Object(scope, `inline-zip-object`, {
+                    bucket: synthesizer.getAssetBucket().bucket,
+                    key: `${scope.node.addr}-inline-zip-object`,
+                    source: archive.outputPath,
+                });
+
+                codeConfig = {
+                    s3Bucket: s3Object.bucket,
+                    s3Key: s3Object.key,
+                    s3ObjectVersion: s3Object.versionId,
+                };
+            } else {
+                codeConfig = {
+                    s3Bucket: lambdaProps.Code.S3Bucket,
+                    s3Key: lambdaProps.Code.S3Key,
+                    s3ObjectVersion: lambdaProps.Code.S3ObjectVersion,
+                };
+            }
+
             const mapped: LambdaFunctionConfig = {
                 ephemeralStorage: {
                     size: lambdaProps.EphemeralStorage?.Size as number,
@@ -110,7 +164,7 @@ export function registerLambdaMappings() {
                 loggingConfig: {
                     logFormat: lambdaProps.LoggingConfig?.LogFormat as string,
                     logGroup: lambdaProps.LoggingConfig?.LogGroup as string,
-                    applicationLogLevel: lambdaProps.LoggingConfig?.SystemLogLevel as string,
+                    applicationLogLevel: lambdaProps.LoggingConfig?.ApplicationLogLevel as string,
                     systemLogLevel: lambdaProps.LoggingConfig?.SystemLogLevel as string,
                 },
                 description: lambdaProps.Description,
@@ -122,14 +176,14 @@ export function registerLambdaMappings() {
                     }) => [Key, Value]) || [],
                 ),
                 codeSigningConfigArn: lambdaProps.CodeSigningConfigArn,
-                s3Bucket: lambdaProps.Code.S3Bucket,
                 functionName: lambdaProps.FunctionName!,
                 deadLetterConfig: {
                     targetArn: lambdaProps.DeadLetterConfig?.TargetArn as string,
                 },
                 architectures: lambdaProps.Architectures,
-                s3Key: lambdaProps.Code.S3Key,
-                s3ObjectVersion: lambdaProps.Code.S3ObjectVersion,
+                s3Bucket: codeConfig.s3Bucket,
+                s3Key: codeConfig.s3Key,
+                s3ObjectVersion: codeConfig.s3ObjectVersion,
                 fileSystemConfig: {
                     arn: lambdaProps.FileSystemConfigs?.[0].Arn as string,
                     localMountPath: lambdaProps.FileSystemConfigs?.[0].LocalMountPath as string,
@@ -152,6 +206,7 @@ export function registerLambdaMappings() {
                 reservedConcurrentExecutions: lambdaProps.ReservedConcurrentExecutions,
                 runtime: lambdaProps.Runtime,
                 vpcConfig: {
+                    ipv6AllowedForDualStack: lambdaProps.VpcConfig?.Ipv6AllowedForDualStack as boolean,
                     subnetIds: lambdaProps.VpcConfig?.SubnetIds as string[],
                     securityGroupIds: lambdaProps.VpcConfig?.SecurityGroupIds as string[],
                 },
@@ -168,9 +223,10 @@ export function registerLambdaMappings() {
             const lambda = new LambdaFunction(scope, id, mapped);
 
             lambda.functionName = mapped.functionName || Names.uniqueResourceName(lambda, { maxLength: 64 });
+
             return lambda;
         },
-        unsupportedProps: ["RuntimeManagementConfig", "RecursiveLoop"],
+        unsupportedProps: ["RuntimeManagementConfig", "Code.SourceKMSKeyArn", "RecursiveLoop"],
         attributes: {
             Arn: resource => resource.arn,
             SnapStartResponseApplyOn: resource => resource.snapStart.applyOn,
@@ -207,6 +263,7 @@ export function registerLambdaMappings() {
                     eventSourceArn: props.EventSourceArn,
                     batchSize: props.BatchSize,
                     bisectBatchOnFunctionError: props.BisectBatchOnFunctionError,
+                    kmsKeyArn: props.KmsKeyArn,
                     destinationConfig: {
                         onFailure: {
                             destinationArn: props.DestinationConfig?.OnFailure?.Destination as string,
@@ -255,7 +312,6 @@ export function registerLambdaMappings() {
                 }),
             );
         },
-        unsupportedProps: ["KmsKeyArn"],
         attributes: {
             Ref: (resource: LambdaEventSourceMapping) => resource.id,
             Id: (resource: LambdaEventSourceMapping) => resource.id,

@@ -2,46 +2,46 @@
 
 exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to multiple SqsQueuePolicy 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_sqs_queue_policy\\": {
-      \\"resource_22C949BF\\": {
-        \\"depends_on\\": [
-          \\"aws_sqs_queue_policy.resource_resource0_0E1F9B69\\"
+  "resource": {
+    "aws_sqs_queue_policy": {
+      "resource_22C949BF": {
+        "depends_on": [
+          "aws_sqs_queue_policy.resource_resource0_0E1F9B69"
         ],
-        \\"policy\\": \\"\${jsonencode({\\\\\\"read\\\\\\" = true})}\\",
-        \\"queue_url\\": \\"https://sqs:us-east-2.amazonaws.com/444455556666/queue2\\"
+        "policy": "\${jsonencode({\\"read\\" = true})}",
+        "queue_url": "https://sqs:us-east-2.amazonaws.com/444455556666/queue2"
       },
-      \\"resource_resource0_0E1F9B69\\": {
-        \\"policy\\": \\"\${jsonencode({\\\\\\"read\\\\\\" = true})}\\",
-        \\"queue_url\\": \\"https://sqs:us-east-2.amazonaws.com/444455556666/queue1\\"
+      "resource_resource0_0E1F9B69": {
+        "policy": "\${jsonencode({\\"read\\" = true})}",
+        "queue_url": "https://sqs:us-east-2.amazonaws.com/444455556666/queue1"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_sqs_queue_policy.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_sqs_queue_policy.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"
@@ -49,39 +49,39 @@ exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to multiple SqsQu
 
 exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to single SqsQueuePolicy 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_sqs_queue_policy\\": {
-      \\"resource_22C949BF\\": {
-        \\"policy\\": \\"\${jsonencode({\\\\\\"read\\\\\\" = true})}\\",
-        \\"queue_url\\": \\"https://sqs:us-east-2.amazonaws.com/444455556666/queue1\\"
+  "resource": {
+    "aws_sqs_queue_policy": {
+      "resource_22C949BF": {
+        "policy": "\${jsonencode({\\"read\\" = true})}",
+        "queue_url": "https://sqs:us-east-2.amazonaws.com/444455556666/queue1"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_sqs_queue_policy.resource_22C949BF.id}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_sqs_queue_policy.resource_22C949BF.id}",
+      "type": "string"
     }
   }
 }"

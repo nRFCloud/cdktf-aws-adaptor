@@ -15,6 +15,24 @@ describe("Logs mappings", () => {
                 key: "test-tag-key",
                 value: "test-tag-value",
             }],
+            logGroupClass: "test-log-group-class",
+            dataProtectionPolicy: {
+                policyName: "test-policy-name",
+                policyDocument: {
+                    Version: "2012-10-17",
+                    Statement: [
+                        {
+                            Sid: "test-sid",
+                            Effect: "Allow",
+                            Principal: {
+                                AWS: "test-principal",
+                            },
+                            Action: "logs:PutLogEvents",
+                            Resource: "test-resource",
+                        },
+                    ],
+                },
+            },
         },
         CloudwatchLogGroup,
         {
@@ -25,6 +43,7 @@ describe("Logs mappings", () => {
             retentionInDays: 1,
             kmsKeyId: "test-kms-key-id",
         },
+        ["dataProtectionPolicy"],
     );
 
     itShouldMapCfnElementToTerraformResource(

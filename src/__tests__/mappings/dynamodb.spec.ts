@@ -45,6 +45,10 @@ describe("DynamoDB mappings", () => {
                         readCapacityUnits: 1,
                         writeCapacityUnits: 1,
                     },
+                    onDemandThroughput: {
+                        maxReadRequestUnits: 1,
+                        maxWriteRequestUnits: 1,
+                    },
                 },
             ],
             resourcePolicy: {
@@ -78,6 +82,21 @@ describe("DynamoDB mappings", () => {
             },
             streamSpecification: {
                 streamViewType: "NEW_IMAGE",
+                resourcePolicy: {
+                    policyDocument: {
+                        Version: "2012-10-17",
+                        Statement: [
+                            {
+                                Effect: "Allow",
+                                Principal: {
+                                    Service: "dynamodb.amazonaws.com",
+                                },
+                                Action: "dynamodb:DescribeTable",
+                                Resource: "*",
+                            },
+                        ],
+                    },
+                },
             },
             attributeDefinitions: [
                 {
@@ -118,6 +137,7 @@ describe("DynamoDB mappings", () => {
             },
             deletionProtectionEnabled: true,
             kinesisStreamSpecification: {
+                approximateCreationDateTimePrecision: "MILLISECONDS",
                 streamArn: "test-stream-arn",
             },
             importSourceSpecification: {
@@ -135,9 +155,19 @@ describe("DynamoDB mappings", () => {
                     },
                 },
             },
+            onDemandThroughput: {
+                maxReadRequestUnits: 1,
+                maxWriteRequestUnits: 1,
+            },
         },
         DynamodbTable,
         {
+            replica: undefined,
+            restoreDateTime: undefined,
+            timeouts: undefined,
+            restoreSourceName: undefined,
+            restoreSourceTableArn: undefined,
+            restoreToLatestTime: undefined,
             tags: {
                 Name: "test-table",
             },
@@ -203,5 +233,11 @@ describe("DynamoDB mappings", () => {
             },
             streamEnabled: true,
         },
+        [
+            "onDemandThroughput",
+            "sseSpecification.sseType",
+            "globalSecondaryIndexes.*.onDemandThroughput",
+            "kinesisStreamSpecification.approximateCreationDateTimePrecision",
+        ],
     );
 });

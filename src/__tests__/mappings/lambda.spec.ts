@@ -36,6 +36,9 @@ describe("Lambda mappings", () => {
             functionUrlAuthType: "IAM",
             principalOrgId: "123456789012",
             sourceAccount: "123456789012",
+            statementId: undefined,
+            statementIdPrefix: undefined,
+            qualifier: undefined,
         },
     );
 
@@ -63,6 +66,9 @@ describe("Lambda mappings", () => {
             description: "my description",
             layerName: "my-layer",
             licenseInfo: "my-license",
+            filename: undefined,
+            skipDestroy: undefined,
+            sourceCodeHash: undefined,
         },
     );
 
@@ -76,6 +82,7 @@ describe("Lambda mappings", () => {
         },
         LambdaLayerVersionPermission,
         {
+            skipDestroy: undefined,
             action: "lambda:GetLayerVersion",
             principal: "123456789012",
             organizationId: "o-123456",
@@ -90,14 +97,25 @@ describe("Lambda mappings", () => {
         synthesizeElementAndTestStability(
             CfnFunction,
             {
+                loggingConfig: {
+                    logFormat: "logFormat",
+                    logGroup: "logGroup",
+                    applicationLogLevel: "applicationLogLevel",
+                    systemLogLevel: "systemLogLevel",
+                },
+                recursiveLoop: "recursiveLoop",
+                runtimeManagementConfig: {
+                    updateRuntimeOn: "2021-01-01",
+                    runtimeVersionArn: "runtimeVersionArn",
+                },
                 architectures: ["x86_64"],
                 code: {
                     imageUri: "imageUri",
                     s3Bucket: "s3Bucket",
                     s3Key: "s3Key",
                     s3ObjectVersion: "s3ObjectVersion",
-                    zipFile: "zipFile",
-                },
+                    sourceKmsKeyArn: "sourceKmsKeyArn",
+                } as Required<CfnFunction.CodeProperty>,
                 deadLetterConfig: {
                     targetArn: "targetArn",
                 },
@@ -138,6 +156,7 @@ describe("Lambda mappings", () => {
                 vpcConfig: {
                     securityGroupIds: ["securityGroupIds"],
                     subnetIds: ["subnetIds"],
+                    ipv6AllowedForDualStack: true,
                 },
                 snapStart: {
                     applyOn: "1",
@@ -169,6 +188,18 @@ describe("Lambda mappings", () => {
                         key: "value",
                     },
                 },
+                filename: undefined,
+                skipDestroy: undefined,
+                sourceCodeHash: undefined,
+                timeouts: undefined,
+                loggingConfig: {
+                    logFormat: "logFormat",
+                    logGroup: "logGroup",
+                    applicationLogLevel: "applicationLogLevel",
+                    systemLogLevel: "systemLogLevel",
+                },
+                replacementSecurityGroupIds: undefined,
+                replaceSecurityGroupsOnDestroy: undefined,
                 ephemeralStorage: {
                     size: 1,
                 },
@@ -187,6 +218,7 @@ describe("Lambda mappings", () => {
                 vpcConfig: {
                     securityGroupIds: ["securityGroupIds"],
                     subnetIds: ["subnetIds"],
+                    ipv6AllowedForDualStack: true,
                 },
                 publish: true,
                 tracingConfig: {
@@ -201,6 +233,150 @@ describe("Lambda mappings", () => {
                     key: "value",
                 },
             },
+            ["runtimeManagementConfig", "recursiveLoop", "code.sourceKmsKeyArn"],
+        );
+    });
+
+    it("should map CfnFunction with inline zip file to LambdaFunction", () => {
+        synthesizeElementAndTestStability(
+            CfnFunction,
+            {
+                loggingConfig: {
+                    logFormat: "logFormat",
+                    logGroup: "logGroup",
+                    applicationLogLevel: "applicationLogLevel",
+                    systemLogLevel: "systemLogLevel",
+                },
+                recursiveLoop: "recursiveLoop",
+                runtimeManagementConfig: {
+                    updateRuntimeOn: "2021-01-01",
+                    runtimeVersionArn: "runtimeVersionArn",
+                },
+                architectures: ["x86_64"],
+                code: {
+                    imageUri: "imageUri",
+                    sourceKmsKeyArn: "sourceKmsKeyArn",
+                    zipFile: "zipFile",
+                } as Required<CfnFunction.CodeProperty>,
+                deadLetterConfig: {
+                    targetArn: "targetArn",
+                },
+                description: "description",
+                environment: {
+                    variables: {
+                        key: "value",
+                    },
+                },
+                fileSystemConfigs: [
+                    {
+                        arn: "arn",
+                        localMountPath: "localMountPath",
+                    },
+                ],
+                functionName: "functionName",
+                handler: "handler",
+                imageConfig: {
+                    command: ["command"],
+                    entryPoint: ["entryPoint"],
+                    workingDirectory: "workingDirectory",
+                },
+                kmsKeyArn: "kmsKeyArn",
+                layers: ["layers"],
+                memorySize: 1,
+                packageType: "packageType",
+                reservedConcurrentExecutions: 1,
+                role: "role",
+                codeSigningConfigArn: "codeSigningConfigArn",
+                ephemeralStorage: {
+                    size: 1,
+                },
+                runtime: "runtime",
+                timeout: 1,
+                tracingConfig: {
+                    mode: "Active",
+                },
+                vpcConfig: {
+                    securityGroupIds: ["securityGroupIds"],
+                    subnetIds: ["subnetIds"],
+                    ipv6AllowedForDualStack: true,
+                },
+                snapStart: {
+                    applyOn: "1",
+                },
+                tags: [{
+                    key: "key",
+                    value: "value",
+                }],
+            },
+            LambdaFunction,
+            {
+                s3Bucket: "${aws_s3_object.resource_inline-zip-object_57BC8C94.bucket}",
+                s3Key: "${aws_s3_object.resource_inline-zip-object_57BC8C94.key}",
+                s3ObjectVersion: "${aws_s3_object.resource_inline-zip-object_57BC8C94.version_id}",
+                memorySize: 1,
+                reservedConcurrentExecutions: 1,
+                runtime: "runtime",
+                timeout: 1,
+                functionName: "functionName",
+                handler: "handler",
+                role: "role",
+                codeSigningConfigArn: "codeSigningConfigArn",
+                imageUri: "imageUri",
+                architectures: ["x86_64"],
+                deadLetterConfig: {
+                    targetArn: "targetArn",
+                },
+                description: "description",
+                environment: {
+                    variables: {
+                        key: "value",
+                    },
+                },
+                filename: undefined,
+                skipDestroy: undefined,
+                sourceCodeHash: undefined,
+                timeouts: undefined,
+                loggingConfig: {
+                    logFormat: "logFormat",
+                    logGroup: "logGroup",
+                    applicationLogLevel: "applicationLogLevel",
+                    systemLogLevel: "systemLogLevel",
+                },
+                replacementSecurityGroupIds: undefined,
+                replaceSecurityGroupsOnDestroy: undefined,
+                ephemeralStorage: {
+                    size: 1,
+                },
+                fileSystemConfig: {
+                    arn: "arn",
+                    localMountPath: "localMountPath",
+                },
+                imageConfig: {
+                    command: ["command"],
+                    entryPoint: ["entryPoint"],
+                    workingDirectory: "workingDirectory",
+                },
+                kmsKeyArn: "kmsKeyArn",
+                layers: ["layers"],
+                packageType: "packageType",
+                vpcConfig: {
+                    securityGroupIds: ["securityGroupIds"],
+                    subnetIds: ["subnetIds"],
+                    ipv6AllowedForDualStack: true,
+                },
+                publish: true,
+                tracingConfig: {
+                    mode: "Active",
+                },
+                snapStart: {
+                    applyOn: "1",
+                },
+                tags: {
+                    key: "value",
+                },
+            },
+            ["runtimeManagementConfig", "recursiveLoop", "code.sourceKmsKeyArn"],
+            true,
         );
     });
 
@@ -214,6 +390,7 @@ describe("Lambda mappings", () => {
                     destination: "destination",
                 },
             },
+            kmsKeyArn: "kmsKeyArn",
             enabled: true,
             eventSourceArn: "eventSourceArn",
             functionName: "functionName",
@@ -260,6 +437,7 @@ describe("Lambda mappings", () => {
         },
         LambdaEventSourceMapping,
         {
+            kmsKeyArn: "kmsKeyArn",
             scalingConfig: {
                 maximumConcurrency: 1,
             },

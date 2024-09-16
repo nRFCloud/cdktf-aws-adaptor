@@ -86,13 +86,32 @@ describe("Appsync mappings", () => {
                         fieldLogLevel: "field-log-level",
                     },
                     xrayEnabled: true,
-                    // FIXME: uncomment when supported by the provider
-                    // ownerContact: "owner-contact",
-                    // mergedApiExecutionRoleArn: "merged-api-execution-role-arn",
-                    // apiType: "GRAPHQL",
+                    ownerContact: "owner-contact",
+                    mergedApiExecutionRoleArn: "merged-api-execution-role-arn",
+                    apiType: "GRAPHQL",
+                    enhancedMetricsConfig: {
+                        operationLevelMetricsConfig: "test-operation-level-metrics-config",
+                        dataSourceLevelMetricsBehavior: "test-data-source-level-metrics-behavior",
+                        resolverLevelMetricsBehavior: "test-resolver-level-metrics-behavior",
+                    },
+                    environmentVariables: {
+                        test: "test",
+                    },
+                    introspectionConfig: "test-introspection-config",
+                    queryDepthLimit: 60,
+                    resolverCountLimit: 68,
                 },
                 AppsyncGraphqlApi,
                 {
+                    schema: undefined,
+                    introspectionConfig: "test-introspection-config",
+                    queryDepthLimit: 60,
+                    resolverCountLimit: 68,
+                    enhancedMetricsConfig: {
+                        operationLevelMetricsConfig: "test-operation-level-metrics-config",
+                        dataSourceLevelMetricsBehavior: "test-data-source-level-metrics-behavior",
+                        resolverLevelMetricsBehavior: "test-resolver-level-metrics-behavior",
+                    },
                     name: "api-name",
                     visibility: "PUBLIC",
                     authenticationType: "API_KEY",
@@ -144,6 +163,7 @@ describe("Appsync mappings", () => {
                         "tag-key": "tag-value",
                     },
                 },
+                ["ownerContact", "apiType", "mergedApiExecutionRoleArn", "environmentVariables"],
             );
         });
 
@@ -204,6 +224,7 @@ describe("Appsync mappings", () => {
         synthesizeElementAndTestStability(
             CfnDataSource,
             {
+                metricsConfig: "metrics-config",
                 name: "name",
                 apiId: "api-id",
                 description: "description",
@@ -308,6 +329,7 @@ describe("Appsync mappings", () => {
                     region: "aws-region",
                 },
             },
+            ["metricsConfig"],
         );
     });
 
@@ -315,6 +337,7 @@ describe("Appsync mappings", () => {
         synthesizeElementAndTestStability(
             CfnResolver,
             {
+                metricsConfig: "metrics-config",
                 apiId: "api-id",
                 dataSourceName: "data-source-name",
                 code: "code",
@@ -343,9 +366,9 @@ describe("Appsync mappings", () => {
                 typeName: "type-name",
                 responseMappingTemplate: "response-mapping-template",
                 // FIXME: uncomment when supported by the mapper
-                // codeS3Location: "code-s3-location",
-                // requestMappingTemplateS3Location: "request-mapping-template-s3-location",
-                // responseMappingTemplateS3Location: "response-mapping-template-s3-location",
+                codeS3Location: "code-s3-location",
+                requestMappingTemplateS3Location: "request-mapping-template-s3-location",
+                responseMappingTemplateS3Location: "response-mapping-template-s3-location",
             },
             AppsyncResolver,
             {
@@ -377,6 +400,12 @@ describe("Appsync mappings", () => {
                 requestTemplate: "request-mapping-template",
                 responseTemplate: "response-mapping-template",
             },
+            [
+                "requestMappingTemplateS3Location",
+                "responseMappingTemplateS3Location",
+                "codeS3Location",
+                "metricsConfig",
+            ],
         );
     });
 
@@ -404,10 +433,9 @@ describe("Appsync mappings", () => {
                 requestMappingTemplate: "request-mapping-template",
                 responseMappingTemplate: "response-mapping-template",
                 functionVersion: "function-version",
-                // FIXME: uncomment when supported by the mapper
-                // codeS3Location: "code-s3-location",
-                // requestMappingTemplateS3Location: "request-mapping-template-s3-location",
-                // responseMappingTemplateS3Location: "response-mapping-template-s3-location",
+                codeS3Location: "code-s3-location",
+                requestMappingTemplateS3Location: "request-mapping-template-s3-location",
+                responseMappingTemplateS3Location: "response-mapping-template-s3-location",
             },
             AppsyncFunction,
             {
@@ -432,6 +460,7 @@ describe("Appsync mappings", () => {
                     conflictDetection: "conflict-detection",
                 },
             },
+            ["codeS3Location", "requestMappingTemplateS3Location", "responseMappingTemplateS3Location"],
         );
     });
 

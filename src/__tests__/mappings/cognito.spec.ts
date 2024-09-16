@@ -149,6 +149,12 @@ describe("Cognito mappings", () => {
             {
                 allowClassicFlow: true,
                 allowUnauthenticatedIdentities: true,
+                identityPoolTags: [
+                    {
+                        value: "value",
+                        key: "key",
+                    },
+                ],
                 cognitoIdentityProviders: [
                     {
                         providerName: "provider-name",
@@ -163,23 +169,25 @@ describe("Cognito mappings", () => {
                     "login-provider": "login-provider",
                 },
                 openIdConnectProviderArns: ["open-id-connect-provider-arn"],
-                identityPoolTags: [{ key: "hello", value: "hi" }, { key: "world", value: "universe" }],
-                // FIXME: this is not supported by the provider yet
-                // cognitoEvents: {
-                //     "event": "event",
-                // },
-                // pushSync: {
-                //     roleArn: "role-arn",
-                //     applicationArns: ["application-arn"],
-                // },
-                // cognitoStreams: {
-                //     roleArn: "role-arn",
-                //     streamName: "stream-name",
-                //     streamingStatus: "ENABLED",
-                // },
+                cognitoEvents: {
+                    "event": "event",
+                },
+                pushSync: {
+                    roleArn: "role-arn",
+                    applicationArns: ["application-arn"],
+                },
+                cognitoStreams: {
+                    roleArn: "role-arn",
+                    streamName: "stream-name",
+                    streamingStatus: "ENABLED",
+                },
             },
             CognitoIdentityPool,
             {
+                tags: {
+                    key: "value",
+                },
+                openidConnectProviderArns: ["open-id-connect-provider-arn"],
                 allowClassicFlow: true,
                 allowUnauthenticatedIdentities: true,
                 cognitoIdentityProviders: [
@@ -195,11 +203,8 @@ describe("Cognito mappings", () => {
                 supportedLoginProviders: {
                     "login-provider": "login-provider",
                 },
-                tags: {
-                    hello: "hi",
-                    world: "universe",
-                },
             },
+            ["cognitoEvents", "pushSync", "cognitoStreams"],
         );
     });
 
@@ -221,6 +226,7 @@ describe("Cognito mappings", () => {
                             maxLength: "max-length",
                             minLength: "min-length",
                         },
+                        developerOnlyAttribute: false,
                     },
                 ],
                 enabledMfas: ["SMS"],
@@ -235,6 +241,9 @@ describe("Cognito mappings", () => {
                 },
                 mfaConfiguration: "ON",
                 userPoolAddOns: {
+                    advancedSecurityAdditionalFlows: {
+                        customAuthMode: "custom-auth-mode",
+                    },
                     advancedSecurityMode: "OFF",
                 },
                 accountRecoverySetting: {
@@ -261,6 +270,10 @@ describe("Cognito mappings", () => {
                 emailVerificationMessage: "email-verification-message",
                 emailVerificationSubject: "email-verification-subject",
                 lambdaConfig: {
+                    preTokenGenerationConfig: {
+                        lambdaArn: "lambda-arn",
+                        lambdaVersion: "lambda-version",
+                    },
                     createAuthChallenge: "create-auth-challenge",
                     customMessage: "custom-message",
                     defineAuthChallenge: "define-auth-challenge",
@@ -297,6 +310,7 @@ describe("Cognito mappings", () => {
                         requireSymbols: true,
                         requireUppercase: true,
                         minimumLength: 60,
+                        passwordHistorySize: 60,
                     },
                 },
                 verificationMessageTemplate: {
@@ -361,6 +375,7 @@ describe("Cognito mappings", () => {
                     requireSymbols: true,
                     requireUppercase: true,
                     temporaryPasswordValidityDays: 60,
+                    passwordHistorySize: 60,
                 },
                 smsVerificationMessage: undefined,
                 verificationMessageTemplate: {
@@ -428,11 +443,16 @@ describe("Cognito mappings", () => {
                         lambdaArn: "lambda-arn",
                         lambdaVersion: "lambda-version",
                     },
+                    preTokenGenerationConfig: {
+                        lambdaArn: "lambda-arn",
+                        lambdaVersion: "lambda-version",
+                    },
                 },
                 userPoolAddOns: {
                     advancedSecurityMode: "OFF",
                 },
             },
+            ["adminCreateUserConfig.unusedAccountValidityDays", "userPoolAddOns.advancedSecurityAdditionalFlows"],
         );
     });
 });

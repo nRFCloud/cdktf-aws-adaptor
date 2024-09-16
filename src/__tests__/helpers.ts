@@ -1,13 +1,24 @@
 import { CfnElement, Fn } from "aws-cdk-lib";
-import { LocalBackend, TerraformElement, TerraformStack, TerraformVariable, Testing } from "cdktf";
+import {
+    LocalBackend,
+    TerraformElement,
+    TerraformMetaArguments,
+    TerraformStack,
+    TerraformVariable,
+    Testing,
+} from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
 import { Construct } from "constructs";
 import { Class } from "type-fest";
 import { AwsTerraformAdaptorStack } from "../index.js";
+import { UnsupportedPropertiesSpecifiedError } from "../lib/core/cdk-adaptor-stack.js";
+import { NotAny } from "../lib/core/type-utils.js";
+import { AccessTracker } from "../mappings/access-tracker.js";
 
 export function synthesizeConstructAndTestStability<T extends Construct, C extends Class<T>>(
     constructClass: C,
     props: ConstructorParameters<C>[2],
+    disableSnapshot = false,
 ) {
     class TestClass extends AwsTerraformAdaptorStack {
         public readonly resource: T = new constructClass(this, "resource", props);
@@ -23,7 +34,7 @@ export function synthesizeConstructAndTestStability<T extends Construct, C exten
     });
     testStack.prepareStack();
     const synthStack = Testing.synth(testStack);
-    expect(synthStack).toMatchSnapshot();
+    if (!disableSnapshot) expect(synthStack).toMatchSnapshot();
 
     return {
         resource: testStack.resource,
@@ -34,6 +45,18 @@ export function synthesizeConstructAndTestStability<T extends Construct, C exten
     };
 }
 
+type DeepRequiredProperties<T> = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [K in keyof Required<T>]: NotAny<T[K]> extends never ? any : DeepRequiredProperties<T[K]>;
+};
+
+type DeepRequired<T> = {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [K in keyof T]-?: NotAny<T[K]> extends never ? any : DeepRequired<T[K]>;
+};
+
+type BaseTfResourceProps = "id" | "tagsAll" | keyof TerraformMetaArguments;
+
 export function synthesizeElementAndTestStability<
     C extends CfnElement,
     CC extends Class<C>,
@@ -41,9 +64,11 @@ export function synthesizeElementAndTestStability<
     TC extends Class<T>,
 >(
     constructClass: CC,
-    props: ConstructorParameters<CC>[2],
+    props: DeepRequired<ConstructorParameters<CC>[2]>,
     terraformClass: TC,
-    terraformProps: ConstructorParameters<TC>[2],
+    terraformProps: Omit<DeepRequiredProperties<ConstructorParameters<TC>[2]>, BaseTfResourceProps>,
+    unsupportedCfPropPaths: string[] = [],
+    disableSnapshot = false,
 ) {
     class ConstructWrapper extends Construct {
         public readonly resource: C;
@@ -63,9 +88,35 @@ export function synthesizeElementAndTestStability<
         }
     }
 
-    const output = synthesizeConstructAndTestStability(ConstructWrapper, props);
+    if (unsupportedCfPropPaths.length > 0) {
+        const propTracker = new AccessTracker(props);
+        const unsupportedProps = unsupportedCfPropPaths.map(path => propTracker.matchingProperties(path)).flat()
+            .map(prop => prop.toLowerCase());
+
+        // Attempt to create a new instance of the construct with the unsupported properties
+        // This should throw an error if the properties are not removed
+        try {
+            synthesizeConstructAndTestStability(ConstructWrapper, props, disableSnapshot);
+            throw new Error(
+                `Expected an error when creating an instance of ${constructClass.name} with unsupported properties: ${unsupportedProps}`,
+            );
+        } catch (e) {
+            expect(e).toBeInstanceOf(UnsupportedPropertiesSpecifiedError);
+
+            // Case insensitive comparison
+            expect((e as UnsupportedPropertiesSpecifiedError).unsupportedProps.map(prop => prop.toLowerCase())).members(
+                unsupportedProps,
+            );
+        }
+    }
+
+    const propProxy = new AccessTracker(props);
+    unsupportedCfPropPaths.forEach(path => propProxy.removePropertiesUnderPath(path));
+
+    const output = synthesizeConstructAndTestStability(ConstructWrapper, propProxy.clone(), disableSnapshot);
     const transformedResource = output.resource.node.tryFindChild("resource") as T;
     expectResourcePropertiesMatch(transformedResource, terraformClass, terraformProps);
+
     return {
         ...output,
         resource: transformedResource as InstanceType<TC>,
@@ -97,11 +148,20 @@ export function itShouldMapCfnElementToTerraformResource<
     TC extends Class<T>,
 >(
     constructClass: CC,
-    props: ConstructorParameters<CC>[2],
+    props: DeepRequired<ConstructorParameters<CC>[2]>,
     terraformClass: TC,
-    terraformProps: ConstructorParameters<TC>[2],
+    terraformProps: Omit<DeepRequiredProperties<ConstructorParameters<TC>[2]>, BaseTfResourceProps>,
+    unsupportedCfPropPaths: string[] = [],
+    disableSnapshot = false,
 ) {
     it(`Should map ${(constructClass as unknown as { CFN_RESOURCE_TYPE_NAME: string }).CFN_RESOURCE_TYPE_NAME}`, () => {
-        synthesizeElementAndTestStability(constructClass, props, terraformClass, terraformProps);
+        synthesizeElementAndTestStability(
+            constructClass,
+            props,
+            terraformClass,
+            terraformProps,
+            unsupportedCfPropPaths,
+            disableSnapshot,
+        );
     });
 }

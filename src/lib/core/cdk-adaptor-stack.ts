@@ -35,6 +35,7 @@ import { conditional, propertyAccess } from "cdktf/lib/tfExpression.js";
 import { TokenMap } from "cdktf/lib/tokens/private/token-map.js";
 import { toSnakeCase } from "codemaker";
 import { Construct, ConstructOrder, IConstruct } from "constructs";
+import { AccessTracker } from "../../mappings/access-tracker.js";
 import { findMapping, Mapping } from "../../mappings/utils.js";
 import { CloudFormationOutput, CloudFormationResource, CloudFormationTemplate } from "./cfn.js";
 import { reparentConstruct } from "./construct-helpers.js";
@@ -58,7 +59,7 @@ const cdkTokenResolutionCompat = getAwsCDKTokenResolutionCompat();
 
 cdkTokenResolutionCompat.enableUnresolvedTfTokens();
 
-function isConstruct(x: object): x is Construct {
+function isConstruct(x: unknown): x is Construct {
     return x != undefined && Object.hasOwn(x, "_children") && Object.hasOwn(x, "_metadata");
 }
 
@@ -430,7 +431,16 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
 
         const newScope = (terraformStack == undefined ? this : currentElement.node.scope) as Construct;
 
-        const res = m.resource(newScope, currentElement.node.id, props);
+        const proxy = new AccessTracker(props);
+
+        if (m.unsupportedProps != null) {
+            const specifiedUnsupportedProps = m.unsupportedProps.map(proxy.matchingProperties.bind(proxy)).flat();
+            if (specifiedUnsupportedProps.length > 0) {
+                throw new UnsupportedPropertiesSpecifiedError(resource.Type, specifiedUnsupportedProps);
+            }
+        }
+
+        const res = m.resource(newScope, currentElement.node.id, proxy.proxy, proxy);
         if (currentElement instanceof CfnResource && res) {
             res.node.addDependency(...currentElement.obtainDependencies());
             res.node.addDependency(...currentElement.node.dependencies);
@@ -454,13 +464,10 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             );
         }
 
-        const keys = Object.keys(props).filter((k) => props[k] !== undefined);
-        if (keys.length > 0) {
+        if (!proxy.isAllPropertiesAccessed()) {
             throw new Error(
-                `cannot map some properties of ${resource.Type}: ${
-                    JSON.stringify(
-                        props,
-                    )
+                `The following props were not mapped for ${resource.Type}: ${
+                    proxy.getUnaccessedProperties().join(", ")
                 }`,
             );
         }
@@ -658,6 +665,10 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
                 return;
             }
 
+            case "AWS::StackName": {
+                return this.node.id;
+            }
+
             case "AWS::URLSuffix": {
                 return this.awsPartition.dnsSuffix;
             }
@@ -676,14 +687,14 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
         return this.resolveAtt(ref, "Ref");
     }
 
-    private resolveIntrinsic(fn: string, params: any) {
+    private resolveIntrinsic(fn: string, params: unknown[]): unknown {
         switch (fn) {
             case "Fn::GetAtt": {
-                return this.resolveAtt(params[0], params[1]);
+                return this.resolveAtt(params[0] as string, params[1] as string);
             }
 
             case "Fn::Join": {
-                const [delim, strings] = params;
+                const [delim, strings] = params as [string, string[]];
                 return Fn.join(
                     this.processIntrinsics(delim),
                     this.processIntrinsics(strings),
@@ -691,14 +702,14 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::Select": {
-                const [index, list] = params;
+                const [index, list] = params as [number, unknown[]];
                 const i = this.processIntrinsics(index);
                 const ll = this.processIntrinsics(list);
                 return Fn.element(ll, i);
             }
 
             case "Fn::GetAZs": {
-                let [region]: [string | undefined | "AWS::Region"] = params;
+                let [region]: [string | undefined | "AWS::Region"] = params as [string | undefined | "AWS::Region"];
 
                 // AWS::Region or undefined fall back to default region for the stack
                 if (region === "AWS::Region") {
@@ -708,14 +719,16 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::Base64": {
-                const [input] = params;
+                const [input] = params as [string];
                 return Fn.base64encode(this.processIntrinsics(input));
             }
 
             case "Fn::Cidr": {
                 // https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-cidr.html
                 // https://www.terraform.io/docs/language/functions/cidrsubnets.html
-                const [ipBlock, count, cidrBits]: [any, number | string, any] = this.processIntrinsics(params);
+                const [ipBlock, count, cidrBits]: [string, number | string, number] = this.processIntrinsics(
+                    params,
+                ) as [string, number | string, number];
                 const prefix = ipBlock;
                 // given count=4 bits=8 this will be [8, 8, 8, 8] to match the Fn.cidrsubnets interface
                 const newBits = Array.from({ length: Number(count) }).fill(cidrBits, 0) as number[];
@@ -723,7 +736,7 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::FindInMap": {
-                const [rawMap, ...rawParams] = params;
+                const [rawMap, ...rawParams] = params as [string, ...unknown[]];
                 const map = this.processIntrinsics(rawMap);
                 const processedParams = this.processIntrinsics(rawParams);
                 return Lazy.anyValue({
@@ -737,7 +750,7 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::Split": {
-                const [separator, string] = params;
+                const [separator, string] = params as [string, string];
                 return Fn.split(
                     this.processIntrinsics(separator),
                     this.processIntrinsics(string),
@@ -745,7 +758,10 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::Sub": {
-                const [rawString, replacementMap]: [string, object] = params;
+                const [rawString, replacementMap]: [string, { [key: string]: unknown }] = params as [
+                    string,
+                    { [key: string]: unknown },
+                ];
 
                 let resultString: string = this.processIntrinsics(rawString);
 
@@ -783,12 +799,12 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::Equals": {
-                const [left, right] = this.processIntrinsics(params);
+                const [left, right] = this.processIntrinsics(params) as [unknown, unknown];
                 return Op.eq(left, right);
             }
 
             case "Fn::And": {
-                const [first, ...additional]: [any, any[]] = this.processConditions(
+                const [first, ...additional]: [unknown, unknown[]] = this.processConditions(
                     this.processIntrinsics(params),
                 );
                 // Fn:And supports 2-10 parameters to chain
@@ -799,7 +815,7 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::Or": {
-                const [first, ...additional]: [any, any[]] = this.processConditions(
+                const [first, ...additional]: [unknown, unknown[]] = this.processConditions(
                     this.processIntrinsics(params),
                 );
                 // Fn:Or supports 2-10 parameters to chain
@@ -810,7 +826,11 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::If": {
-                const [conditionId, trueExpression, falseExpression] = this.processIntrinsics(params);
+                const [conditionId, trueExpression, falseExpression] = this.processIntrinsics(params) as [
+                    string,
+                    unknown,
+                    unknown,
+                ];
                 return conditional(
                     this.getConditionTerraformLocal(conditionId),
                     trueExpression,
@@ -819,7 +839,7 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             }
 
             case "Fn::Not": {
-                let [condition] = this.processIntrinsics(params);
+                let [condition] = this.processIntrinsics(params) as [unknown];
                 if (typeof condition === "string") {
                     condition = this.getConditionTerraformLocal(condition);
                 }
@@ -852,4 +872,12 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
     }
 }
 
-/* eslint-enable @typescript-eslint/no-explicit-any */
+export class UnsupportedPropertiesSpecifiedError extends Error {
+    constructor(public readonly resourceType: string, public readonly unsupportedProps: string[]) {
+        const message = `The following unsupported props were specified for ${resourceType}: ${
+            unsupportedProps.join(", ")
+        }`;
+        super(message);
+        this.name = "UnsupportedPropertiesSpecifiedError";
+    }
+}

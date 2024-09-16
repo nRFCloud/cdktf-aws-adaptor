@@ -7,7 +7,11 @@ import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerSnsMappings() {
     registerMappingTyped(CfnSubscription, SnsTopicSubscription, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
+            proxy.touchPath("DeliveryPolicy");
+            proxy.touchPath("FilterPolicy");
+            proxy.touchPath("RedrivePolicy");
+            proxy.touchPath("ReplayPolicy");
             return new SnsTopicSubscription(
                 scope,
                 id,
@@ -28,12 +32,16 @@ export function registerSnsMappings() {
         unsupportedProps: ["Region"],
         attributes: {
             Id: (resource) => resource.id,
+            Arn: (resource) => resource.arn,
             Ref: (resource) => resource.id,
         },
     });
 
     registerMappingTyped(CfnTopic, SnsTopic, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
+            proxy.touchPath("ArchivePolicy");
+            proxy.touchPath("DataProtectionPolicy");
+
             let topicConfig: SnsTopicConfig = {
                 name: props?.TopicName,
                 displayName: props?.DisplayName,

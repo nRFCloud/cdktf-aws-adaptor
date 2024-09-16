@@ -19,8 +19,15 @@ import { createGenericCCApiMapping, deleteUndefinedKeys, registerMapping, regist
 
 export function registerEC2VPCMappings() {
     registerMappingTyped(CfnInternetGateway, InternetGateway, {
-        resource: (scope, id) => {
-            return new InternetGateway(scope, id);
+        resource: (scope, id, props) => {
+            return new InternetGateway(scope, id, {
+                tags: Object.fromEntries(
+                    props?.Tags?.map(({
+                        Key: key,
+                        Value: value,
+                    }) => [key, value]) || [],
+                ),
+            });
         },
         attributes: {
             InternetGatewayId: (igw: InternetGateway) => igw.id,
@@ -119,8 +126,8 @@ export function registerEC2VPCMappings() {
             // This has no resource representation in TF, see also: https://github.com/hashicorp/terraform-provider-aws/issues/5465#issuecomment-415575387
             // so we add an aspect to simulate the behaviour it has
             const vpcId = props.VpcId;
-            delete props.VpcId;
-            delete props.InternetGatewayId;
+            props.VpcId;
+            props.InternetGatewayId;
 
             Aspects.of(scope).add({
                 visit: (node) => {
@@ -219,6 +226,12 @@ export function registerEC2VPCMappings() {
 
             return securityGroup;
         },
+        unsupportedProps: [
+            "SecurityGroupIngress.*.SourceSecurityGroupName",
+            "SecurityGroupIngress.*.SourceSecurityGroupOwnerId",
+            "SecurityGroupEgress.*.SourceSecurityGroupName",
+            "SecurityGroupEgress.*.SourceSecurityGroupOwnerId",
+        ],
         attributes: {
             VpcId: (sg: SecurityGroup) => sg.vpcId,
             Ref: (sg: SecurityGroup) => sg.id,

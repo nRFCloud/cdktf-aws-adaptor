@@ -5,6 +5,7 @@ import { registerCloudfrontMappings } from "./services/cloudfront.js";
 import { registerCognitoMappings } from "./services/cognito.js";
 import { registerDynamoDBMappings } from "./services/dynamodb.js";
 import { registerEC2VPCMappings } from "./services/ec2-vpc.js";
+import { registerEcsMappings } from "./services/eks.js";
 import { registerEventsMappings } from "./services/events.js";
 import { registerIamMappings } from "./services/iam.js";
 import { registerLambdaMappings } from "./services/lambda.js";
@@ -40,6 +41,7 @@ export function registerMappings() {
     registerSqsMappings();
     registerSnsMappings();
     registerStepFunctinMappings();
+    registerEcsMappings();
 }
 
 registerMappings();

@@ -43,6 +43,16 @@ describe("Apigateway mappings", () => {
                 stageName: "stage-name",
                 description: "description",
                 stageDescription: {
+                    description: "description",
+                    variables: {
+                        "stage-variable": "stage-variable-value",
+                    },
+                    tags: [
+                        {
+                            key: "tag",
+                            value: "tag-value",
+                        },
+                    ],
                     creationStack: ["stack"],
                     cacheClusterEnabled: true,
                     cacheClusterSize: "cache-cluster-size",
@@ -51,9 +61,11 @@ describe("Apigateway mappings", () => {
                         stageVariableOverrides: {
                             "stage-variable": "stage-variable-value",
                         },
+                        useStageCache: true,
                     },
                     accessLogSetting: {
                         destinationArn: "destination-arn",
+                        format: "format",
                     },
                     cacheDataEncrypted: true,
                     cacheTtlInSeconds: 60,
@@ -94,6 +106,10 @@ describe("Apigateway mappings", () => {
             {
                 typeName: "AWS::ApiGateway::Deployment",
                 desiredState: expect.stringContaining(""),
+                roleArn: undefined,
+                typeVersionId: undefined,
+                schema: undefined,
+                timeouts: undefined,
             },
         );
     });
@@ -104,6 +120,7 @@ describe("Apigateway mappings", () => {
             {
                 accessLogSetting: {
                     destinationArn: "destination-arn",
+                    format: "format",
                 },
                 cacheClusterEnabled: true,
                 cacheClusterSize: "cache-cluster-size",
@@ -112,6 +129,8 @@ describe("Apigateway mappings", () => {
                     stageVariableOverrides: {
                         "stage-variable": "stage-variable-value",
                     },
+                    deploymentId: "deployment-id",
+                    useStageCache: true,
                 },
                 clientCertificateId: "client-certificate-id",
                 stageName: "stage-name",
@@ -121,11 +140,24 @@ describe("Apigateway mappings", () => {
                 methodSettings: [],
                 restApiId: "rest-api-id",
                 deploymentId: "deployment-id",
+                tags: [
+                    {
+                        key: "tag",
+                        value: "tag-value",
+                    },
+                ],
+                variables: {
+                    "stage-variable": "stage-variable-value",
+                },
             },
             CloudcontrolapiResource,
             {
                 typeName: "AWS::ApiGateway::Stage",
                 desiredState: expect.stringContaining(""),
+                roleArn: undefined,
+                schema: undefined,
+                timeouts: undefined,
+                typeVersionId: undefined,
             },
         );
     });
@@ -146,7 +178,6 @@ describe("Apigateway mappings", () => {
                 basePath: "base-path",
                 domainName: "domain-name",
                 stageName: "stage",
-                id: "id",
             },
         );
     });
@@ -177,16 +208,25 @@ describe("Apigateway mappings", () => {
             routeSettings: {
                 DataTraceEnabled: true,
                 RouteKey: "route-key",
+                DetailedMetricsEnabled: true,
+                LoggingLevel: "logging-level",
+                ThrottlingBurstLimit: 60,
+                ThrottlingRateLimit: 60,
             },
             tags: {
                 "tag": "tag-value",
             },
+            accessPolicyId: "access-policy-id",
         },
         Apigatewayv2Stage,
         {
             routeSettings: [{
                 dataTraceEnabled: true,
                 routeKey: "route-key",
+                detailedMetricsEnabled: true,
+                loggingLevel: "logging-level",
+                throttlingBurstLimit: 60,
+                throttlingRateLimit: 60,
             }],
             tags: {
                 "tag": "tag-value",
@@ -212,6 +252,7 @@ describe("Apigateway mappings", () => {
                 throttlingRateLimit: 60,
             },
         },
+        ["accessPolicyId"],
     );
 
     itShouldMapCfnElementToTerraformResource(
@@ -249,7 +290,9 @@ describe("Apigateway mappings", () => {
                 securityPolicy: "TLS_1_2",
                 ownershipVerificationCertificateArn: "ownership-verification-certificate-arn",
             },
+            timeouts: undefined,
         },
+        ["domainNameConfigurations.*.certificateName"],
     );
 
     itShouldMapCfnElementToTerraformResource(
@@ -326,6 +369,7 @@ describe("Apigateway mappings", () => {
     itShouldMapCfnElementToTerraformResource(
         CfnAuthorizerV2,
         {
+            identityValidationExpression: "identity-validation-expression",
             apiId: "api-id",
             authorizerCredentialsArn: "authorizer-credentials-arn",
             authorizerPayloadFormatVersion: "authorizer-payload-format-version",
@@ -355,7 +399,9 @@ describe("Apigateway mappings", () => {
             authorizerResultTtlInSeconds: 60,
             authorizerType: "authorizer-type",
             authorizerUri: "authorizer-uri",
+            timeouts: undefined,
         },
+        ["identityValidationExpression"],
     );
 
     itShouldMapCfnElementToTerraformResource(

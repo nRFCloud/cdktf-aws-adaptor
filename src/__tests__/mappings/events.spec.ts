@@ -61,6 +61,7 @@ describe("Events mappings", () => {
                             ],
                             platformVersion: "test-target-ecs-platform-version",
                             propagateTags: "TASK_DEFINITION",
+                            // TODO: Uncomment when referenceId is implemented
                             referenceId: "test-target-ecs-reference-id",
                             group: "test-target-ecs-group",
                             networkConfiguration: {
@@ -78,6 +79,9 @@ describe("Events mappings", () => {
                             },
                             jobDefinition: "test-job-definition",
                             jobName: "test-job-name",
+                            retryStrategy: {
+                                attempts: 1,
+                            },
                         },
                         httpParameters: {
                             headerParameters: {
@@ -104,6 +108,7 @@ describe("Events mappings", () => {
                             maximumEventAgeInSeconds: 1,
                         },
                         redshiftDataParameters: {
+                            sqls: ["test-sql"],
                             sql: "test-sql",
                             database: "test-database",
                             dbUser: "test-db-user",
@@ -130,6 +135,9 @@ describe("Events mappings", () => {
                                 },
                             ],
                         },
+                        appSyncParameters: {
+                            graphQlOperation: "test-graph-ql-operation",
+                        },
                     },
                 ],
             },
@@ -148,6 +156,11 @@ describe("Events mappings", () => {
                 roleArn: "test-role-arn",
                 scheduleExpression: "test-schedule-expression",
             },
+            [
+                "targets.*.ecsParameters.referenceId",
+                "targets.*.appSyncParameters",
+                "targets.*.redshiftDataParameters.sqls",
+            ],
         );
 
         const target = resource.node.tryFindChild("target0") as CloudwatchEventTarget;
@@ -200,6 +213,7 @@ describe("Events mappings", () => {
                 arraySize: 1,
                 jobDefinition: "test-job-definition",
                 jobName: "test-job-name",
+                jobAttempts: 1,
             },
             httpTarget: {
                 headerParameters: {

@@ -2,155 +2,156 @@
 
 exports[`Events mappings > Should map AWS::Events::Rule 1`] = `
 "{
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"alias\\": \\"us_east_1\\",
-        \\"region\\": \\"us-east-1\\"
+        "alias": "us_east_1",
+        "region": "us-east-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_cloudwatch_event_rule\\": {
-      \\"resource_22C949BF\\": {
-        \\"description\\": \\"test-rule-description\\",
-        \\"event_bus_name\\": \\"test-event-bus-name\\",
-        \\"event_pattern\\": \\"{\\\\\\"source\\\\\\":[\\\\\\"test-source\\\\\\"],\\\\\\"detail\\\\\\":{\\\\\\"foo\\\\\\":[\\\\\\"bar\\\\\\"]}}\\",
-        \\"is_enabled\\": true,
-        \\"name\\": \\"test-rule\\",
-        \\"role_arn\\": \\"test-role-arn\\",
-        \\"schedule_expression\\": \\"test-schedule-expression\\"
+  "resource": {
+    "aws_cloudwatch_event_rule": {
+      "resource_22C949BF": {
+        "description": "test-rule-description",
+        "event_bus_name": "test-event-bus-name",
+        "event_pattern": "{\\"source\\":[\\"test-source\\"],\\"detail\\":{\\"foo\\":[\\"bar\\"]}}",
+        "is_enabled": true,
+        "name": "test-rule",
+        "role_arn": "test-role-arn",
+        "schedule_expression": "test-schedule-expression"
       }
     },
-    \\"aws_cloudwatch_event_target\\": {
-      \\"resource_target0_EA0FDB3C\\": {
-        \\"arn\\": \\"test-target-arn\\",
-        \\"batch_target\\": {
-          \\"array_size\\": 1,
-          \\"job_definition\\": \\"test-job-definition\\",
-          \\"job_name\\": \\"test-job-name\\"
+    "aws_cloudwatch_event_target": {
+      "resource_target0_EA0FDB3C": {
+        "arn": "test-target-arn",
+        "batch_target": {
+          "array_size": 1,
+          "job_attempts": 1,
+          "job_definition": "test-job-definition",
+          "job_name": "test-job-name"
         },
-        \\"dead_letter_config\\": {
-          \\"arn\\": \\"test-target-dead-letter-config-arn\\"
+        "dead_letter_config": {
+          "arn": "test-target-dead-letter-config-arn"
         },
-        \\"ecs_target\\": {
-          \\"capacity_provider_strategy\\": [
+        "ecs_target": {
+          "capacity_provider_strategy": [
             {
-              \\"base\\": 1,
-              \\"capacity_provider\\": \\"test-target-ecs-capacity-provider\\",
-              \\"weight\\": 1
+              "base": 1,
+              "capacity_provider": "test-target-ecs-capacity-provider",
+              "weight": 1
             }
           ],
-          \\"enable_ecs_managed_tags\\": true,
-          \\"enable_execute_command\\": true,
-          \\"group\\": \\"test-target-ecs-group\\",
-          \\"launch_type\\": \\"test-target-ecs-launch-type\\",
-          \\"network_configuration\\": {
-            \\"assign_public_ip\\": true,
-            \\"security_groups\\": [
-              \\"test-target-ecs-security-group\\"
+          "enable_ecs_managed_tags": true,
+          "enable_execute_command": true,
+          "group": "test-target-ecs-group",
+          "launch_type": "test-target-ecs-launch-type",
+          "network_configuration": {
+            "assign_public_ip": true,
+            "security_groups": [
+              "test-target-ecs-security-group"
             ],
-            \\"subnets\\": [
-              \\"test-target-ecs-subnet\\"
+            "subnets": [
+              "test-target-ecs-subnet"
             ]
           },
-          \\"ordered_placement_strategy\\": [
+          "ordered_placement_strategy": [
             {
-              \\"field\\": \\"test-target-ecs-placement-strategy-field\\",
-              \\"type\\": \\"test-target-ecs-placement-strategy-type\\"
+              "field": "test-target-ecs-placement-strategy-field",
+              "type": "test-target-ecs-placement-strategy-type"
             }
           ],
-          \\"placement_constraint\\": [
+          "placement_constraint": [
             {
-              \\"expression\\": \\"test-target-ecs-placement-constraint-expression\\",
-              \\"type\\": \\"test-target-ecs-placement-constraint-type\\"
+              "expression": "test-target-ecs-placement-constraint-expression",
+              "type": "test-target-ecs-placement-constraint-type"
             }
           ],
-          \\"platform_version\\": \\"test-target-ecs-platform-version\\",
-          \\"propagate_tags\\": \\"TASK_DEFINITION\\",
-          \\"tags\\": {
-            \\"test-target-ecs-tag-key\\": \\"test-target-ecs-tag-value\\"
+          "platform_version": "test-target-ecs-platform-version",
+          "propagate_tags": "TASK_DEFINITION",
+          "tags": {
+            "test-target-ecs-tag-key": "test-target-ecs-tag-value"
           },
-          \\"task_count\\": 1,
-          \\"task_definition_arn\\": \\"test-target-ecs-task-definition-arn\\"
+          "task_count": 1,
+          "task_definition_arn": "test-target-ecs-task-definition-arn"
         },
-        \\"event_bus_name\\": \\"test-event-bus-name\\",
-        \\"http_target\\": {
-          \\"header_parameters\\": {
-            \\"test-header-parameter-key\\": \\"test-header-parameter-value\\"
+        "event_bus_name": "test-event-bus-name",
+        "http_target": {
+          "header_parameters": {
+            "test-header-parameter-key": "test-header-parameter-value"
           },
-          \\"path_parameter_values\\": [
-            \\"test-path-parameter-value\\"
+          "path_parameter_values": [
+            "test-path-parameter-value"
           ],
-          \\"query_string_parameters\\": {
-            \\"test-query-string-parameter-key\\": \\"test-query-string-parameter-value\\"
+          "query_string_parameters": {
+            "test-query-string-parameter-key": "test-query-string-parameter-value"
           }
         },
-        \\"input\\": \\"test-input\\",
-        \\"input_path\\": \\"test-input-path\\",
-        \\"input_transformer\\": {
-          \\"input_paths\\": {
-            \\"test-input-paths-map-key\\": \\"test-input-paths-map-value\\"
+        "input": "test-input",
+        "input_path": "test-input-path",
+        "input_transformer": {
+          "input_paths": {
+            "test-input-paths-map-key": "test-input-paths-map-value"
           },
-          \\"input_template\\": \\"test-input-template\\"
+          "input_template": "test-input-template"
         },
-        \\"kinesis_target\\": {
-          \\"partition_key_path\\": \\"test-partition-key-path\\"
+        "kinesis_target": {
+          "partition_key_path": "test-partition-key-path"
         },
-        \\"redshift_target\\": {
-          \\"database\\": \\"test-database\\",
-          \\"db_user\\": \\"test-db-user\\",
-          \\"secrets_manager_arn\\": \\"test-secret-manager-arn\\",
-          \\"sql\\": \\"test-sql\\",
-          \\"statement_name\\": \\"test-statement-name\\",
-          \\"with_event\\": true
+        "redshift_target": {
+          "database": "test-database",
+          "db_user": "test-db-user",
+          "secrets_manager_arn": "test-secret-manager-arn",
+          "sql": "test-sql",
+          "statement_name": "test-statement-name",
+          "with_event": true
         },
-        \\"retry_policy\\": {
-          \\"maximum_event_age_in_seconds\\": 1,
-          \\"maximum_retry_attempts\\": 1
+        "retry_policy": {
+          "maximum_event_age_in_seconds": 1,
+          "maximum_retry_attempts": 1
         },
-        \\"role_arn\\": \\"test-target-role-arn\\",
-        \\"rule\\": \\"\${aws_cloudwatch_event_rule.resource_22C949BF.id}\\",
-        \\"run_command_targets\\": [
+        "role_arn": "test-target-role-arn",
+        "rule": "\${aws_cloudwatch_event_rule.resource_22C949BF.id}",
+        "run_command_targets": [
           {
-            \\"key\\": \\"test-run-command-target-key\\",
-            \\"values\\": [
-              \\"test-run-command-target-value\\"
+            "key": "test-run-command-target-key",
+            "values": [
+              "test-run-command-target-value"
             ]
           }
         ],
-        \\"sagemaker_pipeline_target\\": {
-          \\"pipeline_parameter_list\\": [
+        "sagemaker_pipeline_target": {
+          "pipeline_parameter_list": [
             {
-              \\"name\\": \\"test-pipeline-parameter-name\\",
-              \\"value\\": \\"test-pipeline-parameter-value\\"
+              "name": "test-pipeline-parameter-name",
+              "value": "test-pipeline-parameter-value"
             }
           ]
         },
-        \\"sqs_target\\": {
-          \\"message_group_id\\": \\"test-message-group-id\\"
+        "sqs_target": {
+          "message_group_id": "test-message-group-id"
         },
-        \\"target_id\\": \\"test-target-id\\"
+        "target_id": "test-target-id"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"/terraform.test-stack.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"5.64.0\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"resource_refs_CDA17697\\": {
-      \\"default\\": \\"\${aws_cloudwatch_event_rule.resource_22C949BF.arn}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${aws_cloudwatch_event_rule.resource_22C949BF.arn}",
+      "type": "string"
     }
   }
 }"

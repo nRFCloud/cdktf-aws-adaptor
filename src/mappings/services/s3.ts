@@ -27,7 +27,8 @@ const BUCKET_WEB_SITE = Symbol("websiteEndpoint");
 
 export function registerS3Mappings() {
     registerMappingTyped(CfnBucketPolicy, S3BucketPolicy, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
+            proxy.touchPath("PolicyDocument");
             return new S3BucketPolicy(
                 scope,
                 id,
