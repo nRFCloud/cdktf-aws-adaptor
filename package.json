@@ -32,10 +32,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./constructs/aws-msk": {
-      "types": "./dist/constructs/services/msk/index.d.ts",
-      "import": "./dist/constructs/services/msk/index.js"
     }
   },
   "repository": "https://github.com/nRFCloud/ts-json-schema-transformer",
@@ -84,6 +80,7 @@
     "codemaker": "^1.94.0",
     "debug": "^4.3.4",
     "minimatch": "^10.0.1",
-    "yargs": "^17.7.2"
+    "yargs": "^17.7.2",
+    "@cdktf/provider-archive": "10.2.0"
   }
 }

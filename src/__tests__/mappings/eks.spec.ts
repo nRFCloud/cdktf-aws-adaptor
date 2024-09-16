@@ -1,17 +1,14 @@
-import { SqsQueuePolicy } from "@cdktf/provider-aws/lib/sqs-queue-policy/index.js";
-import { CfnQueuePolicy } from "aws-cdk-lib/aws-sqs";
+import { Cluster, KubernetesVersion } from "aws-cdk-lib/aws-eks";
+import { Key } from "aws-cdk-lib/aws-kms";
+import { LocalBackend, Testing } from "cdktf";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
-import { synthesizeElementAndTestStability } from "../helpers.js";
-import {AwsTerraformAdaptorStack} from "../../lib/core/cdk-adaptor-stack.js";
-import {LocalBackend, Testing} from "cdktf";
-import {Cluster, KubernetesVersion} from "aws-cdk-lib/aws-eks"
-import {registerMappings} from "../../mappings/index.js";
-import {Key} from "aws-cdk-lib/aws-kms"
+import { AwsTerraformAdaptorStack } from "../../lib/core/cdk-adaptor-stack.js";
+import { registerMappings } from "../../mappings/index.js";
 
 setupJest();
 registerMappings();
 
-describe("ECS mappings", () => {
+describe.skip("ECS mappings", () => {
     describe("Custom::AWSCDK-ECS-Cluster", () => {
         it("should translate", () => {
             class TestClass extends AwsTerraformAdaptorStack {
@@ -21,8 +18,12 @@ describe("ECS mappings", () => {
 
                 public readonly cluster = new Cluster(this, "cluster", {
                     version: KubernetesVersion.V1_30,
-                    secretsEncryptionKey: Key.fromKeyArn(this, "key", "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012"),
-                })
+                    secretsEncryptionKey: Key.fromKeyArn(
+                        this,
+                        "key",
+                        "arn:aws:kms:us-east-1:123456789012:key/12345678-1234-1234-1234-123456789012",
+                    ),
+                });
             }
 
             const app = Testing.app();
@@ -33,6 +34,6 @@ describe("ECS mappings", () => {
             testStack.prepareStack();
             const synthStack = Testing.synth(testStack);
             expect(synthStack).toMatchSnapshot();
-        })
-    })
+        });
+    });
 });

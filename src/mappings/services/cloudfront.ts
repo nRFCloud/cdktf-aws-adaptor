@@ -22,13 +22,6 @@ export function registerCloudfrontMappings() {
 
     registerMappingTyped(CfnDistribution, CloudfrontDistribution, {
         resource: (scope, id, props, proxy) => {
-            if (props.DistributionConfig.S3Origin != null) {
-                throw new Error("Legacy S3Origin is not supported");
-            }
-            if (props.DistributionConfig.CustomOrigin != null) {
-                throw new Error("Legacy CustomOrigin is not supported");
-            }
-
             const mapCacheBehavior = (behavior: (typeof props)["DistributionConfig"]["DefaultCacheBehavior"]) => ({
                 functionAssociation: behavior.FunctionAssociations?.map(association => ({
                     eventType: association.EventType as string,
@@ -159,6 +152,10 @@ export function registerCloudfrontMappings() {
 
             return new CloudfrontDistribution(scope, id, deleteUndefinedKeys(config));
         },
+        unsupportedProps: [
+            "DistributionConfig.S3Origin",
+            "DistributionConfig.CustomOrigin",
+        ],
         attributes: {
             Ref: (resource) => resource.id,
             Id: (resource) => resource.id,

@@ -19,8 +19,15 @@ import { createGenericCCApiMapping, deleteUndefinedKeys, registerMapping, regist
 
 export function registerEC2VPCMappings() {
     registerMappingTyped(CfnInternetGateway, InternetGateway, {
-        resource: (scope, id) => {
-            return new InternetGateway(scope, id);
+        resource: (scope, id, props) => {
+            return new InternetGateway(scope, id, {
+                tags: Object.fromEntries(
+                    props?.Tags?.map(({
+                        Key: key,
+                        Value: value,
+                    }) => [key, value]) || [],
+                ),
+            });
         },
         attributes: {
             InternetGatewayId: (igw: InternetGateway) => igw.id,
@@ -166,7 +173,7 @@ export function registerEC2VPCMappings() {
     });
 
     registerMappingTyped(CfnSecurityGroup, SecurityGroup, {
-        resource: (scope, id, cfnProps, proxy) => {
+        resource: (scope, id, cfnProps) => {
             const props: SecurityGroupConfig = {
                 name: cfnProps.GroupName,
                 vpcId: cfnProps.VpcId,
@@ -182,7 +189,6 @@ export function registerEC2VPCMappings() {
             const securityGroup = new SecurityGroup(scope, id, deleteUndefinedKeys(props));
 
             cfnProps.SecurityGroupIngress?.forEach((ingress, idx) => {
-
                 new VpcSecurityGroupIngressRule(
                     securityGroup,
                     `${idx}-ingress`,
@@ -220,6 +226,12 @@ export function registerEC2VPCMappings() {
 
             return securityGroup;
         },
+        unsupportedProps: [
+            "SecurityGroupIngress.*.SourceSecurityGroupName",
+            "SecurityGroupIngress.*.SourceSecurityGroupOwnerId",
+            "SecurityGroupEgress.*.SourceSecurityGroupName",
+            "SecurityGroupEgress.*.SourceSecurityGroupOwnerId",
+        ],
         attributes: {
             VpcId: (sg: SecurityGroup) => sg.vpcId,
             Ref: (sg: SecurityGroup) => sg.id,

@@ -120,6 +120,16 @@ export function registerDynamoDBMappings() {
                 );
             }
 
+            if (tableProps.StreamSpecification?.ResourcePolicy) {
+                proxy.touchPath("StreamSpecification.ResourcePolicy.PolicyDocument");
+                implicitDependencies.push(
+                    new DynamodbResourcePolicy(scope, `${id}-stream-resource-policy`, {
+                        policy: Fn.jsonencode(tableProps.StreamSpecification.ResourcePolicy.PolicyDocument),
+                        resourceArn: table.streamArn,
+                    }),
+                );
+            }
+
             if (implicitDependencies.length > 0) {
                 ImplicitDependencyAspect.of(table, implicitDependencies);
             }
@@ -130,6 +140,8 @@ export function registerDynamoDBMappings() {
             // https://github.com/hashicorp/terraform-provider-aws/issues/37256
             "OnDemandThroughput",
             "SSESpecification.SSEType",
+            "GlobalSecondaryIndexes.*.OnDemandThroughput",
+            "KinesisStreamSpecification.ApproximateCreationDateTimePrecision",
         ],
         attributes: {
             Arn: resource => resource.arn,

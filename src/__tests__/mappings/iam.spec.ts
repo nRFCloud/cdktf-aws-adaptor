@@ -9,8 +9,8 @@ import { CfnAccessKey, CfnPolicy, CfnRole } from "aws-cdk-lib/aws-iam";
 import { Testing } from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
-import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
 import { describe, it } from "vitest";
+import { itShouldMapCfnElementToTerraformResource, synthesizeElementAndTestStability } from "../helpers.js";
 
 setupJest();
 describe("IAM Mappings", () => {
@@ -62,6 +62,9 @@ describe("IAM Mappings", () => {
             },
             IamRole,
             {
+                managedPolicyArns: undefined,
+                forceDetachPolicies: undefined,
+                namePrefix: undefined,
                 path: "packages/cdktf-adaptor/src/mappings/services/iam.ts",
                 name: "test-role",
                 assumeRolePolicy:
@@ -120,6 +123,10 @@ describe("IAM Mappings", () => {
             IamPolicy,
             {
                 name: "test-policy",
+                path: undefined,
+                description: undefined,
+                namePrefix: undefined,
+                tags: undefined,
                 policy: "$\{jsonencode(\{\"Version\" = \"2012-10-17\", \"Statement\" = [{\"Effect\" = \"Allow\"}]})\}",
             },
         );
@@ -145,11 +152,14 @@ describe("IAM Mappings", () => {
         {
             status: "Active",
             userName: "test-user",
+            serial: 1,
         },
         IamAccessKey,
         {
             status: "Active",
             user: "test-user",
+            pgpKey: undefined,
         },
+        ["serial"],
     );
 });

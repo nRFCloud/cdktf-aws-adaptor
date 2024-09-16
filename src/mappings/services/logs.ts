@@ -5,7 +5,7 @@ import {
 } from "@cdktf/provider-aws/lib/cloudwatch-log-resource-policy/index.js";
 import { CfnLogGroup, CfnResourcePolicy } from "aws-cdk-lib/aws-logs";
 import { TerraformStack } from "cdktf";
-import { deleteUndefinedKeys, getDeletableObject, registerMapping, registerMappingTyped } from "../utils.js";
+import { deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 interface LogRetentionProps {
     ServiceToken: string;

@@ -44,6 +44,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::EventSourceMapping 1`] = `
         "function_response_types": [
           "functionResponseTypes"
         ],
+        "kms_key_arn": "kmsKeyArn",
         "maximum_batching_window_in_seconds": 1,
         "maximum_record_age_in_seconds": 1,
         "maximum_retry_attempts": 1,
@@ -121,8 +122,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersion 1`] = `
         "license_info": "my-license",
         "s3_bucket": "my-bucket",
         "s3_key": "my-key",
-        "s3_object_version": "my-version",
-        "skip_destroy": true
+        "s3_object_version": "my-version"
       }
     }
   },
@@ -165,7 +165,6 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersionPermission 1`] = 
         "layer_name": "arn:aws:lambda:us-east-1:123456789012:layer:my-layer:1",
         "organization_id": "o-123456",
         "principal": "123456789012",
-        "skip_destroy": true,
         "statement_id": "teststackawstackresourceC278F851",
         "version_number": "\${tonumber(element(split(\\":\\", \\"arn:aws:lambda:us-east-1:123456789012:layer:my-layer:1\\"), 7))}"
       }
@@ -233,6 +232,254 @@ exports[`Lambda mappings > Should map AWS::Lambda::Permission 1`] = `
   "variable": {
     "resource_refs_CDA17697": {
       "default": "\${aws_lambda_permission.resource_22C949BF.id}",
+      "type": "string"
+    }
+  }
+}"
+`;
+
+exports[`Lambda mappings > should map CfnFunction to LambdaFunction 1`] = `
+"{
+  "provider": {
+    "aws": [
+      {
+        "alias": "us_east_1",
+        "region": "us-east-1"
+      }
+    ]
+  },
+  "resource": {
+    "aws_lambda_function": {
+      "resource_22C949BF": {
+        "architectures": [
+          "x86_64"
+        ],
+        "code_signing_config_arn": "codeSigningConfigArn",
+        "dead_letter_config": {
+          "target_arn": "targetArn"
+        },
+        "description": "description",
+        "environment": {
+          "variables": {
+            "key": "value"
+          }
+        },
+        "ephemeral_storage": {
+          "size": 1
+        },
+        "file_system_config": {
+          "arn": "arn",
+          "local_mount_path": "localMountPath"
+        },
+        "function_name": "functionName",
+        "handler": "handler",
+        "image_config": {
+          "command": [
+            "command"
+          ],
+          "entry_point": [
+            "entryPoint"
+          ],
+          "working_directory": "workingDirectory"
+        },
+        "image_uri": "imageUri",
+        "kms_key_arn": "kmsKeyArn",
+        "layers": [
+          "layers"
+        ],
+        "logging_config": {
+          "application_log_level": "applicationLogLevel",
+          "log_format": "logFormat",
+          "log_group": "logGroup",
+          "system_log_level": "systemLogLevel"
+        },
+        "memory_size": 1,
+        "package_type": "packageType",
+        "publish": true,
+        "reserved_concurrent_executions": 1,
+        "role": "role",
+        "runtime": "runtime",
+        "s3_bucket": "s3Bucket",
+        "s3_key": "s3Key",
+        "s3_object_version": "s3ObjectVersion",
+        "snap_start": {
+          "apply_on": "1"
+        },
+        "tags": {
+          "key": "value"
+        },
+        "timeout": 1,
+        "tracing_config": {
+          "mode": "Active"
+        },
+        "vpc_config": {
+          "ipv6_allowed_for_dual_stack": true,
+          "security_group_ids": [
+            "securityGroupIds"
+          ],
+          "subnet_ids": [
+            "subnetIds"
+          ]
+        }
+      }
+    }
+  },
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
+      }
+    },
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
+      }
+    }
+  },
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_lambda_function.resource_22C949BF.arn, \\",\\", \\"[object Object]\\", \\",\\", aws_lambda_function.resource_22C949BF.snap_start[0].apply_on, \\",\\", aws_lambda_function.resource_22C949BF.snap_start[0].optimization_status])}",
+      "type": "string"
+    }
+  }
+}"
+`;
+
+exports[`Lambda mappings > should map CfnFunction with inline zip file to LambdaFunction 1`] = `
+"{
+  "provider": {
+    "archive": [
+      {
+      }
+    ],
+    "aws": [
+      {
+        "alias": "us_east_1",
+        "region": "us-east-1"
+      }
+    ]
+  },
+  "resource": {
+    "archive_file": {
+      "resource_inline-zip-archive_3EB43928": {
+        "output_path": "/var/folders/xq/d7cqhy255z12lx4c5kvwgrsm0000gn/T/c8f445aafa04b954f73da3e7bb70b92b9587014103.zip",
+        "provider": "archive",
+        "source": [
+          {
+            "content": "zipFile",
+            "filename": "index.js"
+          }
+        ],
+        "type": "zip"
+      }
+    },
+    "aws_lambda_function": {
+      "resource_22C949BF": {
+        "architectures": [
+          "x86_64"
+        ],
+        "code_signing_config_arn": "codeSigningConfigArn",
+        "dead_letter_config": {
+          "target_arn": "targetArn"
+        },
+        "description": "description",
+        "environment": {
+          "variables": {
+            "key": "value"
+          }
+        },
+        "ephemeral_storage": {
+          "size": 1
+        },
+        "file_system_config": {
+          "arn": "arn",
+          "local_mount_path": "localMountPath"
+        },
+        "function_name": "functionName",
+        "handler": "handler",
+        "image_config": {
+          "command": [
+            "command"
+          ],
+          "entry_point": [
+            "entryPoint"
+          ],
+          "working_directory": "workingDirectory"
+        },
+        "image_uri": "imageUri",
+        "kms_key_arn": "kmsKeyArn",
+        "layers": [
+          "layers"
+        ],
+        "logging_config": {
+          "application_log_level": "applicationLogLevel",
+          "log_format": "logFormat",
+          "log_group": "logGroup",
+          "system_log_level": "systemLogLevel"
+        },
+        "memory_size": 1,
+        "package_type": "packageType",
+        "publish": true,
+        "reserved_concurrent_executions": 1,
+        "role": "role",
+        "runtime": "runtime",
+        "s3_bucket": "\${aws_s3_object.resource_inline-zip-object_57BC8C94.bucket}",
+        "s3_key": "\${aws_s3_object.resource_inline-zip-object_57BC8C94.key}",
+        "s3_object_version": "\${aws_s3_object.resource_inline-zip-object_57BC8C94.version_id}",
+        "snap_start": {
+          "apply_on": "1"
+        },
+        "tags": {
+          "key": "value"
+        },
+        "timeout": 1,
+        "tracing_config": {
+          "mode": "Active"
+        },
+        "vpc_config": {
+          "ipv6_allowed_for_dual_stack": true,
+          "security_group_ids": [
+            "securityGroupIds"
+          ],
+          "subnet_ids": [
+            "subnetIds"
+          ]
+        }
+      }
+    },
+    "aws_s3_bucket": {
+      "AssetBucket": {
+      }
+    },
+    "aws_s3_object": {
+      "resource_inline-zip-object_57BC8C94": {
+        "bucket": "\${aws_s3_bucket.AssetBucket.bucket}",
+        "key": "c8f445aafa04b954f73da3e7bb70b92b9587014103-inline-zip-object",
+        "source": "\${archive_file.resource_inline-zip-archive_3EB43928.output_path}"
+      }
+    }
+  },
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
+      }
+    },
+    "required_providers": {
+      "archive": {
+        "source": "hashicorp/archive",
+        "version": "2.6.0"
+      },
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
+      }
+    }
+  },
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_lambda_function.resource_22C949BF.arn, \\",\\", \\"[object Object]\\", \\",\\", aws_lambda_function.resource_22C949BF.snap_start[0].apply_on, \\",\\", aws_lambda_function.resource_22C949BF.snap_start[0].optimization_status])}",
       "type": "string"
     }
   }

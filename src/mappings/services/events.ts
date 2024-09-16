@@ -45,6 +45,7 @@ export function registerEventsMappings() {
                         pathParameterValues: target.HttpParameters?.PathParameterValues,
                         queryStringParameters: target.HttpParameters?.QueryStringParameters,
                     },
+
                     ecsTarget: {
                         enableEcsManagedTags: target.EcsParameters?.EnableECSManagedTags,
                         group: target.EcsParameters?.Group,
@@ -126,6 +127,11 @@ export function registerEventsMappings() {
 
             return rule;
         },
+        unsupportedProps: [
+            "Targets.*.EcsParameters.ReferenceId",
+            "Targets.*.RedshiftDataParameters.Sqls",
+            "Targets.*.AppSyncParameters",
+        ],
         attributes: {
             Ref: (rule: CloudwatchEventRule) => rule.id,
             Arn: (rule: CloudwatchEventRule) => rule.arn,

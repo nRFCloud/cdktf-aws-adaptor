@@ -13,6 +13,9 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::InternetGateway 1`] = `
   "resource": {
     "aws_internet_gateway": {
       "resource_22C949BF": {
+        "tags": {
+          "Name": "test-internet-gateway"
+        }
       }
     }
   },
@@ -84,6 +87,76 @@ exports[`EC2 VPC mappings > Should map AWS::EC2::Route 1`] = `
   "variable": {
     "resource_refs_CDA17697": {
       "default": "\${aws_route.resource_22C949BF.destination_cidr_block}",
+      "type": "string"
+    }
+  }
+}"
+`;
+
+exports[`EC2 VPC mappings > Should map AWS::EC2::SecurityGroup 1`] = `
+"{
+  "provider": {
+    "aws": [
+      {
+        "alias": "us_east_1",
+        "region": "us-east-1"
+      }
+    ]
+  },
+  "resource": {
+    "aws_security_group": {
+      "resource_22C949BF": {
+        "description": "test-security-group-description",
+        "name": "test-security-group",
+        "tags": {
+          "Name": "test-security-group"
+        },
+        "vpc_id": "test-vpc-id"
+      }
+    },
+    "aws_vpc_security_group_egress_rule": {
+      "resource_0-egress_4775819E": {
+        "cidr_ipv4": "10.0.0.0/16",
+        "cidr_ipv6": "2001:db8:1234:1a00::/64",
+        "description": "test-security-group-egress-description",
+        "from_port": 0,
+        "ip_protocol": "-1",
+        "prefix_list_id": "destination-prefix-list-id",
+        "referenced_security_group_id": "destination-security-group-id",
+        "security_group_id": "\${aws_security_group.resource_22C949BF.id}",
+        "to_port": 0
+      }
+    },
+    "aws_vpc_security_group_ingress_rule": {
+      "resource_0-ingress_051257B0": {
+        "cidr_ipv4": "10.0.0.0/16",
+        "cidr_ipv6": "2001:db8:1234:1a00::/64",
+        "description": "test-security-group-ingress-description",
+        "from_port": 0,
+        "ip_protocol": "-1",
+        "prefix_list_id": "source-prefix-list-id",
+        "referenced_security_group_id": "source-security-group-id",
+        "security_group_id": "\${aws_security_group.resource_22C949BF.id}",
+        "to_port": 0
+      }
+    }
+  },
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "/terraform.test-stack.tfstate"
+      }
+    },
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "5.65.0"
+      }
+    }
+  },
+  "variable": {
+    "resource_refs_CDA17697": {
+      "default": "\${join(\\"\\", [aws_security_group.resource_22C949BF.id, \\",\\", aws_security_group.resource_22C949BF.id, \\",\\", aws_security_group.resource_22C949BF.vpc_id])}",
       "type": "string"
     }
   }
@@ -330,6 +403,8 @@ exports[`EC2 VPC mappings > Should provision all the components of a VPC 1`] = `
     },
     "aws_internet_gateway": {
       "resource_IGW_222CDE0E": {
+        "tags": {
+        },
         "vpc_id": "\${aws_vpc.resource_AACBEC77.id}"
       }
     },

@@ -1,9 +1,9 @@
-import {AppsyncApiKey} from "@cdktf/provider-aws/lib/appsync-api-key/index.js";
-import {AppsyncDatasource} from "@cdktf/provider-aws/lib/appsync-datasource/index.js";
-import {AppsyncDomainNameApiAssociation} from "@cdktf/provider-aws/lib/appsync-domain-name-api-association/index.js";
-import {AppsyncFunction} from "@cdktf/provider-aws/lib/appsync-function/index.js";
-import {AppsyncGraphqlApi} from "@cdktf/provider-aws/lib/appsync-graphql-api/index.js";
-import {AppsyncResolver} from "@cdktf/provider-aws/lib/appsync-resolver/index.js";
+import { AppsyncApiKey } from "@cdktf/provider-aws/lib/appsync-api-key/index.js";
+import { AppsyncDatasource } from "@cdktf/provider-aws/lib/appsync-datasource/index.js";
+import { AppsyncDomainNameApiAssociation } from "@cdktf/provider-aws/lib/appsync-domain-name-api-association/index.js";
+import { AppsyncFunction } from "@cdktf/provider-aws/lib/appsync-function/index.js";
+import { AppsyncGraphqlApi } from "@cdktf/provider-aws/lib/appsync-graphql-api/index.js";
+import { AppsyncResolver } from "@cdktf/provider-aws/lib/appsync-resolver/index.js";
 import {
     CfnApiKey,
     CfnDataSource,
@@ -12,11 +12,11 @@ import {
     CfnGraphQLApi,
     CfnResolver,
 } from "aws-cdk-lib/aws-appsync";
-import {Fn, TerraformStack} from "cdktf";
-import {resolve} from "cdktf/lib/_tokens.js";
-import {Construct} from "constructs";
-import {AwsTerraformAdaptorStack} from "../../lib/core/cdk-adaptor-stack.js";
-import {deleteUndefinedKeys, registerMapping, registerMappingTyped} from "../utils.js";
+import { Fn, TerraformStack } from "cdktf";
+import { resolve } from "cdktf/lib/_tokens.js";
+import { Construct } from "constructs";
+import { AwsTerraformAdaptorStack } from "../../lib/core/cdk-adaptor-stack.js";
+import { deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 const appsyncApiMapping = new Map<string, AppsyncGraphqlApi>();
 
@@ -85,6 +85,13 @@ export function registerAppSyncMappings() {
                         iatTtl: props.OpenIDConnectConfig?.IatTTL,
                         issuer: props.OpenIDConnectConfig?.Issuer as string,
                     },
+                    enhancedMetricsConfig: {
+                        operationLevelMetricsConfig: props.EnhancedMetricsConfig?.OperationLevelMetricsConfig as string,
+                        resolverLevelMetricsBehavior: props.EnhancedMetricsConfig
+                            ?.ResolverLevelMetricsBehavior as string,
+                        dataSourceLevelMetricsBehavior: props.EnhancedMetricsConfig
+                            ?.DataSourceLevelMetricsBehavior as string,
+                    },
                     tags: Object.fromEntries(
                         props.Tags?.map(({
                             Key: key,
@@ -102,7 +109,6 @@ export function registerAppSyncMappings() {
             "ApiType",
             "MergedApiExecutionRoleArn",
             "EnvironmentVariables",
-            "EnhancedMetricsConfig",
         ],
         attributes: {
             Ref: (resource) => resource.id,

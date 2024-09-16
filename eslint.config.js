@@ -17,6 +17,10 @@ const compat = new FlatCompat({
  */
 export default [
     {
+        languageOptions: {
+            sourceType: "module",
+            ecmaVersion: "latest",
+        },
         plugins: {
             ts
         }

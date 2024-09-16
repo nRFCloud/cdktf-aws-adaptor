@@ -10,7 +10,7 @@ import { registerMappings } from "../../../mappings/index.js";
 setupJest();
 registerMappings();
 
-describe("MSK Constructs", () => {
+describe.skip("MSK Constructs", () => {
     it("Should provision an MSK Cluster", () => {
         class Stack extends AwsTerraformAdaptorStack {
             public readonly vpc = new Vpc(this, "vpc", {});

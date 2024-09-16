@@ -268,7 +268,11 @@ exports[`Apigateway mappings > Should map AWS::ApiGatewayV2::Stage 1`] = `
         "route_settings": [
           {
             "data_trace_enabled": true,
-            "route_key": "route-key"
+            "detailed_metrics_enabled": true,
+            "logging_level": "logging-level",
+            "route_key": "route-key",
+            "throttling_burst_limit": 60,
+            "throttling_rate_limit": 60
           }
         ],
         "stage_variables": {
@@ -397,7 +401,7 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::Deployment 1`] = `
   "resource": {
     "aws_cloudcontrolapi_resource": {
       "resource_22C949BF": {
-        "desired_state": "{\\"DeploymentCanarySettings\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"},\\"UseStageCache\\":true},\\"Description\\":\\"description\\",\\"RestApiId\\":\\"rest-api-id\\",\\"StageDescription\\":{\\"AccessLogSetting\\":{\\"DestinationArn\\":\\"destination-arn\\"},\\"CacheClusterEnabled\\":true,\\"CacheClusterSize\\":\\"cache-cluster-size\\",\\"CacheDataEncrypted\\":true,\\"CacheTtlInSeconds\\":60,\\"CachingEnabled\\":true,\\"CanarySetting\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"}},\\"ClientCertificateId\\":\\"client-certificate-id\\",\\"DataTraceEnabled\\":true,\\"DocumentationVersion\\":\\"documentation-version\\",\\"LoggingLevel\\":\\"logging-level\\",\\"MethodSettings\\":[{\\"CacheDataEncrypted\\":true,\\"CacheTtlInSeconds\\":60,\\"CachingEnabled\\":true,\\"DataTraceEnabled\\":true,\\"HttpMethod\\":\\"http-method\\",\\"LoggingLevel\\":\\"logging-level\\",\\"MetricsEnabled\\":true,\\"ResourcePath\\":\\"resource-path\\",\\"ThrottlingBurstLimit\\":60,\\"ThrottlingRateLimit\\":60}],\\"MetricsEnabled\\":true,\\"ThrottlingBurstLimit\\":60,\\"ThrottlingRateLimit\\":60,\\"TracingEnabled\\":true},\\"StageName\\":\\"stage-name\\"}",
+        "desired_state": "{\\"DeploymentCanarySettings\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"},\\"UseStageCache\\":true},\\"Description\\":\\"description\\",\\"RestApiId\\":\\"rest-api-id\\",\\"StageDescription\\":{\\"AccessLogSetting\\":{\\"DestinationArn\\":\\"destination-arn\\",\\"Format\\":\\"format\\"},\\"CacheClusterEnabled\\":true,\\"CacheClusterSize\\":\\"cache-cluster-size\\",\\"CacheDataEncrypted\\":true,\\"CacheTtlInSeconds\\":60,\\"CachingEnabled\\":true,\\"CanarySetting\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"},\\"UseStageCache\\":true},\\"ClientCertificateId\\":\\"client-certificate-id\\",\\"DataTraceEnabled\\":true,\\"Description\\":\\"description\\",\\"DocumentationVersion\\":\\"documentation-version\\",\\"LoggingLevel\\":\\"logging-level\\",\\"MethodSettings\\":[{\\"CacheDataEncrypted\\":true,\\"CacheTtlInSeconds\\":60,\\"CachingEnabled\\":true,\\"DataTraceEnabled\\":true,\\"HttpMethod\\":\\"http-method\\",\\"LoggingLevel\\":\\"logging-level\\",\\"MetricsEnabled\\":true,\\"ResourcePath\\":\\"resource-path\\",\\"ThrottlingBurstLimit\\":60,\\"ThrottlingRateLimit\\":60}],\\"MetricsEnabled\\":true,\\"Tags\\":[{\\"Key\\":\\"tag\\",\\"Value\\":\\"tag-value\\"}],\\"ThrottlingBurstLimit\\":60,\\"ThrottlingRateLimit\\":60,\\"TracingEnabled\\":true,\\"Variables\\":{\\"stage-variable\\":\\"stage-variable-value\\"}},\\"StageName\\":\\"stage-name\\"}",
         "type_name": "AWS::ApiGateway::Deployment"
       }
     }
@@ -437,7 +441,7 @@ exports[`Apigateway mappings > should map AWS::ApiGateway::Stage 1`] = `
   "resource": {
     "aws_cloudcontrolapi_resource": {
       "resource_22C949BF": {
-        "desired_state": "{\\"AccessLogSetting\\":{\\"DestinationArn\\":\\"destination-arn\\"},\\"CacheClusterEnabled\\":true,\\"CacheClusterSize\\":\\"cache-cluster-size\\",\\"CanarySetting\\":{\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"}},\\"ClientCertificateId\\":\\"client-certificate-id\\",\\"DeploymentId\\":\\"deployment-id\\",\\"Description\\":\\"description\\",\\"DocumentationVersion\\":\\"documentation-version\\",\\"MethodSettings\\":[],\\"RestApiId\\":\\"rest-api-id\\",\\"StageName\\":\\"stage-name\\",\\"TracingEnabled\\":true}",
+        "desired_state": "{\\"AccessLogSetting\\":{\\"DestinationArn\\":\\"destination-arn\\",\\"Format\\":\\"format\\"},\\"CacheClusterEnabled\\":true,\\"CacheClusterSize\\":\\"cache-cluster-size\\",\\"CanarySetting\\":{\\"DeploymentId\\":\\"deployment-id\\",\\"PercentTraffic\\":50,\\"StageVariableOverrides\\":{\\"stage-variable\\":\\"stage-variable-value\\"},\\"UseStageCache\\":true},\\"ClientCertificateId\\":\\"client-certificate-id\\",\\"DeploymentId\\":\\"deployment-id\\",\\"Description\\":\\"description\\",\\"DocumentationVersion\\":\\"documentation-version\\",\\"RestApiId\\":\\"rest-api-id\\",\\"StageName\\":\\"stage-name\\",\\"Tags\\":[{\\"Key\\":\\"tag\\",\\"Value\\":\\"tag-value\\"}],\\"TracingEnabled\\":true,\\"Variables\\":{\\"stage-variable\\":\\"stage-variable-value\\"}}",
         "type_name": "AWS::ApiGateway::Stage"
       }
     }

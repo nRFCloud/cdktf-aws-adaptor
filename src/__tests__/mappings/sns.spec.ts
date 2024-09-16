@@ -23,6 +23,7 @@ describe("SNS mappings", () => {
                     redrivePolicy: { redrivePolicy: true },
                     replayPolicy: { replayPolicy: true },
                     subscriptionRoleArn: "SubscriptionRoleArn",
+                    region: "us-east-1",
                 },
                 SnsTopicSubscription,
                 {
@@ -36,7 +37,10 @@ describe("SNS mappings", () => {
                     redrivePolicy: "${jsonencode({\"redrivePolicy\" = true})}",
                     subscriptionRoleArn: "SubscriptionRoleArn",
                     replayPolicy: "${jsonencode({\"replayPolicy\" = true})}",
+                    confirmationTimeoutInMinutes: undefined,
+                    endpointAutoConfirms: undefined,
                 },
+                ["region"],
             );
         });
     });

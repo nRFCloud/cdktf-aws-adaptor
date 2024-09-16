@@ -40,9 +40,8 @@ describe("Route53 mappings", () => {
                 collectionId: "test-collection-id",
                 locationName: "test-location-name",
             },
-            // FIXME: These are not supported by the provider yet
-            // comment: "test-comment",
-            // hostedZoneName: "test-hosted-zone-name",
+            comment: "test-comment",
+            hostedZoneName: "test-hosted-zone-name",
         },
         Route53Record,
         {
@@ -86,6 +85,8 @@ describe("Route53 mappings", () => {
                 }],
                 localZoneGroup: "test-local-zone-group",
             },
+            allowOverwrite: undefined,
         },
+        ["comment", "hostedZoneName"],
     );
 });

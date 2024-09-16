@@ -143,6 +143,12 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
           }
         ],
         "authentication_type": "API_KEY",
+        "enhanced_metrics_config": {
+          "data_source_level_metrics_behavior": "test-data-source-level-metrics-behavior",
+          "operation_level_metrics_config": "test-operation-level-metrics-config",
+          "resolver_level_metrics_behavior": "test-resolver-level-metrics-behavior"
+        },
+        "introspection_config": "test-introspection-config",
         "lambda_authorizer_config": {
           "authorizer_result_ttl_in_seconds": 60,
           "authorizer_uri": "authorizer-uri",
@@ -160,6 +166,8 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
           "iat_ttl": 60,
           "issuer": "issuer"
         },
+        "query_depth_limit": 60,
+        "resolver_count_limit": 68,
         "tags": {
           "tag-key": "tag-value"
         },

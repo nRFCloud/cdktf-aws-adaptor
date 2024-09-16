@@ -30,6 +30,10 @@ exports[`DynamoDB mappings > Should map AWS::DynamoDB::Table 1`] = `
       "resource_resource-resource-policy_BB2DAEEF": {
         "policy": "\${jsonencode({\\"Version\\" = \\"2012-10-17\\", \\"Statement\\" = [{\\"Effect\\" = \\"Allow\\", \\"Principal\\" = {\\"Service\\" = \\"dynamodb.amazonaws.com\\"}, \\"Action\\" = \\"dynamodb:DescribeTable\\", \\"Resource\\" = \\"*\\"}]})}",
         "resource_arn": "\${aws_dynamodb_table.resource_22C949BF.arn}"
+      },
+      "resource_resource-stream-resource-policy_1D45562B": {
+        "policy": "\${jsonencode({\\"Version\\" = \\"2012-10-17\\", \\"Statement\\" = [{\\"Effect\\" = \\"Allow\\", \\"Principal\\" = {\\"Service\\" = \\"dynamodb.amazonaws.com\\"}, \\"Action\\" = \\"dynamodb:DescribeTable\\", \\"Resource\\" = \\"*\\"}]})}",
+        "resource_arn": "\${aws_dynamodb_table.resource_22C949BF.stream_arn}"
       }
     },
     "aws_dynamodb_table": {

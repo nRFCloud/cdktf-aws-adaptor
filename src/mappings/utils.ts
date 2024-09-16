@@ -3,13 +3,13 @@
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
 import { CfnResource, IResolvable } from "aws-cdk-lib";
 import { Fn, TerraformResource } from "cdktf";
-import { propertyAccess} from "cdktf/lib/tfExpression.js";
-import {Construct} from "constructs";
+import { propertyAccess } from "cdktf/lib/tfExpression.js";
+import { Construct } from "constructs";
 import supportedAwsccResourceTypes from "../lib/core/awscc/supported-types.js";
 import supportedTypes from "../lib/core/awscc/supported-types.js";
+import { AccessTracker } from "./access-tracker.js";
 import { AdaptCfnProps, CfnAttributes } from "./cfn-mapper-types.js";
 import { mapperDebug, mapperWarn, ResourceMapper } from "./helper.js";
-import * as mm from "minimatch"
 
 export function deleteUndefinedKeys<T>(obj: T): T {
     for (const key in obj) {
@@ -111,7 +111,12 @@ export interface CfnMapper<
         new(...args: never): TerraformResource;
     },
 > {
-    resource(scope: Construct, id: string, props: CfnPropsForResourceClass<CfClass>, propProxy: AccessTracker<CfnPropsForResourceClass<CfClass>>): InstanceType<TfClass>;
+    resource(
+        scope: Construct,
+        id: string,
+        props: CfnPropsForResourceClass<CfClass>,
+        propProxy: AccessTracker<CfnPropsForResourceClass<CfClass>>,
+    ): InstanceType<TfClass>;
     unsupportedProps?: string[];
     attributes: {
         [key in keyof CfnAttributes<InstanceType<CfClass>>]: (
@@ -146,145 +151,4 @@ export function registerMappingTyped<
         unsupportedProps: mapper.unsupportedProps as string[],
         attributes: mapper.attributes as unknown as Mapping<TerraformResource>["attributes"],
     });
-}
-
-// // export function registerCustomResourceMapping<
-// //     TfClass extends {
-// //         new(...args: never): Tf;
-// //     },
-// //     Tf extends TerraformResource,
-// // >(resourceType: string, tfClass: TfClass, mapper: Mapping<TfClass>) {
-// //     registerMapping(resourceType, {
-// //
-// //     });
-// // }
-
-// export function getDeletableObject<
-//     T extends {
-//         [key: string]: unknown;
-//     },
-// >(originalObj: T): T {
-//     const obj = JSON.parse(JSON.stringify(originalObj));
-//     return new Proxy(obj, {
-//         get: (target, prop) => {
-//             delete originalObj[prop as keyof T];
-//             return obj[prop as keyof T];
-//         },
-//     });
-// }
-
-export class AccessTracker<T> {
-    private accessedProperties: Set<string> = new Set();
-    private properties: Set<string> = new Set();
-
-    private obj: T;
-    public proxy: T;
-
-    constructor(obj: T) {
-        this.obj = JSON.parse(JSON.stringify(obj));
-        this.proxy = this.createProxy(obj);
-        this.properties = new Set(this.inspectProperties(obj));
-
-        // Lock the object to prevent further modifications
-        Object.freeze(this.obj);
-    }
-
-    private createProxy(target: T, path: string[] = []): T {
-        if (typeof target !== "object" || target === null) {
-            throw new Error("Target is not an object");
-        }
-
-        return new Proxy(target, {
-            get: (obj, prop) => {
-                const propPath = [...path, prop.toString()].join(".");
-                if (path.length === 0 && !this.properties.has(propPath)) {
-                    return
-                }
-                this.accessedProperties.add(propPath);
-                const value = obj[prop as keyof typeof obj];
-                if (value && typeof value === "object") {
-                    return this.createProxy(value as T, [...path, prop.toString()]);
-                }
-                return value;
-            }
-        });
-    }
-
-    private inspectProperties(obj: T, path: string[] = []): string[] {
-        const properties = [];
-        for (const key in obj) {
-            if (obj[key] === undefined) {
-                continue;
-            }
-            const propPath = [...path, key].join(".");
-            properties.push(propPath);
-            if (obj[key] && typeof obj[key] === "object") {
-                properties.push(...this.inspectProperties(obj[key] as T, [...path, key]));
-            }
-        }
-        return properties;
-    }
-
-    public isAllPropertiesAccessed(): boolean {
-        for (const property of this.properties) {
-            if (!this.accessedProperties.has(property)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public hasProperty(path: string): boolean {
-        const pattern = this.pathToReg(path);
-        for (const property of this.properties) {
-            if (pattern.test(property)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Removes all properties under the given JSON path from the properties list
-     */
-    public removePropertiesUnderPath(path: string): void {
-        const regExp = this.pathToReg(path);
-        for (const property of Array.from(this.properties)) {
-            if (regExp.test(property)) {
-                this.properties.delete(property);
-                this.accessedProperties.delete(property);
-            }
-        }
-    }
-
-    private pathToReg(path: string): RegExp {
-        const parts = path.split(".");
-        const regParts = parts.map(part =>
-            part === "*" ? "[^.]*" : part
-        );
-        return new RegExp(`^${regParts.join("\\.")}`);
-    }
-
-    public getUnaccessedProperties(): string[] {
-        return Array.from(this.properties).filter((property) => !this.accessedProperties.has(property));
-    }
-
-    public getAccessedProperties(): string[] {
-        return Array.from(this.accessedProperties);
-    }
-
-    public touchPathReg(exp: RegExp): void {
-        for (const property of this.properties) {
-            if (exp.test(property)) {
-                this.accessedProperties.add(property);
-            }
-        }
-    }
-
-    /**
-     * Touches all paths under the given JSON path
-     */
-    public touchPath(path: string): void {
-        this.touchPathReg(this.pathToReg(path));
-    }
 }

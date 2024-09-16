@@ -14,7 +14,6 @@ import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 export function registerIamMappings() {
     registerMappingTyped(CfnRole, IamRole, {
         resource(scope, id, props, proxy) {
-    
             proxy.touchPath("AssumeRolePolicyDocument");
             proxy.touchPath("Policies.*.PolicyDocument");
             const roleProps: IamRoleConfig = {

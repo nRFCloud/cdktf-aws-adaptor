@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@cdktf/provider-archive':
+        specifier: 10.2.0
+        version: 10.2.0(cdktf@0.20.8(constructs@10.3.0))(constructs@10.3.0)
       camel-case:
         specifier: ^4.1.2
         version: 4.1.2
@@ -300,6 +303,13 @@ packages:
 
   '@cdktf/node-pty-prebuilt-multiarch@0.10.1-pre.10':
     resolution: {integrity: sha512-5ysQrHJvqYLYg407KvaDNu+xx68ZGaqeF0SohXe5e4yNqJhPFPUQ536rkReQcPc2yZiF5PDmmvf5T9MOacHpSQ==}
+
+  '@cdktf/provider-archive@10.2.0':
+    resolution: {integrity: sha512-rVfc1ji0X0lIV96AScR1YSDtTgr4rrUslXKb4/VgBj6xwoPdCpCWSlJbDi/okfktseGX3Tlzys19xC/qbUm29g==}
+    engines: {node: '>= 18.12.0'}
+    peerDependencies:
+      cdktf: ^0.20.0
+      constructs: ^10.3.0
 
   '@cdktf/provider-aws@19.33.0':
     resolution: {integrity: sha512-21dhJPSMwTL/lLJacj7R+qnW7NrRFIWcvbSblKrAdNduMf24Th+9fcd8kTHoXv1jPGN9eC6kK/XOPxna6YHdrw==}
@@ -3180,8 +3190,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  typescript@5.7.0-dev.20240912:
-    resolution: {integrity: sha512-mDTEqq6tLag5w75BeGd1g9t64z7dlhTl/3x0CP1bG/638MXiBbvCoI5sbkcEY0UoYUxP7EeIi7ZI6HBd9lDPFw==}
+  typescript@5.7.0-dev.20240916:
+    resolution: {integrity: sha512-PvqtY2wVBTIlHc0+Vs3w3UNntEzSho0uNm56c8D3mFINC/WFcEyOszkwxjSKyqVwEv62zl6xg+p7Ilt3H6yOJA==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -3993,6 +4003,11 @@ snapshots:
     dependencies:
       nan: 2.18.0
       prebuild-install: 7.1.1
+
+  '@cdktf/provider-archive@10.2.0(cdktf@0.20.8(constructs@10.3.0))(constructs@10.3.0)':
+    dependencies:
+      cdktf: 0.20.8(constructs@10.3.0)
+      constructs: 10.3.0
 
   '@cdktf/provider-aws@19.33.0(cdktf@0.20.8(constructs@10.3.0))(constructs@10.3.0)':
     dependencies:
@@ -5502,7 +5517,7 @@ snapshots:
     dependencies:
       semver: 7.6.0
       shelljs: 0.8.5
-      typescript: 5.7.0-dev.20240912
+      typescript: 5.7.0-dev.20240916
 
   dprint@0.35.4:
     dependencies:
@@ -7335,7 +7350,7 @@ snapshots:
 
   typescript@5.3.3: {}
 
-  typescript@5.7.0-dev.20240912: {}
+  typescript@5.7.0-dev.20240916: {}
 
   unbox-primitive@1.0.2:
     dependencies:

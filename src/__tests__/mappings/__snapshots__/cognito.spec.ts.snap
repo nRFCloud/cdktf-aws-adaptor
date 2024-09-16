@@ -184,6 +184,10 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
           "pre_authentication": "pre-authentication",
           "pre_sign_up": "pre-sign-up",
           "pre_token_generation": "pre-token-generation",
+          "pre_token_generation_config": {
+            "lambda_arn": "lambda-arn",
+            "lambda_version": "lambda-version"
+          },
           "user_migration": "user-migration",
           "verify_auth_challenge_response": "verify-auth-challenge-response"
         },
@@ -191,6 +195,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
         "name": "user-pool-name",
         "password_policy": {
           "minimum_length": 60,
+          "password_history_size": 60,
           "require_lowercase": true,
           "require_numbers": true,
           "require_symbols": true,

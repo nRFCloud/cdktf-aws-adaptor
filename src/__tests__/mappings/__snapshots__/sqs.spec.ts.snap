@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Logs mappings > Should map AWS::Logs::LogGroup 1`] = `
+exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to multiple SqsQueuePolicy 1`] = `
 "{
   "provider": {
     "aws": [
@@ -11,15 +11,17 @@ exports[`Logs mappings > Should map AWS::Logs::LogGroup 1`] = `
     ]
   },
   "resource": {
-    "aws_cloudwatch_log_group": {
+    "aws_sqs_queue_policy": {
       "resource_22C949BF": {
-        "kms_key_id": "test-kms-key-id",
-        "log_group_class": "test-log-group-class",
-        "name": "test-log-group-name",
-        "retention_in_days": 1,
-        "tags": {
-          "test-tag-key": "test-tag-value"
-        }
+        "depends_on": [
+          "aws_sqs_queue_policy.resource_resource0_0E1F9B69"
+        ],
+        "policy": "\${jsonencode({\\"read\\" = true})}",
+        "queue_url": "https://sqs:us-east-2.amazonaws.com/444455556666/queue2"
+      },
+      "resource_resource0_0E1F9B69": {
+        "policy": "\${jsonencode({\\"read\\" = true})}",
+        "queue_url": "https://sqs:us-east-2.amazonaws.com/444455556666/queue1"
       }
     }
   },
@@ -38,14 +40,14 @@ exports[`Logs mappings > Should map AWS::Logs::LogGroup 1`] = `
   },
   "variable": {
     "resource_refs_CDA17697": {
-      "default": "\${aws_cloudwatch_log_group.resource_22C949BF.arn}",
+      "default": "\${aws_sqs_queue_policy.resource_22C949BF.id}",
       "type": "string"
     }
   }
 }"
 `;
 
-exports[`Logs mappings > Should map AWS::Logs::ResourcePolicy 1`] = `
+exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to single SqsQueuePolicy 1`] = `
 "{
   "provider": {
     "aws": [
@@ -56,10 +58,10 @@ exports[`Logs mappings > Should map AWS::Logs::ResourcePolicy 1`] = `
     ]
   },
   "resource": {
-    "aws_cloudwatch_log_resource_policy": {
+    "aws_sqs_queue_policy": {
       "resource_22C949BF": {
-        "policy_document": "\${join(\\"\\", [\\"{\\\\\\"Version\\\\\\":\\\\\\"2012-10-17\\\\\\",\\\\\\"Statement\\\\\\":[{\\\\\\"Sid\\\\\\":\\\\\\"test-sid\\\\\\",\\\\\\"Effect\\\\\\":\\\\\\"Allow\\\\\\",\\\\\\"Principal\\\\\\":{\\\\\\"AWS\\\\\\":\\\\\\"test-principal\\\\\\"},\\\\\\"Action\\\\\\":\\\\\\"logs:PutLogEvents\\\\\\",\\\\\\"Resource\\\\\\":\\\\\\"test-resource\\\\\\"}]}\\"])}",
-        "policy_name": "test-policy-name"
+        "policy": "\${jsonencode({\\"read\\" = true})}",
+        "queue_url": "https://sqs:us-east-2.amazonaws.com/444455556666/queue1"
       }
     }
   },
@@ -78,7 +80,7 @@ exports[`Logs mappings > Should map AWS::Logs::ResourcePolicy 1`] = `
   },
   "variable": {
     "resource_refs_CDA17697": {
-      "default": "",
+      "default": "\${aws_sqs_queue_policy.resource_22C949BF.id}",
       "type": "string"
     }
   }

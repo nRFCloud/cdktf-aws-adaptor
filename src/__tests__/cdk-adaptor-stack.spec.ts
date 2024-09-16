@@ -518,8 +518,12 @@ describe("Stack synthesis", () => {
                 outdir: dirname,
             });
             class TestStack1 extends AwsTerraformAdaptorStack {
+                public readonly bucket = new Bucket(this, "bucket", {
+                    bucketName: "cdktf-test-bucket",
+                });
+
                 public lambda = new Function(this, "lambda", {
-                    code: Code.fromInline("console.log('yay')"),
+                    code: Code.fromBucket(this.bucket, "test-lambda-asset"),
                     handler: "index.handler",
                     runtime: Runtime.NODEJS_LATEST,
                 });

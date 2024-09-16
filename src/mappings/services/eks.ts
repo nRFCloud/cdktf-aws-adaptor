@@ -1,5 +1,3 @@
-import {registerMappingTyped} from "../utils.js";
-
 export function registerEcsMappings() {
     // registerMapping("Custom::AWSCDK-EKS-Cluster", {
     //     resource: (scope, id, props) => {
@@ -53,6 +51,4 @@ export function registerEcsMappings() {
     //         OpenIdConnectIssuer: (resource: EksCluster) => resource.identity.get(0).oidc.get(0).issuer,
     //     }
     // })
-
-
 }

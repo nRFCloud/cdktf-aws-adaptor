@@ -10,7 +10,7 @@
 //                 allocatedStorage: props?.AllocatedStorage,
 //                 dbClusterInstanceClass: props?.DbClusterInstanceClass,
 //                 snapshotIdentifier: props?.SnapshotIdentifier,
-//                 engine: props!.Engine!,
+//                 engine: props?.Engine,
 //                 engineVersion: props?.EngineVersion,
 //                 backtrackWindow: props?.BacktrackWindow,
 //                 backupRetentionPeriod: props?.BackupRetentionPeriod,
