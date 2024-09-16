@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.10.0
+
+### Minor Changes
+
+- a23ee43: construct stability fixes
+
 ## 0.9.0
 
 ### Minor Changes
