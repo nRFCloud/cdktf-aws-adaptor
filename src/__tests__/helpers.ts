@@ -18,6 +18,7 @@ import { AccessTracker } from "../mappings/access-tracker.js";
 export function synthesizeConstructAndTestStability<T extends Construct, C extends Class<T>>(
     constructClass: C,
     props: ConstructorParameters<C>[2],
+    disableSnapshot = false,
 ) {
     class TestClass extends AwsTerraformAdaptorStack {
         public readonly resource: T = new constructClass(this, "resource", props);
@@ -33,7 +34,7 @@ export function synthesizeConstructAndTestStability<T extends Construct, C exten
     });
     testStack.prepareStack();
     const synthStack = Testing.synth(testStack);
-    expect(synthStack).toMatchSnapshot();
+    if (!disableSnapshot) expect(synthStack).toMatchSnapshot();
 
     return {
         resource: testStack.resource,
@@ -67,6 +68,7 @@ export function synthesizeElementAndTestStability<
     terraformClass: TC,
     terraformProps: Omit<DeepRequiredProperties<ConstructorParameters<TC>[2]>, BaseTfResourceProps>,
     unsupportedCfPropPaths: string[] = [],
+    disableSnapshot = false,
 ) {
     class ConstructWrapper extends Construct {
         public readonly resource: C;
@@ -94,7 +96,7 @@ export function synthesizeElementAndTestStability<
         // Attempt to create a new instance of the construct with the unsupported properties
         // This should throw an error if the properties are not removed
         try {
-            synthesizeConstructAndTestStability(ConstructWrapper, props);
+            synthesizeConstructAndTestStability(ConstructWrapper, props, disableSnapshot);
             throw new Error(
                 `Expected an error when creating an instance of ${constructClass.name} with unsupported properties: ${unsupportedProps}`,
             );
@@ -111,7 +113,7 @@ export function synthesizeElementAndTestStability<
     const propProxy = new AccessTracker(props);
     unsupportedCfPropPaths.forEach(path => propProxy.removePropertiesUnderPath(path));
 
-    const output = synthesizeConstructAndTestStability(ConstructWrapper, propProxy.clone());
+    const output = synthesizeConstructAndTestStability(ConstructWrapper, propProxy.clone(), disableSnapshot);
     const transformedResource = output.resource.node.tryFindChild("resource") as T;
     expectResourcePropertiesMatch(transformedResource, terraformClass, terraformProps);
 
@@ -150,6 +152,7 @@ export function itShouldMapCfnElementToTerraformResource<
     terraformClass: TC,
     terraformProps: Omit<DeepRequiredProperties<ConstructorParameters<TC>[2]>, BaseTfResourceProps>,
     unsupportedCfPropPaths: string[] = [],
+    disableSnapshot = false,
 ) {
     it(`Should map ${(constructClass as unknown as { CFN_RESOURCE_TYPE_NAME: string }).CFN_RESOURCE_TYPE_NAME}`, () => {
         synthesizeElementAndTestStability(
@@ -158,6 +161,7 @@ export function itShouldMapCfnElementToTerraformResource<
             terraformClass,
             terraformProps,
             unsupportedCfPropPaths,
+            disableSnapshot,
         );
     });
 }

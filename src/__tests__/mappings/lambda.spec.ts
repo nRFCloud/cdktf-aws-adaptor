@@ -376,6 +376,7 @@ describe("Lambda mappings", () => {
                 },
             },
             ["runtimeManagementConfig", "recursiveLoop", "code.sourceKmsKeyArn"],
+            true,
         );
     });
 
