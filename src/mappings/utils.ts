@@ -51,10 +51,10 @@ export function createGenericCCApiMapping(
     }
 
     return {
-        resource: (scope, id, props) => {
+        resource: (scope, id, props, proxy) => {
+            proxy.touchPath("*");
             // clone object as we have to delete props from the original one
             const desiredState = Fn.jsonencode({ ...props });
-            for (const key of Object.keys(props)) delete props[key];
 
             return new CloudcontrolapiResource(scope, id, {
                 desiredState,
