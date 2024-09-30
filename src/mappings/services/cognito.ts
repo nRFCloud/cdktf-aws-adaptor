@@ -180,8 +180,6 @@ export function registerCognitoMappings() {
                     configurationSet: userPool?.EmailConfiguration?.ConfigurationSet,
                     emailSendingAccount: userPool?.EmailConfiguration?.EmailSendingAccount,
                 },
-                // emailVerificationMessage: userPool?.EmailVerificationMessage,
-                // emailVerificationSubject: userPool?.EmailVerificationSubject,
                 lambdaConfig: {
                     createAuthChallenge: userPool?.LambdaConfig?.CreateAuthChallenge,
                     customMessage: userPool?.LambdaConfig?.CustomMessage,
@@ -267,13 +265,7 @@ export function registerCognitoMappings() {
                 },
             };
 
-            const cleaned = deleteUndefinedKeys(mapped);
-
-            const pool = new CognitoUserPool(
-                scope,
-                id,
-                cleaned,
-            );
+            const pool = new CognitoUserPool(scope, id, deleteUndefinedKeys(mapped));
 
             pool.name = mapped.name || Names.uniqueResourceName(pool, { maxLength: 64 });
             return pool;
@@ -281,6 +273,8 @@ export function registerCognitoMappings() {
         unsupportedProps: [
             "AdminCreateUserConfig.UnusedAccountValidityDays",
             "UserPoolAddOns.AdvancedSecurityAdditionalFlows",
+            "EmailAuthenticationMessage",
+            "EmailAuthenticationSubject",
         ],
         attributes: {
             Ref: resource => resource.id,
@@ -299,7 +293,7 @@ export function registerCognitoMappings() {
                 certificateArn: userPoolDomain.CustomDomainConfig?.CertificateArn,
             };
 
-            return new CognitoUserPoolDomain(scope, id, mapped);
+            return new CognitoUserPoolDomain(scope, id, deleteUndefinedKeys(mapped));
         },
         attributes: {
             Ref: resource => resource.id,
