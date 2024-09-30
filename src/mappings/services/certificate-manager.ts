@@ -7,7 +7,7 @@ import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
 export function registerCertificateManagerMappings() {
     registerMappingTyped(CfnCertificate, AcmCertificate, {
-        resource(scope, id, props) {
+        resource(scope, id, props, proxy) {
             const cert = new AcmCertificate(
                 scope,
                 id,
@@ -29,6 +29,7 @@ export function registerCertificateManagerMappings() {
             );
 
             if (props.ValidationMethod === "DNS") {
+                proxy.touchPath("DomainValidationOptions.*.HostedZoneId");
                 const hostedZoneId = props.DomainValidationOptions?.[0].HostedZoneId
                     ?? new DataAwsRoute53Zone(scope, `${id}-zone-data`, {
                         name: props.DomainName,
