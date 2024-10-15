@@ -7,6 +7,10 @@ import {
     CognitoUserPoolClient,
     CognitoUserPoolClientConfig,
 } from "@cdktf/provider-aws/lib/cognito-user-pool-client/index.js";
+import {
+    CognitoUserPoolDomain,
+    CognitoUserPoolDomainConfig,
+} from "@cdktf/provider-aws/lib/cognito-user-pool-domain/index.js";
 import { CognitoUserPool, CognitoUserPoolConfig } from "@cdktf/provider-aws/lib/cognito-user-pool/index.js";
 import { Names } from "aws-cdk-lib";
 import {
@@ -14,6 +18,7 @@ import {
     CfnIdentityPoolRoleAttachment,
     CfnUserPool,
     CfnUserPoolClient,
+    CfnUserPoolDomain,
 } from "aws-cdk-lib/aws-cognito";
 import { deleteUndefinedKeys, registerMappingTyped } from "../utils.js";
 
@@ -175,8 +180,6 @@ export function registerCognitoMappings() {
                     configurationSet: userPool?.EmailConfiguration?.ConfigurationSet,
                     emailSendingAccount: userPool?.EmailConfiguration?.EmailSendingAccount,
                 },
-                // emailVerificationMessage: userPool?.EmailVerificationMessage,
-                // emailVerificationSubject: userPool?.EmailVerificationSubject,
                 lambdaConfig: {
                     createAuthChallenge: userPool?.LambdaConfig?.CreateAuthChallenge,
                     customMessage: userPool?.LambdaConfig?.CustomMessage,
@@ -262,13 +265,7 @@ export function registerCognitoMappings() {
                 },
             };
 
-            const cleaned = deleteUndefinedKeys(mapped);
-
-            const pool = new CognitoUserPool(
-                scope,
-                id,
-                cleaned,
-            );
+            const pool = new CognitoUserPool(scope, id, deleteUndefinedKeys(mapped));
 
             pool.name = mapped.name || Names.uniqueResourceName(pool, { maxLength: 64 });
             return pool;
@@ -276,6 +273,8 @@ export function registerCognitoMappings() {
         unsupportedProps: [
             "AdminCreateUserConfig.UnusedAccountValidityDays",
             "UserPoolAddOns.AdvancedSecurityAdditionalFlows",
+            "EmailAuthenticationMessage",
+            "EmailAuthenticationSubject",
         ],
         attributes: {
             Ref: resource => resource.id,
@@ -283,6 +282,23 @@ export function registerCognitoMappings() {
             Arn: resource => resource.arn,
             ProviderName: resource => resource.endpoint,
             ProviderURL: resource => `https://${resource.endpoint}`,
+        },
+    });
+
+    registerMappingTyped(CfnUserPoolDomain, CognitoUserPoolDomain, {
+        resource(scope, id, userPoolDomain) {
+            const mapped: CognitoUserPoolDomainConfig = {
+                domain: userPoolDomain.Domain,
+                userPoolId: userPoolDomain.UserPoolId,
+                certificateArn: userPoolDomain.CustomDomainConfig?.CertificateArn,
+            };
+
+            return new CognitoUserPoolDomain(scope, id, deleteUndefinedKeys(mapped));
+        },
+        attributes: {
+            Ref: resource => resource.id,
+            Id: resource => resource.id,
+            CloudFrontDistribution: resource => resource.cloudfrontDistribution,
         },
     });
 }
