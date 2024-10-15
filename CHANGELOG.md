@@ -1,5 +1,11 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.10.2
+
+### Patch Changes
+
+- 90e4e7c: Added mapping for CognitoUserPoolDomain
+
 ## 0.10.1
 
 ### Patch Changes
