@@ -34,7 +34,7 @@ exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to multiple SqsQu
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -74,7 +74,7 @@ exports[`SQS mappings > AWS:SQS:QueuePolicy > should translate to single SqsQueu
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

@@ -45,12 +45,12 @@ export function synthesizeConstructAndTestStability<T extends Construct, C exten
     };
 }
 
-type DeepRequiredProperties<T> = {
+export type DeepRequiredProperties<T> = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [K in keyof Required<T>]: NotAny<T[K]> extends never ? any : DeepRequiredProperties<T[K]>;
 };
 
-type DeepRequired<T> = {
+export type DeepRequired<T> = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [K in keyof T]-?: NotAny<T[K]> extends never ? any : DeepRequired<T[K]>;
 };

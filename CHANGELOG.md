@@ -1,5 +1,15 @@
 # @nrfcloud/cdktf-aws-adaptor
 
+## 0.11.0
+
+### Minor Changes
+
+- dd7136f: update cdk versions
+
+### Patch Changes
+
+- 50e4242: update cc supported resources
+
 ## 0.10.2
 
 ### Patch Changes

@@ -1,10 +1,12 @@
+import { cloudwatchLogIndexPolicy } from "@cdktf/provider-aws";
 import { CloudwatchLogGroup, CloudwatchLogGroupConfig } from "@cdktf/provider-aws/lib/cloudwatch-log-group/index.js";
 import {
     CloudwatchLogResourcePolicy,
     CloudwatchLogResourcePolicyConfig,
 } from "@cdktf/provider-aws/lib/cloudwatch-log-resource-policy/index.js";
 import { CfnLogGroup, CfnResourcePolicy } from "aws-cdk-lib/aws-logs";
-import { TerraformStack } from "cdktf";
+import { Fn, type TerraformResource, TerraformStack } from "cdktf";
+import { ImplicitDependencyAspect } from "../implicit-dependency-aspect.js";
 import { deleteUndefinedKeys, registerMapping, registerMappingTyped } from "../utils.js";
 
 interface LogRetentionProps {
@@ -54,7 +56,7 @@ export function registerLogMappings() {
     });
 
     registerMappingTyped(CfnLogGroup, CloudwatchLogGroup, {
-        resource: (scope, id, props) => {
+        resource: (scope, id, props, proxy) => {
             const config: CloudwatchLogGroupConfig = {
                 name: props?.LogGroupName,
                 logGroupClass: props?.LogGroupClass,
@@ -63,7 +65,25 @@ export function registerLogMappings() {
                 tags: Object.fromEntries(props?.Tags?.map(tag => [tag.Key, tag.Value]) ?? []),
             };
 
-            return new CloudwatchLogGroup(scope, id, deleteUndefinedKeys(config));
+            const implicitDependencies: TerraformResource[] = [];
+
+            const logGroup = new CloudwatchLogGroup(scope, id, deleteUndefinedKeys(config));
+
+            if (props?.FieldIndexPolicies) {
+                proxy.touchPath("FieldIndexPolicies");
+                for (const [idx, policy] of props.FieldIndexPolicies.entries()) {
+                    implicitDependencies.push(
+                        new cloudwatchLogIndexPolicy.CloudwatchLogIndexPolicy(logGroup, `index-policy-${idx}`, {
+                            logGroupName: logGroup.name,
+                            policyDocument: Fn.jsonencode(policy),
+                        }),
+                    );
+                }
+            }
+
+            ImplicitDependencyAspect.of(logGroup, implicitDependencies);
+
+            return logGroup;
         },
         unsupportedProps: ["DataProtectionPolicy"],
         attributes: {

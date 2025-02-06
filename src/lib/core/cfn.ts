@@ -4,15 +4,27 @@ export interface CloudFormationResource {
     readonly Condition?: string;
 }
 
-export interface CloudFormationTemplate {
-    Resources?: { [id: string]: CloudFormationResource };
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Conditions?: { [id: string]: any };
-    Outputs?: { [id: string]: CloudFormationOutput };
-    Mappings?: { [id: string]: { [key: string]: unknown } };
-}
-
 export interface CloudFormationOutput {
     readonly Description?: string;
     readonly Value: unknown;
+}
+
+export interface CloudFormationParameter {
+    Type: string;
+    Description?: string;
+    Default?: unknown;
+    AllowedPattern?: string;
+    AllowedValues?: unknown[];
+    MinValue?: number;
+    MaxValue?: number;
+    MinLength?: number;
+    MaxLength?: number;
+}
+
+export interface CloudFormationTemplate {
+    Parameters?: { [key: string]: CloudFormationParameter };
+    Outputs?: { [key: string]: CloudFormationOutput };
+    Mappings?: { [key: string]: unknown };
+    Conditions?: { [key: string]: unknown };
+    Resources?: { [key: string]: CloudFormationResource };
 }

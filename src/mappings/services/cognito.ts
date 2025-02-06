@@ -152,6 +152,10 @@ export function registerCognitoMappings() {
             userPool?.SmsVerificationMessage;
 
             const mapped: CognitoUserPoolConfig = {
+                emailMfaConfiguration: {
+                    message: userPool?.EmailAuthenticationMessage,
+                    subject: userPool?.EmailAuthenticationSubject,
+                },
                 deletionProtection: userPool?.DeletionProtection,
                 userAttributeUpdateSettings: {
                     attributesRequireVerificationBeforeUpdate: userPool?.UserAttributeUpdateSettings
@@ -240,6 +244,17 @@ export function registerCognitoMappings() {
                     minimumLength: userPool?.Policies?.PasswordPolicy?.MinimumLength,
                     passwordHistorySize: userPool?.Policies?.PasswordPolicy?.PasswordHistorySize,
                 },
+                userPoolTier: userPool?.UserPoolTier,
+                webAuthnConfiguration: {
+                    userVerification: userPool?.WebAuthnUserVerification,
+                    relyingPartyId: userPool?.WebAuthnRelyingPartyID,
+                },
+                signInPolicy: {
+                    allowedFirstAuthFactors: userPool?.Policies?.SignInPolicy?.AllowedFirstAuthFactors,
+                },
+                emailVerificationMessage: userPool?.EmailVerificationMessage,
+                emailVerificationSubject: userPool?.EmailVerificationSubject,
+
                 usernameAttributes: userPool?.UsernameAttributes,
                 usernameConfiguration: {
                     caseSensitive: userPool?.UsernameConfiguration?.CaseSensitive as boolean,
@@ -273,8 +288,6 @@ export function registerCognitoMappings() {
         unsupportedProps: [
             "AdminCreateUserConfig.UnusedAccountValidityDays",
             "UserPoolAddOns.AdvancedSecurityAdditionalFlows",
-            "EmailAuthenticationMessage",
-            "EmailAuthenticationSubject",
         ],
         attributes: {
             Ref: resource => resource.id,
@@ -295,6 +308,7 @@ export function registerCognitoMappings() {
 
             return new CognitoUserPoolDomain(scope, id, deleteUndefinedKeys(mapped));
         },
+        unsupportedProps: ["ManagedLoginVersion"],
         attributes: {
             Ref: resource => resource.id,
             Id: resource => resource.id,

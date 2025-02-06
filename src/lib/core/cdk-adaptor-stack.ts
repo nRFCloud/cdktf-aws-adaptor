@@ -4,6 +4,7 @@ import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-avail
 import { DataAwsCallerIdentity } from "@cdktf/provider-aws/lib/data-aws-caller-identity/index.js";
 import { DataAwsPartition } from "@cdktf/provider-aws/lib/data-aws-partition/index.js";
 import { DataAwsRegion } from "@cdktf/provider-aws/lib/data-aws-region/index.js";
+import { DataAwsSsmParameter } from "@cdktf/provider-aws/lib/data-aws-ssm-parameter/index.js";
 import { AwsProvider } from "@cdktf/provider-aws/lib/provider/index.js";
 import {
     CfnElement,
@@ -37,7 +38,12 @@ import { toSnakeCase } from "codemaker";
 import { Construct, ConstructOrder, IConstruct } from "constructs";
 import { AccessTracker } from "../../mappings/access-tracker.js";
 import { findMapping, Mapping } from "../../mappings/utils.js";
-import { CloudFormationOutput, CloudFormationResource, CloudFormationTemplate } from "./cfn.js";
+import {
+    CloudFormationOutput,
+    CloudFormationParameter,
+    CloudFormationResource,
+    CloudFormationTemplate,
+} from "./cfn.js";
 import { reparentConstruct } from "./construct-helpers.js";
 import { TerraformSynthesizer } from "./terraform-synthesizer.js";
 
@@ -89,6 +95,9 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
     } = {};
     private variableMap: {
         [name: string]: TerraformVariable;
+    } = {};
+    private parameterMap: {
+        [logicalId: string]: TerraformVariable | DataAwsSsmParameter;
     } = {};
 
     public get partition(): string {
@@ -290,10 +299,136 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
             element._toCloudFormation(),
         ) as CloudFormationTemplate;
 
+        this.processCfnParameters(element, cfn);
         this.processCfnOutputs(cfn);
         this.processCfnMappings(cfn);
         this.processCfnConditions(cfn);
         this.processCfnResources(element, cfn);
+    }
+
+    private processCfnParameters(element: CfnElement, cfn: CloudFormationTemplate) {
+        for (const [logicalId, parameter] of Object.entries(cfn.Parameters || {})) {
+            // Create a TerraformVariable for every parameter
+            const terraformType = this.mapCfnTypeToTerraformType(parameter.Type);
+            let defaultValue = parameter.Default;
+
+            // Handle SSM parameter types
+            if (this.isSSMParameterType(parameter.Type)) {
+                // Create the SSM parameter data source
+                const ssmParam = new DataAwsSsmParameter(this, `ssm_${logicalId}`, {
+                    name: parameter.Default as string,
+                    withDecryption: this.shouldDecryptSSMParameter(parameter.Type),
+                });
+
+                // Map SSM value to the appropriate type
+                defaultValue = this.mapSSMValueToType(ssmParam.value, parameter.Type);
+
+                // Store SSM parameter for reference resolution
+                this.parameterMap[`ssm_${logicalId}`] = ssmParam;
+            } else if (parameter.Type === "AWS::SSM::Parameter::Name") {
+                // For AWS::SSM::Parameter::Name, we only validate existence
+                // Create a DataAwsSsmParameter to verify the parameter exists
+                const ssmParam = new DataAwsSsmParameter(this, `ssm_${logicalId}`, {
+                    name: parameter.Default as string,
+                });
+
+                // The variable will store the parameter name, not its value
+                defaultValue = parameter.Default;
+
+                // Add a dependency on the SSM parameter to ensure it exists
+                element.node.addDependency(ssmParam);
+            }
+
+            // Create a TerraformVariable for the parameter
+            const variable = new TerraformVariable(this, element.node.id, {
+                type: terraformType,
+                description: parameter.Description,
+                default: defaultValue,
+                nullable: !parameter.Default,
+                validation: this.createParameterValidation(parameter),
+            });
+
+            // Store the variable for reference resolution
+            this.parameterMap[logicalId] = variable;
+        }
+    }
+
+    private isSSMParameterType(type: string): boolean {
+        // AWS::SSM::Parameter::Name is not a Value<Type> parameter
+        return type.startsWith("AWS::SSM::Parameter::Value<") && type.endsWith(">");
+    }
+
+    private shouldDecryptSSMParameter(type: string): boolean {
+        // SecureString parameters should be decrypted
+        return type === "AWS::SSM::Parameter::Value<SecureString>";
+    }
+
+    private mapSSMValueToType(value: string, type: string): unknown {
+        // Extract the inner type from AWS::SSM::Parameter::Value<Type>
+        const innerType = type.match(/AWS::SSM::Parameter::Value<(.+)>/)?.[1];
+
+        switch (innerType) {
+            case "String":
+                return value;
+            case "StringList":
+                return Fn.split(",", value);
+            case "SecureString":
+                return value;
+            case "List<String>":
+                return Fn.split(",", value);
+            case "List<Number>":
+                return Fn.split(",", value).map(v => Number(v));
+            case "Number":
+                return Number(value);
+            default:
+                return value;
+        }
+    }
+
+    private mapCfnTypeToTerraformType(cfnType: string): string {
+        // First handle SSM parameter types
+        if (this.isSSMParameterType(cfnType)) {
+            const innerType = cfnType.match(/AWS::SSM::Parameter::Value<(.+)>/)?.[1];
+            switch (innerType) {
+                case "String":
+                case "SecureString":
+                    return "string";
+                case "StringList":
+                case "List<String>":
+                    return "list(string)";
+                case "List<Number>":
+                    return "list(number)";
+                case "Number":
+                    return "number";
+                default:
+                    return "string";
+            }
+        }
+
+        // Then handle standard CloudFormation types
+        switch (cfnType) {
+            case "String":
+            case "AWS::EC2::AvailabilityZone::Name":
+            case "AWS::EC2::Image::Id":
+            case "AWS::EC2::Instance::Id":
+            case "AWS::EC2::SecurityGroup::Id":
+            case "AWS::EC2::SecurityGroup::GroupName":
+            case "AWS::EC2::Subnet::Id":
+            case "AWS::EC2::Volume::Id":
+            case "AWS::EC2::VPC::Id":
+            case "AWS::Route53::HostedZone::Id":
+            case "AWS::SSM::Parameter::Name": // SSM Parameter Name is just a string
+                return "string";
+            case "Number":
+                return "number";
+            case "List<Number>":
+                return "list(number)";
+            case "List<String>":
+            case "CommaDelimitedList":
+                return "list(string)";
+            default:
+                return "string";
+        }
     }
 
     private processCfnOutputs(cfn: CloudFormationTemplate) {
@@ -679,9 +814,23 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
         }
     }
 
-    private resolveRef(ref: string) {
+    private resolveRef(ref: string, isLazy: boolean = false): string | undefined {
         if (ref?.startsWith("AWS::")) {
             return this.resolvePseudo(ref);
+        }
+
+        if (this.parameterMap[ref] == null && AwsTerraformAdaptorStack.mappingForLogicalId[ref] == null) {
+            if (!isLazy) {
+                return Lazy.stringValue({
+                    produce: () => this.resolveRef(ref, true),
+                });
+            }
+            throw new Error(`unable to resolve a "Ref" to a resource with the logical ID ${ref}`);
+        }
+
+        // Check if this is a parameter reference
+        if (this.parameterMap[ref]) {
+            return this.resolveParameter(ref);
         }
 
         return this.resolveAtt(ref, "Ref");
@@ -764,6 +913,14 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
                 ];
 
                 let resultString: string = this.processIntrinsics(rawString);
+
+                // Handle SSM parameter references in the format ${ssm:/path/to/parameter}
+                resultString = resultString.replace(/\$\{ssm:([^}]+)\}/g, (match, ssmPath) => {
+                    const ssmParam = new DataAwsSsmParameter(this, `ssm_${ssmPath.replace(/[^a-zA-Z0-9]/g, "_")}`, {
+                        name: ssmPath,
+                    });
+                    return ssmParam.value;
+                });
 
                 // replacementMap is an object
                 Object.entries(replacementMap).map(([rawVarName, rawVarValue]) => {
@@ -869,6 +1026,68 @@ export abstract class AwsTerraformAdaptorStack extends TerraformStack {
                 );
             }
         }
+    }
+
+    private resolveParameter(logicalId: string): string {
+        const param = this.parameterMap[logicalId];
+        if (!param) {
+            throw new Error(`Unable to resolve parameter with logical ID ${logicalId}`);
+        }
+
+        if (param instanceof DataAwsSsmParameter) {
+            return param.value;
+        } else {
+            return param.value;
+        }
+    }
+
+    private createParameterValidation(param: CloudFormationParameter): { condition: string; errorMessage: string }[] {
+        const validations: { condition: string; errorMessage: string }[] = [];
+
+        if (param.AllowedPattern) {
+            validations.push({
+                condition: `can(regex("${param.AllowedPattern}", self))`,
+                errorMessage: `Parameter must match pattern: ${param.AllowedPattern}`,
+            });
+        }
+
+        if (param.AllowedValues) {
+            const values = param.AllowedValues.map((v: unknown) => typeof v === "string" ? `"${v}"` : v);
+            validations.push({
+                condition: `contains([${values.join(", ")}], self)`,
+                errorMessage: `Parameter must be one of: ${values.join(", ")}`,
+            });
+        }
+
+        if (param.MinValue !== undefined) {
+            validations.push({
+                condition: `self >= ${param.MinValue}`,
+                errorMessage: `Parameter must be >= ${param.MinValue}`,
+            });
+        }
+
+        if (param.MaxValue !== undefined) {
+            validations.push({
+                condition: `self <= ${param.MaxValue}`,
+                errorMessage: `Parameter must be <= ${param.MaxValue}`,
+            });
+        }
+
+        if (param.MinLength !== undefined) {
+            validations.push({
+                condition: `length(self) >= ${param.MinLength}`,
+                errorMessage: `Parameter length must be >= ${param.MinLength}`,
+            });
+        }
+
+        if (param.MaxLength !== undefined) {
+            validations.push({
+                condition: `length(self) <= ${param.MaxLength}`,
+                errorMessage: `Parameter length must be <= ${param.MaxLength}`,
+            });
+        }
+
+        return validations;
     }
 }
 

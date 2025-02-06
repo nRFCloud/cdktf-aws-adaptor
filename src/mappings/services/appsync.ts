@@ -37,6 +37,8 @@ export function registerAppSyncMappings() {
                 scope,
                 id,
                 {
+                    apiType: props.ApiType,
+                    mergedApiExecutionRoleArn: props.MergedApiExecutionRoleArn,
                     introspectionConfig: props.IntrospectionConfig,
                     resolverCountLimit: props.ResolverCountLimit,
                     queryDepthLimit: props.QueryDepthLimit,
@@ -106,8 +108,6 @@ export function registerAppSyncMappings() {
         },
         unsupportedProps: [
             "OwnerContact",
-            "ApiType",
-            "MergedApiExecutionRoleArn",
             "EnvironmentVariables",
         ],
         attributes: {
@@ -238,7 +238,6 @@ export function registerAppSyncMappings() {
         unsupportedProps: ["MetricsConfig"],
         attributes: {
             Ref: (resource) => resource.id,
-            Id: (resource) => resource.id,
             Name: (resource) => resource.name,
             DataSourceArn: (resource) => resource.arn,
         },

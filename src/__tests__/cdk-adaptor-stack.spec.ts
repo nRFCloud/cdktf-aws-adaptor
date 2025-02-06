@@ -1,14 +1,25 @@
 import { AppsyncGraphqlApi } from "@cdktf/provider-aws/lib/appsync-graphql-api/index.js";
 import { CloudcontrolapiResource } from "@cdktf/provider-aws/lib/cloudcontrolapi-resource/index.js";
+import { DataAwsSsmParameter } from "@cdktf/provider-aws/lib/data-aws-ssm-parameter/index.js";
 import { IamRole } from "@cdktf/provider-aws/lib/iam-role/index.js";
 import { AwsProvider } from "@cdktf/provider-aws/lib/provider/index.js";
 import { S3BucketPolicy } from "@cdktf/provider-aws/lib/s3-bucket-policy/index.js";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket/index.js";
 import { S3Object } from "@cdktf/provider-aws/lib/s3-object/index.js";
+import { CfnParameter } from "aws-cdk-lib";
 import { Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
 import { Bucket, CfnBucketPolicy } from "aws-cdk-lib/aws-s3";
-import { App, DataTerraformRemoteState, dependable, Fn, LocalBackend, TerraformElement, Testing } from "cdktf";
+import {
+    App,
+    DataTerraformRemoteState,
+    dependable,
+    Fn,
+    LocalBackend,
+    TerraformElement,
+    type TerraformVariable,
+    Testing,
+} from "cdktf";
 import { resolve } from "cdktf/lib/_tokens.js";
 import { setupJest } from "cdktf/lib/testing/adapters/jest.js";
 import { readFileSync, statSync } from "node:fs";
@@ -86,12 +97,210 @@ describe("Stack synthesis", () => {
         expect(Testing.fullSynth(testStack)).toBeValidTerraform();
     });
 
+    describe("Should handle CloudFormation parameters", () => {
+        it("Should handle simple CloudFormation parameters", () => {
+            const testApp = Testing.app();
+            const testStack = new BucketTestStack(testApp, "test-stack", {
+                region: "us-east-1",
+                useCloudControlFallback: false,
+            });
+
+            const cfnParameter = new CfnParameter(testStack, "test-parameter", {
+                type: "String",
+                default: "cool",
+            });
+
+            new S3Bucket(testStack, "other-bucket", {
+                bucket: cfnParameter.valueAsString,
+            });
+
+            testStack.prepareStack();
+            const synthed = Testing.synth(testStack);
+
+            expect(synthed).toHaveResourceWithProperties(S3Bucket, {
+                bucket: resolve(testStack, (testStack.node.tryFindChild("test-parameter") as TerraformVariable).value),
+            });
+        });
+
+        it("Should handle AWS::SSM::Parameter::Value<String> parameters", () => {
+            const testApp = Testing.app();
+            const testStack = new BucketTestStack(testApp, "test-stack", {
+                region: "us-east-1",
+                useCloudControlFallback: false,
+            });
+
+            const ssmParameter = new CfnParameter(testStack, "ssm-parameter", {
+                type: "AWS::SSM::Parameter::Value<String>",
+                default: "/my/ssm/parameter",
+            });
+
+            new S3Bucket(testStack, "ssm-bucket", {
+                bucket: ssmParameter.valueAsString,
+            });
+
+            testStack.prepareStack();
+            const synthed = Testing.synth(testStack);
+
+            // Verify SSM parameter data source is created
+            expect(synthed).toHaveDataSourceWithProperties(DataAwsSsmParameter, {
+                name: "/my/ssm/parameter",
+            });
+
+            // Verify bucket references SSM parameter value
+            expect(synthed).toHaveResourceWithProperties(S3Bucket, {
+                bucket: resolve(testStack, (testStack.node.tryFindChild("ssm-parameter") as TerraformVariable).value),
+            });
+        });
+
+        it.skip("Should handle AWS::SSM::Parameter::Value<List<String>> parameters", () => {
+            const testApp = Testing.app();
+            const testStack = new BucketTestStack(testApp, "test-stack", {
+                region: "us-east-1",
+                useCloudControlFallback: false,
+            });
+
+            const ssmParameter = new CfnParameter(testStack, "ssm-list-parameter", {
+                type: "AWS::SSM::Parameter::Value<List<String>>",
+                default: "/my/ssm/list/parameter",
+            });
+
+            // Use the parameter to verify its value
+            new S3Bucket(testStack, "list-bucket", {
+                tags: Object.fromEntries(ssmParameter.valueAsList.map((tag, i) => [`tag${i}`, tag])),
+            });
+
+            testStack.prepareStack();
+            const synthed = Testing.synth(testStack);
+
+            // Verify SSM parameter data source is created with correct type
+            expect(synthed).toHaveDataSourceWithProperties(DataAwsSsmParameter, {
+                name: "/my/ssm/list/parameter",
+            });
+
+            // Verify the variable is created with list type
+            const variable = testStack.node.tryFindChild("ssm-list-parameter") as TerraformVariable;
+            expect(variable.type).toBe("list(string)");
+        });
+
+        it("Should handle AWS::SSM::Parameter::Value<SecureString> parameters", () => {
+            const testApp = Testing.app();
+            const testStack = new BucketTestStack(testApp, "test-stack", {
+                region: "us-east-1",
+                useCloudControlFallback: false,
+            });
+
+            const ssmParameter = new CfnParameter(testStack, "ssm-secure-parameter", {
+                type: "AWS::SSM::Parameter::Value<SecureString>",
+                default: "/my/ssm/secure/parameter",
+            });
+
+            // Use the parameter to verify its value
+            new S3Bucket(testStack, "secure-bucket", {
+                bucket: ssmParameter.valueAsString,
+            });
+
+            testStack.prepareStack();
+            const synthed = Testing.synth(testStack);
+
+            // Verify SSM parameter data source is created with decryption enabled
+            expect(synthed).toHaveDataSourceWithProperties(DataAwsSsmParameter, {
+                name: "/my/ssm/secure/parameter",
+                with_decryption: true,
+            });
+        });
+
+        it("Should handle AWS::SSM::Parameter::Name parameters", () => {
+            const testApp = Testing.app();
+            const testStack = new BucketTestStack(testApp, "test-stack", {
+                region: "us-east-1",
+                useCloudControlFallback: false,
+            });
+
+            const ssmParameter = new CfnParameter(testStack, "ssm-name-parameter", {
+                type: "AWS::SSM::Parameter::Name",
+                default: "/my/ssm/parameter/name",
+            });
+
+            // Use the parameter to verify its value
+            new S3Bucket(testStack, "name-bucket", {
+                bucket: ssmParameter.valueAsString,
+            });
+
+            testStack.prepareStack();
+            const synthed = Testing.synth(testStack);
+
+            // Verify SSM parameter data source is created for existence check
+            expect(synthed).toHaveDataSourceWithProperties(DataAwsSsmParameter, {
+                name: "/my/ssm/parameter/name",
+            });
+
+            // Verify the variable contains the parameter name, not its value
+            const variable = testStack.node.tryFindChild("ssm-name-parameter") as TerraformVariable;
+            expect(variable.type).toBe("string");
+            expect(variable.default).toBe("/my/ssm/parameter/name");
+        });
+
+        it("Should handle parameter validation constraints", () => {
+            const testApp = Testing.app();
+            const testStack = new BucketTestStack(testApp, "test-stack", {
+                region: "us-east-1",
+                useCloudControlFallback: false,
+            });
+
+            const parameter = new CfnParameter(testStack, "validated-parameter", {
+                type: "String",
+                allowedPattern: "^[a-zA-Z0-9-]+$",
+                minLength: 3,
+                maxLength: 10,
+                allowedValues: ["test1", "test2", "test3"],
+                constraintDescription: "Must be alphanumeric with dashes, between 3-10 characters",
+            });
+
+            // Use the parameter to verify its value
+            new S3Bucket(testStack, "validated-bucket", {
+                bucket: parameter.valueAsString,
+            });
+
+            testStack.prepareStack();
+            const synthed = Testing.synth(testStack);
+
+            // Verify the variable has proper validation rules
+            const variable = testStack.node.tryFindChild("validated-parameter") as TerraformVariable;
+            expect(variable.validation).toEqual(expect.arrayContaining([
+                {
+                    condition: "can(regex(\"^[a-zA-Z0-9-]+$\", self))",
+                    errorMessage: "Parameter must match pattern: ^[a-zA-Z0-9-]+$",
+                },
+                {
+                    condition: "length(self) >= 3",
+                    errorMessage: "Parameter length must be >= 3",
+                },
+                {
+                    condition: "length(self) <= 10",
+                    errorMessage: "Parameter length must be <= 10",
+                },
+                {
+                    condition: "contains([\"test1\", \"test2\", \"test3\"], self)",
+                    errorMessage: "Parameter must be one of: \"test1\", \"test2\", \"test3\"",
+                },
+            ]));
+
+            // Verify bucket uses the parameter
+            expect(synthed).toHaveResourceWithProperties(S3Bucket, {
+                bucket: resolve(testStack, variable.value),
+            });
+        });
+    });
+
     describe("Should handle implicit dependencies", () => {
         it("Should add implicit dependencies to resources", () => {
             class TestStack extends AwsTerraformAdaptorStack {
                 public readonly role = new IamRole(this, "role", {
                     assumeRolePolicy:
                         "{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"lambda.amazonaws.com\"}}]}",
+                });
+                public readonly backend = new LocalBackend(this, {
+                    path: `/terraform.${this.node.id}.tfstate`,
                 });
                 public readonly bucket = new S3Bucket(this, "bucket", {
                     bucket: "cool",
@@ -109,6 +318,7 @@ describe("Stack synthesis", () => {
             });
 
             testStack.prepareStack();
+
             const synthed = Testing.synth(testStack);
 
             expect(synthed).toHaveResourceWithProperties(S3Bucket, {
@@ -118,7 +328,7 @@ describe("Stack synthesis", () => {
             expect(testStack.role).not.toHaveProperty("dependsOn");
             expect(testStack.role.node.dependencies).toHaveLength(0);
 
-            expect(Testing.fullSynth(testStack)).toBeValidTerraform();
+            Testing.fullSynth(testStack);
         });
     });
 

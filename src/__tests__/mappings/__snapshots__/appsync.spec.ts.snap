@@ -71,11 +71,11 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
       }
     },
     "aws_s3_object": {
-      "asset-asset4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35-object": {
+      "asset-asset2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d-object": {
         "bucket": "\${aws_s3_bucket.AssetBucket.bucket}",
-        "key": "4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35",
-        "source": "assets/asset-4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35/4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35/archive.zip",
-        "source_hash": "4e26bf2d0a26f2097fb2b261f22bb51e3f6b4b52635777b1e54edbd8e2d58c35"
+        "key": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d",
+        "source": "assets/asset-2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d/2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d/archive.zip",
+        "source_hash": "2819175352ad1ce0dae768e83fc328fb70fb5f10b4a8ff0ccbcb791f02b0716d"
       }
     },
     "time_sleep": {
@@ -97,7 +97,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       },
       "time": {
         "source": "time",
@@ -142,6 +142,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
             }
           }
         ],
+        "api_type": "GRAPHQL",
         "authentication_type": "API_KEY",
         "enhanced_metrics_config": {
           "data_source_level_metrics_behavior": "test-data-source-level-metrics-behavior",
@@ -159,6 +160,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
           "exclude_verbose_content": true,
           "field_log_level": "field-log-level"
         },
+        "merged_api_execution_role_arn": "merged-api-execution-role-arn",
         "name": "api-name",
         "openid_connect_config": {
           "auth_ttl": 60,
@@ -191,7 +193,7 @@ exports[`Appsync mappings > AWS::AppSync::GraphQLApi > Should translate API with
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -246,7 +248,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::ApiKey 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -334,13 +336,13 @@ exports[`Appsync mappings > Should translate AWS::AppSync::DataSource 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
   "variable": {
     "resource_refs_CDA17697": {
-      "default": "\${join(\\"\\", [aws_appsync_datasource.resource_22C949BF.arn, \\",\\", aws_appsync_datasource.resource_22C949BF.id, \\",\\", aws_appsync_datasource.resource_22C949BF.name])}",
+      "default": "\${join(\\"\\", [aws_appsync_datasource.resource_22C949BF.arn, \\",\\", aws_appsync_datasource.resource_22C949BF.name])}",
       "type": "string"
     }
   }
@@ -374,7 +376,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::DomainNameApiAssociat
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -443,7 +445,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync::Resolver 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -501,7 +503,7 @@ exports[`Appsync mappings > Should translate AWS::AppSync:FunctionConfiguration 
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

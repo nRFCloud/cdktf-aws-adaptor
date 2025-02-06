@@ -21,6 +21,12 @@ exports[`Logs mappings > Should map AWS::Logs::LogGroup 1`] = `
           "test-tag-key": "test-tag-value"
         }
       }
+    },
+    "aws_cloudwatch_log_index_policy": {
+      "resource_index-policy-0_F6C8BC85": {
+        "log_group_name": "\${aws_cloudwatch_log_group.resource_22C949BF.name}",
+        "policy_document": "\${jsonencode({\\"fieldToMatch\\" = \\"test-field-to-match\\", \\"sortingKeys\\" = [\\"test-sorting-key\\"]})}"
+      }
     }
   },
   "terraform": {
@@ -32,7 +38,7 @@ exports[`Logs mappings > Should map AWS::Logs::LogGroup 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -72,7 +78,7 @@ exports[`Logs mappings > Should map AWS::Logs::ResourcePolicy 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

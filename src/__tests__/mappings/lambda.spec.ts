@@ -383,6 +383,17 @@ describe("Lambda mappings", () => {
     itShouldMapCfnElementToTerraformResource(
         CfnEventSourceMapping,
         {
+            metricsConfig: {
+                metrics: ["metrics"],
+            },
+            provisionedPollerConfig: {
+                maximumPollers: 1,
+                minimumPollers: 1,
+            },
+            tags: [{
+                key: "key",
+                value: "value",
+            }],
             batchSize: 1,
             bisectBatchOnFunctionError: true,
             destinationConfig: {
@@ -437,6 +448,16 @@ describe("Lambda mappings", () => {
         },
         LambdaEventSourceMapping,
         {
+            metricsConfig: {
+                metrics: ["metrics"],
+            },
+            provisionedPollerConfig: {
+                maximumPollers: 1,
+                minimumPollers: 1,
+            },
+            tags: {
+                key: "value",
+            },
             kmsKeyArn: "kmsKeyArn",
             scalingConfig: {
                 maximumConcurrency: 1,

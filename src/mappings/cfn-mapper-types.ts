@@ -1,6 +1,6 @@
 import { CfnResource, IResolvable } from "aws-cdk-lib";
 import { CfnDistribution } from "aws-cdk-lib/aws-cloudfront";
-import { CfnIdentityPoolRoleAttachment, CfnUserPool } from "aws-cdk-lib/aws-cognito";
+import { CfnIdentityPoolRoleAttachment, CfnUserPool, type CfnUserPoolProps } from "aws-cdk-lib/aws-cognito";
 import { CfnTable } from "aws-cdk-lib/aws-dynamodb";
 import { CfnRule } from "aws-cdk-lib/aws-events";
 import { CfnEventSourceMapping, CfnEventSourceMappingProps, CfnPermissionProps } from "aws-cdk-lib/aws-lambda";
@@ -84,6 +84,9 @@ type HandleSpecialObjectCases<T> = T extends Exact<CfnIdentityPoolRoleAttachment
     : T extends Exact<CfnEventSourceMapping.SourceAccessConfigurationProperty, T>
         ? ManualPropertyRemap<CfnEventSourceMapping.SourceAccessConfigurationProperty, {
             uri: "URI";
+        }>
+    : T extends Exact<CfnUserPoolProps, T> ? ManualPropertyRemap<CfnUserPoolProps, {
+            "webAuthnRelyingPartyId": "WebAuthnRelyingPartyID";
         }>
     : never;
 
