@@ -46,7 +46,7 @@
     "update-cc-supported": "node scripts/update-cc-supported.js",
     "build": "pnpm compile"
   },
-  "author": "John Conley",
+  "author": "Nordic Semiconductor ASA | nordicsemi.no",
   "license": "MIT",
   "devDependencies": {
     "@aws-sdk/client-cloudformation": "^3.515.0",
