@@ -59,11 +59,10 @@ export function registerIamMappings() {
             return role;
         },
         attributes: {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             Arn: (role: IamRole) => role.arn,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
             Ref: (role: IamRole) => role.id,
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
             RoleId: (role: IamRole) => role.id,
         },
     });

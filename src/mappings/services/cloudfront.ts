@@ -47,6 +47,9 @@ export function registerCloudfrontMappings() {
                     queryString: behavior.ForwardedValues?.QueryString as boolean,
                     queryStringCacheKeys: behavior.ForwardedValues?.QueryStringCacheKeys,
                 },
+                grpcConfig: {
+                    enabled: behavior.GrpcConfig?.Enabled,
+                },
                 maxTtl: behavior.MaxTTL,
                 minTtl: behavior.MinTTL,
                 originRequestPolicyId: behavior.OriginRequestPolicyId,
@@ -155,6 +158,8 @@ export function registerCloudfrontMappings() {
         unsupportedProps: [
             "DistributionConfig.S3Origin",
             "DistributionConfig.CustomOrigin",
+            "DistributionConfig.OriginGroups.Items.*.SelectionCriteria",
+            "DistributionConfig.AnycastIpListId",
         ],
         attributes: {
             Ref: (resource) => resource.id,

@@ -1,8 +1,11 @@
-import { CloudfrontDistribution } from "@cdktf/provider-aws/lib/cloudfront-distribution/index.js";
+import {
+    CloudfrontDistribution,
+    type CloudfrontDistributionOrigin,
+} from "@cdktf/provider-aws/lib/cloudfront-distribution/index.js";
 import { CloudfrontOriginAccessIdentity } from "@cdktf/provider-aws/lib/cloudfront-origin-access-identity/index.js";
 import { CfnCloudFrontOriginAccessIdentity, CfnDistribution } from "aws-cdk-lib/aws-cloudfront";
-import { itShouldMapCfnElementToTerraformResource } from "../helpers.js";
-
+import { type DeepRequiredProperties, itShouldMapCfnElementToTerraformResource } from "../helpers.js";
+import {} from "../helpers.js";
 describe("CloudFront", () => {
     itShouldMapCfnElementToTerraformResource(
         CfnCloudFrontOriginAccessIdentity,
@@ -25,6 +28,7 @@ describe("CloudFront", () => {
                 value: "my-distribution",
             }],
             distributionConfig: {
+                anycastIpListId: "anycast-ip-list-id",
                 s3Origin: {
                     originAccessIdentity: "origin-access-identity/cloudfront/E127EXAMPLE51Z",
                     dnsName: "example.com",
@@ -37,6 +41,9 @@ describe("CloudFront", () => {
                     dnsName: "example.com",
                 },
                 defaultCacheBehavior: {
+                    grpcConfig: {
+                        enabled: true,
+                    },
                     allowedMethods: ["GET", "HEAD"],
                     cachedMethods: ["GET", "HEAD"],
                     compress: true,
@@ -107,6 +114,9 @@ describe("CloudFront", () => {
                 },
                 cacheBehaviors: [
                     {
+                        grpcConfig: {
+                            enabled: true,
+                        },
                         allowedMethods: ["GET", "HEAD"],
                         cachedMethods: ["GET", "HEAD"],
                         compress: true,
@@ -158,6 +168,7 @@ describe("CloudFront", () => {
                 originGroups: {
                     items: [
                         {
+                            selectionCriteria: "selection-criteria",
                             members: {
                                 items: [
                                     {
@@ -216,6 +227,9 @@ describe("CloudFront", () => {
                 Name: "my-distribution",
             },
             defaultCacheBehavior: {
+                grpcConfig: {
+                    enabled: true,
+                },
                 allowedMethods: ["GET", "HEAD"],
                 cachedMethods: ["GET", "HEAD"],
                 compress: true,
@@ -286,6 +300,9 @@ describe("CloudFront", () => {
             },
             orderedCacheBehavior: [
                 {
+                    grpcConfig: {
+                        enabled: true,
+                    },
                     allowedMethods: ["GET", "HEAD"],
                     cachedMethods: ["GET", "HEAD"],
                     compress: true,
@@ -374,11 +391,16 @@ describe("CloudFront", () => {
                     s3OriginConfig: {
                         originAccessIdentity: "origin-access-identity/cloudfront/E127EXAMPLE51Z",
                     },
-                },
+                } as DeepRequiredProperties<CloudfrontDistributionOrigin>,
             ],
             staging: true,
         },
-        ["distributionConfig.s3Origin", "distributionConfig.customOrigin"],
+        [
+            "distributionConfig.s3Origin",
+            "distributionConfig.customOrigin",
+            "distributionConfig.originGroups.items.*.selectionCriteria",
+            "distributionConfig.anycastIpListId",
+        ],
     );
 
     itShouldMapCfnElementToTerraformResource(
@@ -389,6 +411,7 @@ describe("CloudFront", () => {
                 value: "my-distribution",
             }],
             distributionConfig: {
+                anycastIpListId: "anycast-ip-list-id",
                 s3Origin: {
                     originAccessIdentity: "origin-access-identity/cloudfront/E127EXAMPLE51Z",
                     dnsName: "example.com",
@@ -424,6 +447,7 @@ describe("CloudFront", () => {
                     items: [
                         {
                             id: "my-origin-group",
+                            selectionCriteria: "selection-criteria",
                             failoverCriteria: {
                                 statusCodes: {
                                     items: [500, 502],
@@ -445,6 +469,9 @@ describe("CloudFront", () => {
                 cnamEs: ["example.com"],
                 cacheBehaviors: [
                     {
+                        grpcConfig: {
+                            enabled: true,
+                        },
                         allowedMethods: ["GET", "HEAD"],
                         cachedMethods: ["GET", "HEAD"],
                         compress: true,
@@ -487,6 +514,9 @@ describe("CloudFront", () => {
                     },
                 ],
                 defaultCacheBehavior: {
+                    grpcConfig: {
+                        enabled: true,
+                    },
                     allowedMethods: ["GET", "HEAD"],
                     cachedMethods: ["GET", "HEAD"],
                     compress: true,
@@ -614,6 +644,9 @@ describe("CloudFront", () => {
             ],
             orderedCacheBehavior: [
                 {
+                    grpcConfig: {
+                        enabled: true,
+                    },
                     allowedMethods: ["GET", "HEAD"],
                     cachedMethods: ["GET", "HEAD"],
                     compress: true,
@@ -656,6 +689,9 @@ describe("CloudFront", () => {
                 },
             ],
             defaultCacheBehavior: {
+                grpcConfig: {
+                    enabled: true,
+                },
                 allowedMethods: ["GET", "HEAD"],
                 cachedMethods: ["GET", "HEAD"],
                 compress: true,
@@ -739,9 +775,14 @@ describe("CloudFront", () => {
                         originReadTimeout: 30,
                         originSslProtocols: ["TLSv1.2"],
                     },
-                },
+                } as DeepRequiredProperties<CloudfrontDistributionOrigin>,
             ],
         },
-        ["distributionConfig.s3Origin", "distributionConfig.customOrigin"],
+        [
+            "distributionConfig.s3Origin",
+            "distributionConfig.customOrigin",
+            "distributionConfig.originGroups.items.*.selectionCriteria",
+            "distributionConfig.anycastIpListId",
+        ],
     );
 });

@@ -23,6 +23,10 @@ describe("DynamoDB mappings", () => {
             tableClass: "test-table-class",
             globalSecondaryIndexes: [
                 {
+                    warmThroughput: {
+                        readUnitsPerSecond: 1,
+                        writeUnitsPerSecond: 1,
+                    },
                     indexName: "test-index",
                     contributorInsightsSpecification: {
                         enabled: true,
@@ -123,7 +127,12 @@ describe("DynamoDB mappings", () => {
                     },
                 },
             ],
+            warmThroughput: {
+                readUnitsPerSecond: 1,
+                writeUnitsPerSecond: 1,
+            },
             pointInTimeRecoverySpecification: {
+                recoveryPeriodInDays: 1,
                 pointInTimeRecoveryEnabled: true,
             },
             billingMode: "PROVISIONED",
@@ -178,8 +187,16 @@ describe("DynamoDB mappings", () => {
                 enabled: true,
             },
             tableClass: "test-table-class",
+            onDemandThroughput: {
+                maxReadRequestUnits: 1,
+                maxWriteRequestUnits: 1,
+            },
             globalSecondaryIndex: [
                 {
+                    onDemandThroughput: {
+                        maxReadRequestUnits: 1,
+                        maxWriteRequestUnits: 1,
+                    },
                     name: "test-index",
                     hashKey: "test-attribute-name",
                     projectionType: "ALL",
@@ -234,9 +251,10 @@ describe("DynamoDB mappings", () => {
             streamEnabled: true,
         },
         [
-            "onDemandThroughput",
+            "pointInTimeRecoverySpecification.recoveryPeriodInDays",
+            "warmThroughput",
+            "globalSecondaryIndexes.*.warmThroughput",
             "sseSpecification.sseType",
-            "globalSecondaryIndexes.*.onDemandThroughput",
             "kinesisStreamSpecification.approximateCreationDateTimePrecision",
         ],
     );

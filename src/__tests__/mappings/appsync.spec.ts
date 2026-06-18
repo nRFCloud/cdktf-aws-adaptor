@@ -103,6 +103,8 @@ describe("Appsync mappings", () => {
                 },
                 AppsyncGraphqlApi,
                 {
+                    mergedApiExecutionRoleArn: "merged-api-execution-role-arn",
+                    apiType: "GRAPHQL",
                     schema: undefined,
                     introspectionConfig: "test-introspection-config",
                     queryDepthLimit: 60,
@@ -163,7 +165,7 @@ describe("Appsync mappings", () => {
                         "tag-key": "tag-value",
                     },
                 },
-                ["ownerContact", "apiType", "mergedApiExecutionRoleArn", "environmentVariables"],
+                ["ownerContact", "environmentVariables"],
             );
         });
 

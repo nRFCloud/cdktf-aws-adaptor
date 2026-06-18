@@ -15,7 +15,10 @@ export function registerDynamoDBMappings() {
             proxy.touchPath("LocalSecondaryIndexes.*.KeySchema.*.AttributeName");
             const mapped: DynamodbTableConfig = {
                 name: tableProps.TableName!,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
+                onDemandThroughput: {
+                    maxReadRequestUnits: tableProps.OnDemandThroughput?.MaxReadRequestUnits,
+                    maxWriteRequestUnits: tableProps.OnDemandThroughput?.MaxWriteRequestUnits,
+                },
                 tags: Object.fromEntries(tableProps.Tags?.map(({ Key, Value }) => [Key, Value]) || []),
                 deletionProtectionEnabled: tableProps.DeletionProtectionEnabled,
                 ttl: {
@@ -28,6 +31,10 @@ export function registerDynamoDBMappings() {
                         globalIndexInsights.push(index.IndexName as string);
                     }
                     return {
+                        onDemandThroughput: {
+                            maxReadRequestUnits: index.OnDemandThroughput?.MaxReadRequestUnits,
+                            maxWriteRequestUnits: index.OnDemandThroughput?.MaxWriteRequestUnits,
+                        },
                         name: index.IndexName,
                         hashKey: index.KeySchema.find(key => key.KeyType === "HASH")?.AttributeName as string,
                         rangeKey: index.KeySchema.find(key => key.KeyType === "RANGE")?.AttributeName as string,
@@ -136,12 +143,11 @@ export function registerDynamoDBMappings() {
             return table;
         },
         unsupportedProps: [
-            // Support for this property is tracked by this issue
-            // https://github.com/hashicorp/terraform-provider-aws/issues/37256
-            "OnDemandThroughput",
+            "WarmThroughput",
+            "GlobalSecondaryIndexes.*.WarmThroughput",
             "SSESpecification.SSEType",
-            "GlobalSecondaryIndexes.*.OnDemandThroughput",
             "KinesisStreamSpecification.ApproximateCreationDateTimePrecision",
+            "PointInTimeRecoverySpecification.RecoveryPeriodInDays",
         ],
         attributes: {
             Arn: resource => resource.arn,

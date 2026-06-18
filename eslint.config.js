@@ -32,5 +32,10 @@ export default [
     }),
     {
         ignores: ["dist", "node_modules", "src/lib/core/time"]
+    },
+    {
+        rules: {
+            "@typescript-eslint/no-unused-expressions": "off",
+        }
     }
 ];

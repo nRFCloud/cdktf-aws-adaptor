@@ -27,7 +27,7 @@ exports[`S3 mappings > Should map AWS::S3::BucketPolicy 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

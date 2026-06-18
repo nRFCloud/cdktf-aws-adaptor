@@ -50,6 +50,7 @@ describe("SNS mappings", () => {
             const { synth } = synthesizeElementAndTestStability(
                 CfnTopic,
                 {
+                    fifoThroughputScope: "fifo-throughput-scope",
                     topicName: "ExampleTopic",
                     archivePolicy: { archivePolicy: true },
                     dataProtectionPolicy: { dataProtectionPolicy: true },
@@ -121,6 +122,7 @@ describe("SNS mappings", () => {
                     tracingConfig: "PASSTHROUGH",
                     contentBasedDeduplication: true,
                 },
+                ["fifoThroughputScope"],
             );
 
             expect(synth).toHaveResourceWithProperties(SnsTopicDataProtectionPolicy, {

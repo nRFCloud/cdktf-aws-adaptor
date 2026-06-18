@@ -48,7 +48,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::IdentityPool 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -106,7 +106,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::IdentityPoolRoleAttachment 
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -166,6 +166,12 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
           "reply_to_email_address": "reply-to-email-address",
           "source_arn": "source-arn"
         },
+        "email_mfa_configuration": {
+          "message": "email-authentication-message",
+          "subject": "email-authentication-subject"
+        },
+        "email_verification_message": "email-verification-message",
+        "email_verification_subject": "email-verification-subject",
         "lambda_config": {
           "create_auth_challenge": "create-auth-challenge",
           "custom_email_sender": {
@@ -219,6 +225,11 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
             }
           }
         ],
+        "sign_in_policy": {
+          "allowed_first_auth_factors": [
+            "SMS"
+          ]
+        },
         "sms_authentication_message": "sms-authentication-message",
         "sms_configuration": {
           "external_id": "external-id",
@@ -239,6 +250,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
         "user_pool_add_ons": {
           "advanced_security_mode": "OFF"
         },
+        "user_pool_tier": "STANDARD",
         "username_attributes": [
           "email"
         ],
@@ -252,6 +264,10 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
           "email_subject": "email-subject",
           "email_subject_by_link": "email-subject-by-link",
           "sms_message": "sms-message"
+        },
+        "web_authn_configuration": {
+          "relying_party_id": "web-authn-relying-party-id",
+          "user_verification": "required"
         }
       }
     }
@@ -265,7 +281,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPool 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -355,7 +371,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPoolClient 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -396,7 +412,7 @@ exports[`Cognito mappings > Should map AWS::Cognito::UserPoolDomain 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

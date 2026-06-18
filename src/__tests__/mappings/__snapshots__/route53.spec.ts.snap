@@ -69,7 +69,7 @@ exports[`Route53 mappings > Should map AWS::Route53::RecordSet 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

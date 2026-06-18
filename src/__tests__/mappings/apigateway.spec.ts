@@ -178,6 +178,7 @@ describe("Apigateway mappings", () => {
                 basePath: "base-path",
                 domainName: "domain-name",
                 stageName: "stage",
+                domainNameId: undefined,
             },
         );
     });

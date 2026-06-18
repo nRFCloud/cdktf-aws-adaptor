@@ -26,7 +26,7 @@ exports[`CloudFront > Should map AWS::CloudFront::CloudFrontOriginAccessIdentity
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -100,6 +100,9 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 1`] = `
               "function_arn": "arn:aws:lambda:us-east-1:111111111111:function:my-function"
             }
           ],
+          "grpc_config": {
+            "enabled": true
+          },
           "lambda_function_association": [
             {
               "event_type": "origin-request",
@@ -166,6 +169,9 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 1`] = `
                 "function_arn": "arn:aws:lambda:us-east-1:111111111111:function:my-function"
               }
             ],
+            "grpc_config": {
+              "enabled": true
+            },
             "lambda_function_association": [
               {
                 "event_type": "origin-request",
@@ -274,7 +280,7 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -348,6 +354,9 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 2`] = `
               "function_arn": "arn:aws:lambda:us-east-1:111111111111:function:my-function"
             }
           ],
+          "grpc_config": {
+            "enabled": true
+          },
           "lambda_function_association": [
             {
               "event_type": "origin-request",
@@ -414,6 +423,9 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 2`] = `
                 "function_arn": "arn:aws:lambda:us-east-1:111111111111:function:my-function"
               }
             ],
+            "grpc_config": {
+              "enabled": true
+            },
             "lambda_function_association": [
               {
                 "event_type": "origin-request",
@@ -522,7 +534,7 @@ exports[`CloudFront > Should map AWS::CloudFront::Distribution 2`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

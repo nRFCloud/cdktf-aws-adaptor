@@ -48,7 +48,16 @@ exports[`Lambda mappings > Should map AWS::Lambda::EventSourceMapping 1`] = `
         "maximum_batching_window_in_seconds": 1,
         "maximum_record_age_in_seconds": 1,
         "maximum_retry_attempts": 1,
+        "metrics_config": {
+          "metrics": [
+            "metrics"
+          ]
+        },
         "parallelization_factor": 1,
+        "provisioned_poller_config": {
+          "maximum_pollers": 1,
+          "minimum_pollers": 1
+        },
         "queues": [
           "queues"
         ],
@@ -69,6 +78,9 @@ exports[`Lambda mappings > Should map AWS::Lambda::EventSourceMapping 1`] = `
         ],
         "starting_position": "LATEST",
         "starting_position_timestamp": "\${formatdate(\\"YYYY-MM-DD'T'hh:mm:ssZ\\", \\"100000\\")}",
+        "tags": {
+          "key": "value"
+        },
         "topics": [
           "topics"
         ],
@@ -85,13 +97,13 @@ exports[`Lambda mappings > Should map AWS::Lambda::EventSourceMapping 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
   "variable": {
     "resource_refs_CDA17697": {
-      "default": "\${aws_lambda_event_source_mapping.resource_22C949BF.id}",
+      "default": "\${join(\\"\\", [aws_lambda_event_source_mapping.resource_22C949BF.arn, \\",\\", aws_lambda_event_source_mapping.resource_22C949BF.id])}",
       "type": "string"
     }
   }
@@ -135,7 +147,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersion 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -179,7 +191,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::LayerVersionPermission 1`] = 
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -225,7 +237,7 @@ exports[`Lambda mappings > Should map AWS::Lambda::Permission 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -333,7 +345,7 @@ exports[`Lambda mappings > should map CfnFunction to LambdaFunction 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

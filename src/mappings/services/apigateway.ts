@@ -239,7 +239,6 @@ export function registerApiGatewayMappings() {
         },
         attributes: {
             IntegrationId: res => res.id,
-            Id: res => res.id,
             Ref: res => res.id,
         },
     });

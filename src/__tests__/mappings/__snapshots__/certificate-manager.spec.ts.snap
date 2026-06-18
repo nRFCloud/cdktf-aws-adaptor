@@ -63,7 +63,7 @@ exports[`CertificateManager mappings > should map AWS::CertificateManager::Certi
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

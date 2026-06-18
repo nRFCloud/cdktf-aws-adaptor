@@ -35,13 +35,13 @@ exports[`SNS mappings > AWS:SNS:Subscription > should translate 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
   "variable": {
     "resource_refs_CDA17697": {
-      "default": "\${join(\\"\\", [aws_sns_topic_subscription.resource_22C949BF.arn, \\",\\", aws_sns_topic_subscription.resource_22C949BF.id])}",
+      "default": "\${aws_sns_topic_subscription.resource_22C949BF.arn}",
       "type": "string"
     }
   }
@@ -112,7 +112,7 @@ exports[`SNS mappings > AWS:SNS:Topic > Should translate 1`] = `
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

@@ -168,7 +168,6 @@ export function registerLambdaMappings() {
                     systemLogLevel: lambdaProps.LoggingConfig?.SystemLogLevel as string,
                 },
                 description: lambdaProps.Description,
-                // eslint-disable-next-line @typescript-eslint/naming-convention
                 tags: Object.fromEntries(
                     lambdaProps.Tags?.map(({
                         Key,
@@ -258,6 +257,19 @@ export function registerLambdaMappings() {
                 scope,
                 id,
                 deleteUndefinedKeys({
+                    metricsConfig: {
+                        metrics: props?.MetricsConfig?.Metrics as string[],
+                    },
+                    provisionedPollerConfig: {
+                        maximumPollers: props.ProvisionedPollerConfig?.MaximumPollers,
+                        minimumPollers: props.ProvisionedPollerConfig?.MinimumPollers,
+                    },
+                    tags: Object.fromEntries(
+                        props.Tags?.map(({
+                            Key,
+                            Value,
+                        }) => [Key, Value]) || [],
+                    ),
                     functionName: props.FunctionName as string,
                     maximumRecordAgeInSeconds: props.MaximumRecordAgeInSeconds,
                     eventSourceArn: props.EventSourceArn,
@@ -315,6 +327,7 @@ export function registerLambdaMappings() {
         attributes: {
             Ref: (resource: LambdaEventSourceMapping) => resource.id,
             Id: (resource: LambdaEventSourceMapping) => resource.id,
+            EventSourceMappingArn: (resource: LambdaEventSourceMapping) => resource.arn,
         },
     });
 }

@@ -45,7 +45,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -112,7 +112,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -170,7 +170,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },
@@ -228,7 +228,7 @@ exports[`Step Functions mappings > AWS:StepFunctions:StateMachine > Should trans
     "required_providers": {
       "aws": {
         "source": "aws",
-        "version": "5.65.0"
+        "version": "5.85.0"
       }
     }
   },

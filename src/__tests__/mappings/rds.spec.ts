@@ -49,7 +49,10 @@ describe.skip("RDS mappings", () => {
                 serverlessV2ScalingConfiguration: {
                     maxCapacity: 2,
                     minCapacity: 1,
+                    secondsUntilAutoPause: 300,
                 },
+                clusterScalabilityType: "cluster",
+                databaseInsightsMode: "enabled",
                 autoMinorVersionUpgrade: true,
                 backupRetentionPeriod: 7,
                 backtrackWindow: 7,
@@ -169,6 +172,7 @@ describe.skip("RDS mappings", () => {
                 serverlessv2ScalingConfiguration: {
                     maxCapacity: 2,
                     minCapacity: 1,
+                    secondsUntilAutoPause: 300,
                 },
                 timeouts: undefined,
                 skipFinalSnapshot: true,
